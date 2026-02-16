@@ -3,6 +3,7 @@
 let isRecording = false;
 let currentTestCase = { name: "Untitled Test", steps: [] };
 let lastExecutionStatus = null;
+const API_BASE_URL = "http://localhost:4000";
 
 // Execution state
 let executionState = {
@@ -11,14 +12,127 @@ let executionState = {
   steps: [],
   currentIndex: 0,
   waitingForNavigation: false,
+  stepResults: [],
+  testId: null,
+  startTime: null,
 };
+
+async function saveExecutionState() {
+  backgroundLog(
+    `Saving execution state: Index=${executionState.currentIndex}, Running=${executionState.isRunning}, Steps=${executionState.steps.length}`,
+    "debug",
+  );
+  await chrome.storage.local.set({ execution_state_v2: executionState });
+}
+
+let isStateLoaded = false;
+
+async function loadExecutionState() {
+  try {
+    const data = await chrome.storage.local.get("execution_state_v2");
+    if (data.execution_state_v2) {
+      executionState = data.execution_state_v2;
+      console.log(
+        `[Background] Restored Index=${executionState.currentIndex}, Running=${executionState.isRunning}`,
+      );
+
+      if (executionState.isRunning && !executionState.waitingForNavigation) {
+        console.log("[Background] Resuming execution...");
+        setTimeout(() => executeCurrentStep(), 2000);
+      }
+    }
+  } catch (e) {
+    console.error("[Background] Load state error:", e);
+  } finally {
+    isStateLoaded = true;
+  }
+}
+
+// Initialize state
+loadExecutionState();
+
+function backgroundLog(text, level = "info") {
+  console.log(`[${level}] ${text}`);
+  chrome.runtime
+    .sendMessage({ type: "LOG_MESSAGE", text, level })
+    .catch(() => {});
+
+  const logEntry = `[${new Date().toISOString()}] Background: ${text}`;
+  chrome.storage.local.get("e2e_debug_logs").then(({ e2e_debug_logs = [] }) => {
+    e2e_debug_logs.push(logEntry);
+    chrome.storage.local.set({ e2e_debug_logs }).catch(() => {});
+  });
+}
+
+async function recordStepResult(stepIndex, status, message = null) {
+  if (typeof stepIndex !== "number") return;
+  if (!executionState.stepResults) executionState.stepResults = [];
+  const exists = executionState.stepResults.some(
+    (r) => r.stepIndex === stepIndex,
+  );
+  if (exists) return;
+  executionState.stepResults.push({
+    stepIndex,
+    status,
+    message,
+    timestamp: Date.now(),
+  });
+  await saveExecutionState();
+}
+
+async function postExecutionReport(status, error = null) {
+  if (!executionState.testId) {
+    backgroundLog(
+      "postExecutionReport: Missing testId, report skipped",
+      "warning",
+    );
+    return;
+  }
+
+  try {
+    const duration = executionState.startTime
+      ? Date.now() - executionState.startTime
+      : 0;
+
+    backgroundLog(
+      `Posting execution report: Status=${status}, TestID=${executionState.testId}, Duration=${duration}ms`,
+      "info",
+    );
+
+    const res = await fetch(
+      `${API_BASE_URL}/api/tests/${executionState.testId}/executions`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          status,
+          duration,
+          errorMessage: error,
+          stepResults: executionState.stepResults || [],
+        }),
+      },
+    );
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      backgroundLog(
+        `Backend error posting report: ${res.status} ${errorText}`,
+        "error",
+      );
+    } else {
+      backgroundLog("Execution report saved to database", "success");
+    }
+  } catch (err) {
+    backgroundLog(`Fetch error posting report: ${err.message}`, "error");
+  }
+}
 
 async function executeCurrentStep() {
   if (!executionState.isRunning) return;
 
   if (executionState.currentIndex >= executionState.steps.length) {
     // Done
-    finishExecution(true);
+    await finishExecution(true);
     return;
   }
 
@@ -39,7 +153,7 @@ async function executeCurrentStep() {
 
     // Set a timeout for this step.
     // If no frame responds with STEP_COMPLETE, we fail (or auto-advance for scroll).
-    executionState.stepTimeout = setTimeout(() => {
+    executionState.stepTimeout = setTimeout(async () => {
       console.error(
         `Timeout waiting for step ${executionState.currentIndex + 1}/${executionState.steps.length}`,
       );
@@ -50,12 +164,19 @@ async function executeCurrentStep() {
           clearTimeout(executionState.stepTimeout);
           executionState.stepTimeout = null;
         }
+        await recordStepResult(executionState.currentIndex, "success");
         executionState.currentIndex++;
+        await saveExecutionState();
         setTimeout(() => executeCurrentStep(), 500);
         return;
       }
 
-      finishExecution(
+      await recordStepResult(
+        executionState.currentIndex,
+        "failed",
+        `Timeout waiting for step ${executionState.currentIndex + 1}`,
+      );
+      await finishExecution(
         false,
         `Timeout waiting for step ${executionState.currentIndex + 1}`,
       );
@@ -64,18 +185,31 @@ async function executeCurrentStep() {
     const tab = await chrome.tabs.get(executionState.tabId);
 
     // Check if we need to navigate
-    // SKIP strict check for archive.org to avoid breaking out of iframes/rewrites,
-    // or if the URL is roughly the same.
     const currentUrl = normalizeUrl(tab.url);
     const stepUrl = normalizeUrl(step.url);
-
     const isArchiveOrg = currentUrl.includes("web.archive.org");
 
-    if (step.url && currentUrl !== stepUrl && !isArchiveOrg) {
-      console.log(`Step requires navigation to ${step.url}`);
+    // For scroll steps, we are much more lenient with URL matching.
+    // If the path matches, we don't force a navigation for query params.
+    const urlsMatch = isScrollStep
+      ? urlsHaveSamePath(currentUrl, stepUrl)
+      : currentUrl === stepUrl;
+
+    if (step.url && !urlsMatch && !isArchiveOrg) {
+      console.log(
+        `Step requires navigation: Current: ${currentUrl}, Target: ${stepUrl}`,
+      );
+      chrome.runtime
+        .sendMessage({
+          type: "LOG_MESSAGE",
+          text: `Navigating to match step URL: ${step.url}`,
+          level: "info",
+        })
+        .catch(() => {});
+
       executionState.waitingForNavigation = true;
       await chrome.tabs.update(executionState.tabId, { url: step.url });
-      return; // Wait for onUpdated
+      return;
     }
 
     // Attempt to inject content script to ensure it's there
@@ -91,13 +225,10 @@ async function executeCurrentStep() {
         ],
       });
     } catch (e) {
-      // Ignore if already injected or other non-critical error
       console.log("Injection check:", e.message);
     }
 
     // Send command to content script
-    // Note: We don't specify frameId, so it goes to ALL frames.
-    // We rely on the fact that only the frame with the element will succeed.
     chrome.tabs.sendMessage(
       executionState.tabId,
       {
@@ -106,11 +237,8 @@ async function executeCurrentStep() {
         stepIndex: executionState.currentIndex,
       },
       (response) => {
-        // Handle connection error (e.g., if script didn't load yet?)
         if (chrome.runtime.lastError) {
           console.error("Msg Error:", chrome.runtime.lastError.message);
-          // If content script is missing, maybe we should retry or fail?
-          // The timeout will catch it eventually.
         }
       },
     );
@@ -123,22 +251,55 @@ async function executeCurrentStep() {
 function normalizeUrl(url) {
   try {
     const u = new URL(url);
-    // Remove trailing slash for comparison
-    return u.href.replace(/\/$/, "");
+    // Remove trailing slash and fragment for comparison
+    return u.origin + u.pathname.replace(/\/$/, "") + u.search;
   } catch (e) {
     return url;
   }
 }
 
-function finishExecution(success, error = null) {
-  executionState.isRunning = false;
+function urlsHaveSamePath(url1, url2) {
+  try {
+    const u1 = new URL(url1);
+    const u2 = new URL(url2);
+    return (
+      u1.origin === u2.origin &&
+      u1.pathname.replace(/\/$/, "") === u2.pathname.replace(/\/$/, "")
+    );
+  } catch (e) {
+    return url1 === url2;
+  }
+}
+
+async function finishExecution(success, error = null) {
+  const finalIndex = executionState.currentIndex;
+  const totalSteps = executionState.steps.length;
+  backgroundLog(
+    `Flow execution finished: Success=${success} (${finalIndex}/${totalSteps} steps)`,
+    success ? "success" : "error",
+  );
+
+  // Keep isRunning: true until we actually finish the report to avoid losing state during suspension
   executionState.waitingForNavigation = false;
 
   const status = {
     success,
     error,
-    stepCount: executionState.currentIndex + (success ? 0 : 1), // roughly
+    stepCount: finalIndex,
   };
+
+  // Ensure report is posted before worker might terminate
+  try {
+    await postExecutionReport(success ? "success" : "failed", error);
+    backgroundLog("Final report confirmed saved.", "debug");
+  } catch (e) {
+    backgroundLog(`Final report failed: ${e.message}`, "error");
+  }
+
+  // Now we can safely stop
+  executionState.isRunning = false;
+  lastExecutionStatus = status;
+  await saveExecutionState();
 
   chrome.runtime
     .sendMessage({
@@ -146,8 +307,6 @@ function finishExecution(success, error = null) {
       ...status,
     })
     .catch(() => {});
-
-  lastExecutionStatus = status;
 }
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
@@ -197,6 +356,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
           clearTimeout(executionState.stepTimeout);
           executionState.stepTimeout = null;
         }
+        recordStepResult(executionState.currentIndex, "success");
         executionState.currentIndex++;
         setTimeout(() => executeCurrentStep(), 2500); // Increased from 2000ms to allow Salesforce/complex pages to fully settle
       }
@@ -205,6 +365,26 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  // Use a naked storage set for immediate diagnostic visibility that survives worker restarts
+  const logKey = `msg_log_${Date.now()}`;
+  chrome.storage.local.set({
+    [logKey]: {
+      type: message.type,
+      from: sender.tab ? sender.tab.id : "ext",
+      at: new Date().toISOString(),
+    },
+  });
+
+  handleMessageAsync(message, sender, sendResponse);
+  return true; // Keep channel open
+});
+
+async function handleMessageAsync(message, sender, sendResponse) {
+  // Use a simple poll if state not loaded yet
+  for (let i = 0; i < 10 && !isStateLoaded; i++) {
+    await new Promise((r) => setTimeout(r, 100));
+  }
+
   if (message.type === "START_RECORDING") {
     isRecording = true;
     currentTestCase = { name: message.name || "Untitled Test", steps: [] };
@@ -284,28 +464,46 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       steps: message.testCase.steps || [],
       currentIndex: 0,
       waitingForNavigation: false,
+      stepResults: [],
+      testId: message.testCase.id || null,
+      startTime: Date.now(),
     };
 
+    await saveExecutionState();
     executeCurrentStep();
     sendResponse({ success: true });
   } else if (message.type === "STEP_COMPLETE") {
     if (executionState.isRunning) {
-      // COORDINATION: Only process the FIRST completion for a given step
-      // This prevents race conditions in multi-frame pages
+      const currentStep = executionState.steps[executionState.currentIndex];
+      console.log(
+        `STEP_COMPLETE received for step ${executionState.currentIndex + 1} (${currentStep ? currentStep.action : "unknown"}). timeout=${!!executionState.stepTimeout}`,
+      );
+
+      chrome.runtime
+        .sendMessage({
+          type: "LOG_MESSAGE",
+          text: `Background: Received completion for Step ${executionState.currentIndex + 1}.`,
+          level: "debug",
+        })
+        .catch(() => {});
+
       if (executionState.stepTimeout) {
         clearTimeout(executionState.stepTimeout);
         executionState.stepTimeout = null;
-
-        console.log(
-          `Step ${executionState.currentIndex + 1} completion received.`,
-        );
-        executionState.currentIndex++;
-        executeCurrentStep();
-      } else {
-        console.log(
-          `Step ${executionState.currentIndex + 1} already completed or timed out. Ignoring duplicate message.`,
-        );
       }
+
+      await recordStepResult(executionState.currentIndex, "success");
+      executionState.currentIndex++;
+      await saveExecutionState();
+
+      console.log(
+        `Advancing to next step. New index: ${executionState.currentIndex}, Total: ${executionState.steps.length}`,
+      );
+      executeCurrentStep();
+    } else {
+      console.warn(
+        "STEP_COMPLETE received but executionState.isRunning is false",
+      );
     }
     sendResponse({ success: true });
   } else if (message.type === "STEP_ERROR") {
@@ -315,10 +513,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         clearTimeout(executionState.stepTimeout);
         executionState.stepTimeout = null;
       }
-      finishExecution(false, message.error);
+      recordStepResult(
+        typeof message.stepIndex === "number"
+          ? message.stepIndex
+          : executionState.currentIndex,
+        "failed",
+        message.error,
+      );
+      await finishExecution(false, message.error);
     }
     sendResponse({ success: true });
   }
-
-  return true;
-});
+}

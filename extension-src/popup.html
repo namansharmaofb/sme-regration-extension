@@ -175,6 +175,22 @@
         gap: 2px;
       }
 
+      #logStatus {
+        padding: 6px 8px;
+        font-size: 11px;
+        color: #cbd5f5;
+        background: #0b1120;
+        border-bottom: 1px solid #1e293b;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      #logStatus .label {
+        color: #94a3b8;
+        margin-right: 4px;
+      }
+
       .log-entry {
         padding: 2px 4px;
         border-radius: 2px;
@@ -315,6 +331,21 @@
         margin-top: 4px;
         text-align: center;
       }
+
+      #flowStatus {
+        margin-top: 6px;
+        font-size: 11px;
+        color: #cbd5f5;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        text-align: left;
+      }
+
+      #flowStatus .label {
+        color: #94a3b8;
+        margin-right: 4px;
+      }
     </style>
   </head>
   <body>
@@ -388,6 +419,15 @@
           />
         </div>
         <div id="statusText">Idle</div>
+        <div id="flowStatus">
+          <div>
+            <span class="label">Running:</span><span id="runningFlow">-</span>
+          </div>
+          <div>
+            <span class="label">First Failure:</span
+            ><span id="firstFailure">-</span>
+          </div>
+        </div>
       </div>
 
       <!-- STEPS & EDITOR -->
@@ -513,6 +553,7 @@
         <div class="tabs">
           <div class="tab active" data-tab="log">Log</div>
           <div class="tab" data-tab="ref">Reference</div>
+          <div class="tab" data-tab="history">History</div>
           <div class="tab" data-tab="bugs">
             Bugs
             <span
@@ -539,7 +580,116 @@
             flex-direction: column;
           "
         >
+          <div id="logStatus">
+            <div>
+              <span class="label">Running:</span
+              ><span id="logRunningFlow">-</span>
+            </div>
+            <div>
+              <span class="label">First Failure:</span
+              ><span id="logFirstFailure">-</span>
+            </div>
+          </div>
           <div class="logs" id="logs" style="flex: 1; border: none"></div>
+        </div>
+        <div
+          id="historyContent"
+          style="
+            flex: 1;
+            display: none;
+            flex-direction: column;
+            background: #020617;
+            overflow: hidden;
+          "
+        >
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 8px 10px;
+              border-bottom: 1px solid #1e293b;
+            "
+          >
+            <span style="font-size: 12px; font-weight: 600; color: #94a3b8"
+              >Run History</span
+            >
+            <button
+              id="clearHistoryBtn"
+              style="
+                padding: 2px 8px;
+                font-size: 11px;
+                background: #dc2626;
+                color: white;
+                border-radius: 4px;
+              "
+            >
+              Clear
+            </button>
+          </div>
+          <div style="flex: 1; overflow-y: auto">
+            <table
+              id="historyTable"
+              style="width: 100%; border-collapse: collapse; font-size: 11px"
+            >
+              <thead
+                style="
+                  position: sticky;
+                  top: 0;
+                  background: #0f172a;
+                  z-index: 10;
+                "
+              >
+                <tr>
+                  <th
+                    style="
+                      padding: 8px;
+                      text-align: left;
+                      font-weight: 600;
+                      color: #64748b;
+                      border-bottom: 1px solid #1e293b;
+                    "
+                  >
+                    Flow
+                  </th>
+                  <th
+                    style="
+                      padding: 8px;
+                      text-align: center;
+                      font-weight: 600;
+                      color: #64748b;
+                      border-bottom: 1px solid #1e293b;
+                      width: 80px;
+                    "
+                  >
+                    Status
+                  </th>
+                  <th
+                    style="
+                      padding: 8px;
+                      text-align: left;
+                      font-weight: 600;
+                      color: #64748b;
+                      border-bottom: 1px solid #1e293b;
+                      width: 120px;
+                    "
+                  >
+                    Started
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody">
+                <tr>
+                  <td
+                    colspan="3"
+                    style="padding: 20px; text-align: center; color: #64748b"
+                  >
+                    No runs yet
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         <div
           id="bugContent"

@@ -105,6 +105,9 @@ async function initDb() {
       description TEXT,
       url TEXT,
       timestamp BIGINT,
+      selectors JSON,
+      offset_x INT,
+      offset_y INT,
       FOREIGN KEY (test_id) REFERENCES tests(id) ON DELETE CASCADE
     );
   `);
@@ -135,6 +138,19 @@ async function initDb() {
     );
   `);
 
+  // 8. Step Results (Success/Failure per step)
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS step_results (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      execution_id INT NOT NULL,
+      step_index INT,
+      status VARCHAR(20) NOT NULL, -- 'success', 'failed'
+      message TEXT,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (execution_id) REFERENCES executions(id) ON DELETE CASCADE
+    );
+  `);
+
   // Ensure 'targets' column exists (for existing tables)
   try {
     const [cols] = await pool.query(
@@ -148,6 +164,51 @@ async function initDb() {
     }
   } catch (err) {
     console.warn("Could not alter table commands:", err.message);
+  }
+
+  // Ensure 'selectors' column exists
+  try {
+    const [cols] = await pool.query(
+      "SHOW COLUMNS FROM commands LIKE 'selectors'",
+    );
+    if (cols.length === 0) {
+      await pool.query(
+        "ALTER TABLE commands ADD COLUMN selectors JSON AFTER timestamp",
+      );
+      console.log("Added 'selectors' column to 'commands' table.");
+    }
+  } catch (err) {
+    console.warn("Could not add selectors column:", err.message);
+  }
+
+  // Ensure 'offset_x' column exists
+  try {
+    const [cols] = await pool.query(
+      "SHOW COLUMNS FROM commands LIKE 'offset_x'",
+    );
+    if (cols.length === 0) {
+      await pool.query(
+        "ALTER TABLE commands ADD COLUMN offset_x INT AFTER selectors",
+      );
+      console.log("Added 'offset_x' column to 'commands' table.");
+    }
+  } catch (err) {
+    console.warn("Could not add offset_x column:", err.message);
+  }
+
+  // Ensure 'offset_y' column exists
+  try {
+    const [cols] = await pool.query(
+      "SHOW COLUMNS FROM commands LIKE 'offset_y'",
+    );
+    if (cols.length === 0) {
+      await pool.query(
+        "ALTER TABLE commands ADD COLUMN offset_y INT AFTER offset_x",
+      );
+      console.log("Added 'offset_y' column to 'commands' table.");
+    }
+  } catch (err) {
+    console.warn("Could not add offset_y column:", err.message);
   }
 
   // Ensure 'aria_snapshot_url' column exists in 'executions' (migration from 'screenshot_url')
@@ -508,7 +569,8 @@ app.get("/api/test-cases/:id", async (req, res) => {
 
 // Executions & Reports
 app.post("/api/tests/:id/executions", async (req, res) => {
-  const { status, duration, bugs, errorMessage, ariaSnapshotUrl } = req.body;
+  const { status, duration, bugs, errorMessage, ariaSnapshotUrl, stepResults } =
+    req.body;
   const testId = req.params.id;
 
   const conn = await pool.getConnection();
@@ -538,6 +600,20 @@ app.post("/api/tests/:id/executions", async (req, res) => {
       await conn.query(
         "INSERT INTO execution_reports (execution_id, step_index, type, message) VALUES ?",
         [bugValues],
+      );
+    }
+
+    if (stepResults && Array.isArray(stepResults) && stepResults.length > 0) {
+      const stepValues = stepResults.map((s) => [
+        executionId,
+        s.stepIndex,
+        s.status,
+        s.message || null,
+      ]);
+
+      await conn.query(
+        "INSERT INTO step_results (execution_id, step_index, status, message) VALUES ?",
+        [stepValues],
       );
     }
 
@@ -571,6 +647,50 @@ app.get("/api/executions/:id/report", async (req, res) => {
       [req.params.id],
     );
     res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/api/executions/:id/steps", async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT * FROM step_results WHERE execution_id = ? ORDER BY step_index ASC",
+      [req.params.id],
+    );
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get all recent executions across all tests
+app.get("/api/executions", async (req, res) => {
+  const limitRaw = parseInt(req.query.limit, 10);
+  const limit = Number.isFinite(limitRaw)
+    ? Math.min(Math.max(limitRaw, 1), 100)
+    : 50;
+
+  try {
+    const [executions] = await pool.query(
+      `SELECT e.*, t.name AS test_name, t.id AS test_id
+       FROM executions e
+       JOIN tests t ON e.test_id = t.id
+       ORDER BY e.created_at DESC
+       LIMIT ?`,
+      [limit],
+    );
+    res.json(executions);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Clear all execution history
+app.delete("/api/executions/clear", async (req, res) => {
+  try {
+    await pool.query("DELETE FROM executions");
+    res.json({ success: true, message: "All execution history cleared" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

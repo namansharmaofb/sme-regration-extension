@@ -1,6 +1,12 @@
-2026/02/11-15:11:13.052 1d4d5 Reusing MANIFEST /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/MANIFEST-000001
-2026/02/11-15:11:13.053 1d4d5 Recovering log #77
-2026/02/11-15:11:13.062 1d4d5 Reusing old log /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/000077.log 
-2026/02/11-15:11:37.716 1d4ad Level-0 table #81: started
-2026/02/11-15:11:37.751 1d4ad Level-0 table #81: 1002404 bytes OK
-2026/02/11-15:11:37.755 1d4ad Delete type=0 #77
+2026/02/16-16:01:36.762 1acaa Reusing MANIFEST /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/MANIFEST-000001
+2026/02/16-16:01:36.762 1acaa Recovering log #118
+2026/02/16-16:01:36.770 1acaa Reusing old log /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/000118.log 
+2026/02/16-16:02:03.496 1acad Level-0 table #124: started
+2026/02/16-16:02:03.519 1acad Level-0 table #124: 971206 bytes OK
+2026/02/16-16:02:03.523 1acad Delete type=0 #118
+2026/02/16-16:02:54.148 1acaa Compacting 1@0 + 1@1 files
+2026/02/16-16:02:54.155 1acaa Generated table #125@0: 3 keys, 6637 bytes
+2026/02/16-16:02:54.156 1acaa Compacted 1@0 + 1@1 files => 6637 bytes
+2026/02/16-16:02:54.156 1acaa compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/02/16-16:02:54.157 1acaa Delete type=2 #124
+2026/02/16-16:02:54.157 1acaa Delete type=2 #121

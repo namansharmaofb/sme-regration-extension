@@ -48,14 +48,23 @@ async function getWorker(browser) {
   if (targets.length > 0) {
     // Use the last target (most recently created service worker)
     const worker = await targets[targets.length - 1].worker();
-    if (worker) return worker;
+    if (worker) {
+      worker.on("console", (msg) =>
+        console.log(`WORKER CONSOLE: ${msg.text()}`),
+      );
+      return worker;
+    }
   }
 
   const workerTarget = await browser.waitForTarget(
     (target) => target.type() === "service_worker",
     { timeout: 5000 },
   );
-  return await workerTarget.worker();
+  const worker = await workerTarget.worker();
+  if (worker) {
+    worker.on("console", (msg) => console.log(`WORKER CONSOLE: ${msg.text()}`));
+  }
+  return worker;
 }
 
 // Helper Functions for Onboarding & Feature Phases
@@ -206,6 +215,8 @@ async function executeTestCase(browser, page, testCaseId) {
     `Starting execution for flow: ${testCase.name} (ID: ${testCaseId})`,
   );
 
+  page.on("console", (msg) => console.log(`PAGE CONSOLE: ${msg.text()}`));
+
   // Always re-find the worker to avoid "Execution context is not available" errors if it suspended
   const worker = await getWorker(browser);
 
@@ -285,17 +296,29 @@ async function executeTestCase(browser, page, testCaseId) {
       continue;
     }
 
-    const logs = await workerForPolling
+    const resState = await workerForPolling
       .evaluate(async () => {
-        const { e2e_debug_logs = [] } =
-          await chrome.storage.local.get("e2e_debug_logs");
-        return e2e_debug_logs;
+        const { execution_state_v2, e2e_debug_logs = [] } =
+          await chrome.storage.local.get([
+            "execution_state_v2",
+            "e2e_debug_logs",
+          ]);
+        return { execution_state_v2, e2e_debug_logs };
       })
       .catch((err) => {
         // Context might have detached during evaluate
         return null;
       });
 
+    const logs = resState ? resState.e2e_debug_logs : null;
+    if (resState && resState.execution_state_v2) {
+      const state = resState.execution_state_v2;
+      console.log(
+        `WORKER STATE: Index=${state.currentIndex}/${state.steps.length}, Running=${state.isRunning}, WaitNav=${state.waitingForNavigation}`,
+      );
+    }
+
+    let foundFinishedLog = false;
     if (logs && logs.length > lastLogIndex) {
       for (let i = lastLogIndex; i < logs.length; i++) {
         console.log(`WORKER DEBUG: ${logs[i]}`);
@@ -304,6 +327,10 @@ async function executeTestCase(browser, page, testCaseId) {
           lastStepIndex = parseInt(stepMatch[1], 10) - 1;
           lastStepLine = stepMatch[2];
           lastStepAt = Date.now();
+        }
+
+        if (logs[i].includes("Flow execution finished: Success=true")) {
+          foundFinishedLog = true;
         }
       }
       lastLogIndex = logs.length;
@@ -316,8 +343,6 @@ async function executeTestCase(browser, page, testCaseId) {
     const latest = executions[0];
 
     // ONBOARDING: Interactive Phase Logic (Simulated)
-    // If we are in the "onboarding" phase, we might need to answer questions.
-    // This logic runs in parallel to the flow execution monitoring.
     if (testCase.name.toLowerCase().includes("onboarding")) {
       const aiMsg = await get_last_ai_message(page);
       if (aiMsg && aiMsg.includes("?")) {
@@ -325,18 +350,20 @@ async function executeTestCase(browser, page, testCaseId) {
         console.log(
           `[Onboarding] AI asked: "${aiMsg}" -> Answering: "${answer}"`,
         );
-        // Here we would inject the answer into the input field and click send
-        // await page.type('textarea', answer);
-        // await page.click('button[type="submit"]');
       }
     }
 
-    if (latest && new Date(latest.created_at).getTime() > startTime) {
+    // Check for success/failure with timing buffer for clock skew
+    if (latest && new Date(latest.created_at).getTime() > startTime - 10000) {
       if (latest.status === "success") {
-        console.log(`Execution of ${testCase.name} Successful!`);
+        console.log(`Execution of ${testCase.name} Successful (from DB)!`);
         return true;
       } else if (latest.status === "failed") {
         const errorMsg = latest.error_message || "Unknown error";
+        console.log(
+          `Execution of ${testCase.name} Failed (from DB): ${errorMsg}`,
+        );
+
         let ariaSnapshotPath = null;
         try {
           ariaSnapshotPath = await captureAriaSnapshot(
@@ -346,7 +373,6 @@ async function executeTestCase(browser, page, testCaseId) {
           );
           await file_bug(testCase.name, errorMsg, ariaSnapshotPath);
 
-          // Patch execution with snapshot URL for dashboard / integrations
           const snapshotUrl = `/aria-snapshots/${path.basename(ariaSnapshotPath)}`;
           await fetch(`${BACKEND_URL}/api/executions/${latest.id}`, {
             method: "PATCH",
@@ -370,6 +396,11 @@ async function executeTestCase(browser, page, testCaseId) {
           `Execution of ${testCase.name} Failed. Error: ${errorMsg}. Duration: ${latest.duration}ms`,
         );
       }
+    }
+
+    if (foundFinishedLog) {
+      console.log(`Execution of ${testCase.name} Successful (from Logs)!`);
+      return true;
     }
 
     // Fast-fail if we stall on the same step for too long

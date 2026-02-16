@@ -1,10 +1,3 @@
-2026/02/11-15:20:08.140 1dc95 Reusing MANIFEST /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/MANIFEST-000001
-2026/02/11-15:20:08.141 1dc95 Recovering log #80
-2026/02/11-15:20:08.144 1dc95 Reusing old log /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/000080.log 
-2026/02/11-15:21:07.611 1dc94 Compacting 2@0 + 1@1 files
-2026/02/11-15:21:07.618 1dc94 Generated table #83@0: 4 keys, 7657 bytes
-2026/02/11-15:21:07.618 1dc94 Compacted 2@0 + 1@1 files => 7657 bytes
-2026/02/11-15:21:07.620 1dc94 compacted to: files[ 0 1 1 0 0 0 0 ]
-2026/02/11-15:21:07.620 1dc94 Delete type=2 #81
-2026/02/11-15:21:07.620 1dc94 Delete type=2 #75
-2026/02/11-15:21:07.620 1dc94 Delete type=2 #78
+2026/02/16-16:12:37.399 1b19e Reusing MANIFEST /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/MANIFEST-000001
+2026/02/16-16:12:37.400 1b19e Recovering log #123
+2026/02/16-16:12:37.405 1b19e Reusing old log /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/000123.log 

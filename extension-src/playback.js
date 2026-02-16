@@ -250,7 +250,10 @@ function locateElementWithSelectorArray(step) {
               "info",
             );
             continue;
-          } else if (isSpecificSelector(selector) && visibleMatches.length === 1) {
+          } else if (
+            isSpecificSelector(selector) &&
+            visibleMatches.length === 1
+          ) {
             el = visibleMatches[0];
           } else {
             logExecution(
@@ -664,10 +667,7 @@ function isSpecificSelector(selector) {
 }
 
 function normalizeTextForMatch(text) {
-  return text
-    .replace(/\s+/g, " ")
-    .trim()
-    .toLowerCase();
+  return text.replace(/\s+/g, " ").trim().toLowerCase();
 }
 
 function normalizeTextLoose(text) {
@@ -691,9 +691,7 @@ function textMatchesExpected(expected, actual) {
   const aLoose = normalizeTextLoose(actual);
   if (!eLoose || !aLoose) return false;
   return (
-    aLoose === eLoose ||
-    aLoose.includes(eLoose) ||
-    eLoose.includes(aLoose)
+    aLoose === eLoose || aLoose.includes(eLoose) || eLoose.includes(aLoose)
   );
 }
 
@@ -1091,12 +1089,23 @@ async function executeSingleStep(step, index) {
     } else if (step.action === "scroll") {
       try {
         const pos = JSON.parse(step.value || '{"x":0,"y":0}');
+        logExecution(
+          `Step ${index + 1}: Scrolling to ${pos.x}, ${pos.y}...`,
+          "info",
+        );
         window.scrollTo({ left: pos.x, top: pos.y, behavior: "smooth" });
         console.log(`Executed step ${index + 1}: Scroll to ${pos.x}, ${pos.y}`);
 
         // Use a more defensive approach to ensure STEP_COMPLETE is sent
         setTimeout(() => {
           try {
+            logExecution(
+              `Step ${index + 1}: Scroll complete. Sending STEP_COMPLETE message...`,
+              "info",
+            );
+            console.log(
+              `[Playback] Sending STEP_COMPLETE for step ${index + 1}`,
+            );
             chrome.runtime.sendMessage(
               {
                 type: "STEP_COMPLETE",
@@ -1104,10 +1113,12 @@ async function executeSingleStep(step, index) {
               },
               (response) => {
                 if (chrome.runtime.lastError) {
-                  console.error(
-                    "Error sending STEP_COMPLETE for scroll:",
-                    chrome.runtime.lastError.message,
+                  logExecution(
+                    `Error sending STEP_COMPLETE: ${chrome.runtime.lastError.message}`,
+                    "error",
                   );
+                } else {
+                  logExecution(`STEP_COMPLETE sent successfully.`, "debug");
                 }
               },
             );
@@ -1118,6 +1129,10 @@ async function executeSingleStep(step, index) {
       } catch (e) {
         console.error("Error in scroll action:", e);
         try {
+          logExecution(
+            `Step ${index + 1}: Scroll failed but continuing.`,
+            "warning",
+          );
           chrome.runtime.sendMessage({
             type: "STEP_COMPLETE",
             stepIndex: index,

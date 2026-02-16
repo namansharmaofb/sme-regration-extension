@@ -78,21 +78,88 @@ This is a Chrome Extension-based web automation tool that records user interacti
   - **Port:** MySQL default (3306)
 
 **c) Database Schema**
-- **Table: `test_cases`**
-  - `id` (INT, Primary Key, Auto-increment)
-  - `name` (VARCHAR(255)) - Flow/test case name
-  - `created_at` (TIMESTAMP) - When it was created
+ER diagram (current schema):
+```mermaid
+erDiagram
+  PROJECTS ||--o{ TESTS : has
+  PROJECTS ||--o{ SUITES : has
+  SUITES ||--o{ SUITE_TESTS : contains
+  TESTS ||--o{ SUITE_TESTS : included_in
+  TESTS ||--o{ COMMANDS : has
+  TESTS ||--o{ EXECUTIONS : runs
+  EXECUTIONS ||--o{ EXECUTION_REPORTS : reports
+  EXECUTIONS ||--o{ STEP_RESULTS : steps
 
-- **Table: `test_steps`**
-  - `id` (INT, Primary Key, Auto-increment)
-  - `test_case_id` (INT, Foreign Key → test_cases.id)
-  - `step_order` (INT) - Order of step in the flow
-  - `action` (VARCHAR(50)) - "click" or "input"
-  - `selector` (TEXT) - CSS selector for the element
-  - `tag_name` (VARCHAR(50)) - HTML tag name
-  - `value` (TEXT) - Input value (for input actions)
-  - `url` (TEXT) - Page URL where action occurred
-  - `timestamp` (BIGINT) - When action was recorded
+  PROJECTS {
+    int id PK
+    varchar name
+    text url
+    timestamp created_at
+  }
+  TESTS {
+    int id PK
+    int project_id FK
+    varchar name
+    timestamp created_at
+  }
+  SUITES {
+    int id PK
+    int project_id FK
+    varchar name
+  }
+  SUITE_TESTS {
+    int suite_id FK
+    int test_id FK
+  }
+  COMMANDS {
+    int id PK
+    int test_id FK
+    int step_order
+    varchar command
+    text target
+    json targets
+    text value
+    text description
+    text url
+    bigint timestamp
+    json selectors
+    int offset_x
+    int offset_y
+  }
+  EXECUTIONS {
+    int id PK
+    int test_id FK
+    varchar status
+    int duration
+    text error_message
+    text aria_snapshot_url
+    timestamp created_at
+  }
+  EXECUTION_REPORTS {
+    int id PK
+    int execution_id FK
+    int step_index
+    varchar type
+    text message
+  }
+  STEP_RESULTS {
+    int id PK
+    int execution_id FK
+    int step_index
+    varchar status
+    text message
+    timestamp created_at
+  }
+```
+
+Table summary:
+- **`projects`**: Top-level app/project container.
+- **`tests`**: Recorded flows (belongs to a project).
+- **`suites`** / **`suite_tests`**: Group tests into suites (many-to-many).
+- **`commands`**: Individual recorded steps for a test (selectors + metadata).
+- **`executions`**: Each run of a test (success/failed + timing).
+- **`execution_reports`**: Bugs/nuances per execution + step.
+- **`step_results`**: Per-step success/failure for an execution.
 
 ---
 
@@ -148,6 +215,22 @@ This is a Chrome Extension-based web automation tool that records user interacti
    ↓
 9. Popup displays completion status
 ```
+
+### Playback Status (Which Flow Runs / Fails First):
+- **Popup UI (manual runs)**:
+  - The popup sends `START_EXECUTION` and renders live logs.
+  - Success/Failure is shown via `EXECUTION_STATUS_UPDATE`.
+  - Primary files: `extension-src/popup.js`, `extension-src/background.js`, `extension-src/playback.js`.
+- **E2E Runner (automated runs)**:
+  - The runner prints which flow starts and records success/failure.
+  - Failures are reported with the first stalled/failed step.
+  - Primary file: `scripts/e2e/runner.js`.
+- **Backend records**:
+  - Each run is stored in `executions` with `status` and `error_message`.
+  - Per-step results are stored in `step_results`.
+  - Endpoints:
+    - `GET /api/tests/:id/executions` (latest runs)
+    - `GET /api/executions/:id/steps` (step-by-step success/failure)
 
 ---
 

@@ -5,6 +5,10 @@ const API_BASE_URL = "http://localhost:4000"; // adjust if needed
 const recordBtn = document.getElementById("recordBtn");
 const statusText = document.getElementById("statusText");
 const agentStatus = document.getElementById("agentStatus");
+const runningFlowEl = document.getElementById("runningFlow");
+const firstFailureEl = document.getElementById("firstFailure");
+const logRunningFlowEl = document.getElementById("logRunningFlow");
+const logFirstFailureEl = document.getElementById("logFirstFailure");
 const testNameInput = document.getElementById("testName");
 const flowSelect = document.getElementById("flowSelect");
 const newFlowBtn = document.getElementById("newFlowBtn");
@@ -34,6 +38,34 @@ const popoutBtn = document.getElementById("popoutBtn");
 let currentSteps = [];
 let executionActiveIndex = -1;
 let selectedStepIndex = -1;
+let currentRunningFlowName = "";
+let firstFailureMessage = "";
+
+function setRunningFlow(text) {
+  const value = text && text.length > 0 ? text : "-";
+  if (runningFlowEl) runningFlowEl.textContent = value;
+  if (logRunningFlowEl) logRunningFlowEl.textContent = value;
+}
+
+function setFirstFailure(text) {
+  const value = text && text.length > 0 ? text : "-";
+  if (firstFailureEl) firstFailureEl.textContent = value;
+  if (logFirstFailureEl) logFirstFailureEl.textContent = value;
+}
+
+function resetFailureStatus() {
+  firstFailureMessage = "";
+  setFirstFailure("-");
+}
+
+function extractStepIndexFromMessage(message) {
+  if (!message || typeof message !== "string") return null;
+  const match =
+    message.match(/step\s*:?(\d+)/i) || message.match(/step\s+(\d+)/i);
+  if (!match) return null;
+  const num = parseInt(match[1], 10);
+  return Number.isFinite(num) ? num : null;
+}
 
 const commandRefData = {
   click: "Clicks on an element (button, link, etc.).",
@@ -294,6 +326,7 @@ document.querySelectorAll(".tab").forEach((tab) => {
     const isLog = tab.dataset.tab === "log";
     const isRef = tab.dataset.tab === "ref";
     const isBugs = tab.dataset.tab === "bugs";
+    const isHistory = tab.dataset.tab === "history";
 
     document.getElementById("logContent").style.display = isLog
       ? "flex"
@@ -304,6 +337,14 @@ document.querySelectorAll(".tab").forEach((tab) => {
     document.getElementById("bugContent").style.display = isBugs
       ? "block"
       : "none";
+    document.getElementById("historyContent").style.display = isHistory
+      ? "block"
+      : "none";
+
+    // Load history when tab is opened
+    if (isHistory) {
+      loadExecutionHistory();
+    }
   };
 });
 
@@ -557,7 +598,7 @@ async function loadFlowsFromBackend() {
       flows.forEach((flow) => {
         const opt = document.createElement("option");
         opt.value = flow.id.toString();
-        opt.textContent = flow.name;
+        opt.textContent = `${flow.id} - ${flow.name}`;
         opt.dataset.flowId = flow.id.toString();
         flowSelect.appendChild(opt);
       });
@@ -578,7 +619,7 @@ async function loadFlowsFromBackend() {
         result.savedFlows.forEach((flow) => {
           const opt = document.createElement("option");
           opt.value = flow.id.toString();
-          opt.textContent = flow.name;
+          opt.textContent = `${flow.id} - ${flow.name}`;
           opt.dataset.flowId = flow.id.toString();
           flowSelect.appendChild(opt);
         });
@@ -588,6 +629,75 @@ async function loadFlowsFromBackend() {
         );
       }
     });
+  }
+}
+
+async function loadExecutionHistory() {
+  const tbody = document.getElementById("historyTableBody");
+  if (!tbody) {
+    console.error("historyTableBody not found");
+    return;
+  }
+
+  try {
+    tbody.innerHTML =
+      '<tr><td colspan="3" style="padding: 20px; text-align: center; color: #64748b;">Loading...</td></tr>';
+
+    const res = await fetch(`${API_BASE_URL}/api/executions?limit=50`);
+    if (!res.ok) throw new Error(`Backend responded with status ${res.status}`);
+
+    const executions = await res.json();
+
+    if (executions.length === 0) {
+      tbody.innerHTML =
+        '<tr><td colspan="3" style="padding: 20px; text-align: center; color: #64748b;">No runs yet</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = "";
+
+    executions.forEach((exec) => {
+      const isSuccess = exec.status === "success";
+      const statusColor = isSuccess ? "#22c55e" : "#ef4444";
+      const statusBg = isSuccess
+        ? "rgba(34, 197, 94, 0.1)"
+        : "rgba(239, 68, 68, 0.1)";
+      const statusText = isSuccess ? "Success" : "Failed";
+
+      const date = new Date(exec.created_at);
+      const timeStr = date.toLocaleString([], {
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+      const row = document.createElement("tr");
+      row.style.borderBottom = "1px solid #1e293b";
+      row.innerHTML = `
+        <td style="padding: 8px; color: #e5e7eb;">
+          ${exec.test_id} - ${exec.test_name || "Unknown"}
+        </td>
+        <td style="padding: 8px; text-align: center;">
+          <span style="
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 600;
+            color: ${statusColor};
+            background: ${statusBg};
+          ">${statusText}</span>
+        </td>
+        <td style="padding: 8px; color: #94a3b8; font-size: 10px;">
+          ${timeStr}
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  } catch (err) {
+    console.error("Error loading execution history", err);
+    tbody.innerHTML = `<tr><td colspan="3" style="padding: 20px; text-align: center; color: #ef4444;">Error: ${err.message}</td></tr>`;
   }
 }
 
@@ -879,8 +989,14 @@ async function runFlow(testCase) {
     return;
   }
 
+  currentRunningFlowName = testCase.id
+    ? `${testCase.id} - ${testCase.name || "Current Flow"}`
+    : testCase.name || "Current Flow";
+  setRunningFlow(currentRunningFlowName);
+  resetFailureStatus();
+
   logLine(
-    `Starting execution of flow '${testCase.name}' (${testCase.steps.length} steps)...`,
+    `Starting execution of flow '${currentRunningFlowName}' (${testCase.steps.length} steps)...`,
     "info",
   );
   currentSteps = testCase.steps; // SYNC STEPS
@@ -967,6 +1083,12 @@ chrome.runtime.onMessage.addListener((message) => {
 
       agentStatus.textContent = "Ready";
       agentStatus.style.color = "#4ade80";
+      setRunningFlow(
+        currentRunningFlowName
+          ? `${currentRunningFlowName} (success)`
+          : "Success",
+      );
+      resetFailureStatus();
       executionActiveIndex = -1;
       renderSteps(currentSteps);
       setExecutionUI(false);
@@ -986,6 +1108,19 @@ chrome.runtime.onMessage.addListener((message) => {
 
       agentStatus.textContent = "Error";
       agentStatus.style.color = "#ef4444";
+      setRunningFlow(
+        currentRunningFlowName
+          ? `${currentRunningFlowName} (failed)`
+          : "Failed",
+      );
+      if (!firstFailureMessage) {
+        const stepIndex = extractStepIndexFromMessage(message.error);
+        firstFailureMessage =
+          stepIndex !== null
+            ? `Step ${stepIndex}: ${message.error}`
+            : message.error;
+        setFirstFailure(firstFailureMessage);
+      }
       executionActiveIndex = -1;
       renderSteps(currentSteps);
       setExecutionUI(false);
@@ -995,6 +1130,16 @@ chrome.runtime.onMessage.addListener((message) => {
     renderSteps(currentSteps);
   } else if (message.type === "LOG_MESSAGE") {
     logLine(message.text, message.level || "info");
+    if (
+      (message.level === "error" || message.level === "warning") &&
+      !firstFailureMessage
+    ) {
+      const stepIndex = extractStepIndexFromMessage(message.text || "");
+      if (stepIndex !== null) {
+        firstFailureMessage = `Step ${stepIndex}: ${message.text}`;
+        setFirstFailure(firstFailureMessage);
+      }
+    }
   }
 });
 
@@ -1070,6 +1215,41 @@ if (exportJsonBtn) {
 }
 if (uploadJsonBtn) {
   uploadJsonBtn.addEventListener("click", onUploadJson);
+}
+
+const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+if (clearHistoryBtn) {
+  clearHistoryBtn.addEventListener("click", async () => {
+    if (
+      !confirm(
+        "Are you sure you want to clear all execution history?\n\nThis will permanently delete all execution records from the database.",
+      )
+    ) {
+      return;
+    }
+
+    try {
+      const tbody = document.getElementById("historyTableBody");
+      tbody.innerHTML =
+        '<tr><td colspan="3" style="padding: 20px; text-align: center; color: #64748b;">Clearing...</td></tr>';
+
+      // Delete all executions via API
+      const res = await fetch(`${API_BASE_URL}/api/executions/clear`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        throw new Error(`Failed to clear history: ${res.status}`);
+      }
+
+      tbody.innerHTML =
+        '<tr><td colspan="3" style="padding: 20px; text-align: center; color: #64748b;">No runs yet</td></tr>';
+      logLine("Execution history cleared", "success");
+    } catch (err) {
+      logLine("Error clearing history: " + err.message, "error");
+      loadExecutionHistory(); // Reload to show current state
+    }
+  });
 }
 
 if (popoutBtn) {
