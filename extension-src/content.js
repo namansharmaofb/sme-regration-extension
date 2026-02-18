@@ -91,6 +91,20 @@ if (!window.__recorder_initialized) {
       } else {
         sendResponse({ step: null });
       }
+    } else if (message.type === "GET_ARIA_SNAPSHOT") {
+      if (typeof captureAriaSnapshotContent === "function") {
+        try {
+          const snapshot = captureAriaSnapshotContent();
+          sendResponse({ success: true, snapshot });
+        } catch (err) {
+          sendResponse({ success: false, error: err.message });
+        }
+      } else {
+        sendResponse({
+          success: false,
+          error: "ARIA snapshot utility not loaded",
+        });
+      }
     }
     return true;
   });

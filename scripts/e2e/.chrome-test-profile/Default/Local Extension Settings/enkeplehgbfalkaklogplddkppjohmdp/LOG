@@ -1,3 +1,6 @@
-2026/02/16-16:12:37.399 1b19e Reusing MANIFEST /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/MANIFEST-000001
-2026/02/16-16:12:37.400 1b19e Recovering log #123
-2026/02/16-16:12:37.405 1b19e Reusing old log /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/000123.log 
+2026/02/18-16:34:23.696 36bcf Reusing MANIFEST /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/MANIFEST-000001
+2026/02/18-16:34:23.696 36bcf Recovering log #192
+2026/02/18-16:34:23.701 36bcf Reusing old log /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/000192.log 
+2026/02/18-16:35:25.636 36bcf Level-0 table #196: started
+2026/02/18-16:35:25.648 36bcf Level-0 table #196: 614731 bytes OK
+2026/02/18-16:35:25.650 36bcf Delete type=0 #192

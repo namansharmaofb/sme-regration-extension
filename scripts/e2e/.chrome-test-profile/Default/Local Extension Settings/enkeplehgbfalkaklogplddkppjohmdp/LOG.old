@@ -1,12 +1,24 @@
-2026/02/16-16:01:36.762 1acaa Reusing MANIFEST /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/MANIFEST-000001
-2026/02/16-16:01:36.762 1acaa Recovering log #118
-2026/02/16-16:01:36.770 1acaa Reusing old log /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/000118.log 
-2026/02/16-16:02:03.496 1acad Level-0 table #124: started
-2026/02/16-16:02:03.519 1acad Level-0 table #124: 971206 bytes OK
-2026/02/16-16:02:03.523 1acad Delete type=0 #118
-2026/02/16-16:02:54.148 1acaa Compacting 1@0 + 1@1 files
-2026/02/16-16:02:54.155 1acaa Generated table #125@0: 3 keys, 6637 bytes
-2026/02/16-16:02:54.156 1acaa Compacted 1@0 + 1@1 files => 6637 bytes
-2026/02/16-16:02:54.156 1acaa compacted to: files[ 0 1 1 0 0 0 0 ]
-2026/02/16-16:02:54.157 1acaa Delete type=2 #124
-2026/02/16-16:02:54.157 1acaa Delete type=2 #121
+2026/02/18-16:28:09.926 365d2 Reusing MANIFEST /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/MANIFEST-000001
+2026/02/18-16:28:09.926 365d2 Recovering log #182
+2026/02/18-16:28:09.936 365d2 Reusing old log /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/000182.log 
+2026/02/18-16:28:19.673 365e0 Level-0 table #186: started
+2026/02/18-16:28:19.697 365e0 Level-0 table #186: 645712 bytes OK
+2026/02/18-16:28:19.701 365e0 Delete type=0 #182
+2026/02/18-16:28:54.785 365d2 Level-0 table #188: started
+2026/02/18-16:28:54.809 365d2 Level-0 table #188: 616324 bytes OK
+2026/02/18-16:28:54.812 365d2 Delete type=0 #185
+2026/02/18-16:29:05.768 365dd Level-0 table #190: started
+2026/02/18-16:29:05.784 365dd Level-0 table #190: 479032 bytes OK
+2026/02/18-16:29:05.788 365dd Delete type=0 #187
+2026/02/18-16:29:05.790 365dd Compacting 4@0 + 1@1 files
+2026/02/18-16:29:05.806 365dd Generated table #191@0: 3 keys, 11202 bytes
+2026/02/18-16:29:05.806 365dd Compacted 4@0 + 1@1 files => 11202 bytes
+2026/02/18-16:29:05.807 365dd compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/02/18-16:29:05.808 365dd Delete type=2 #188
+2026/02/18-16:29:05.808 365dd Delete type=2 #190
+2026/02/18-16:29:05.808 365dd Delete type=2 #186
+2026/02/18-16:29:05.808 365dd Delete type=2 #183
+2026/02/18-16:29:05.809 365dd Delete type=2 #180
+2026/02/18-16:29:10.111 365df Level-0 table #193: started
+2026/02/18-16:29:10.125 365df Level-0 table #193: 392036 bytes OK
+2026/02/18-16:29:10.129 365df Delete type=0 #189

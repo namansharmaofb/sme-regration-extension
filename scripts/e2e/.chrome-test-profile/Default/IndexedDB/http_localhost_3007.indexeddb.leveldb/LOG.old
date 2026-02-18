@@ -1,3 +1,3 @@
-2026/02/16-16:01:54.417 1acaa Reusing MANIFEST /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/IndexedDB/http_localhost_3007.indexeddb.leveldb/MANIFEST-000001
-2026/02/16-16:01:54.417 1acaa Recovering log #3
-2026/02/16-16:01:54.429 1acaa Reusing old log /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/IndexedDB/http_localhost_3007.indexeddb.leveldb/000003.log 
+2026/02/18-16:28:28.601 365e1 Reusing MANIFEST /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/IndexedDB/http_localhost_3007.indexeddb.leveldb/MANIFEST-000001
+2026/02/18-16:28:28.603 365e1 Recovering log #3
+2026/02/18-16:28:28.622 365e1 Reusing old log /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/IndexedDB/http_localhost_3007.indexeddb.leveldb/000003.log 

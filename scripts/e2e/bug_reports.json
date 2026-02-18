@@ -295,5 +295,47 @@
     "stepIndex": 20,
     "screenshot": "screenshots/timeout_148_1770375431504.png",
     "timestamp": "2026-02-06T10:57:11.709Z"
+  },
+  {
+    "id": "BUG-1771308044847",
+    "title": "Failure in iamf",
+    "description": "Step 6 stalled for 30s: Element not found/not visible in frame http://localhost:3007/accordd/purchase-orders/list?pageSize=20&pageNumber=0&filter=PO_STATUS:ACTIVE&filter=PURCHASE_TYPE:DOMESTIC",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_177_1771308044667.json",
+    "timestamp": "2026-02-17T06:00:44.847Z"
+  },
+  {
+    "id": "BUG-1771312588989",
+    "title": "Failure in iamf",
+    "description": "Step ? stalled for 30s: No step details",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-17T07:16:28.989Z"
+  },
+  {
+    "id": "BUG-1771324991996",
+    "title": "Failure in Failing Bug Test",
+    "description": "Failed to execute 'querySelector' on 'Document': 'id=non-existent-element' is not a valid selector.",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_183_1771324991941.json",
+    "timestamp": "2026-02-17T10:43:11.996Z"
+  },
+  {
+    "id": "BUG-1771325127656",
+    "title": "Failure in Failing Bug Test",
+    "description": "Step 1 stalled for 30s: Element not found/not visible in frame http://localhost:3007/accordd/dashboard/overview",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_183_1771325127539.json",
+    "timestamp": "2026-02-17T10:45:27.656Z"
+  },
+  {
+    "id": "BUG-1771406066578",
+    "title": "Failure in salesflownew",
+    "description": "Step 7 stalled for 30s: Element not found/not visible in frame http://localhost:3007/accordd/sales-order/create?tabId=jFJrGZKDUg&salesOrderType=MATERIAL",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-18T09:14:26.578Z"
+  },
+  {
+    "id": "BUG-1771412382022",
+    "title": "Failure in nbsadhfs",
+    "description": "Step 13 stalled for 30s: Element not found/not visible in frame http://localhost:3007/accordd/sales-order/create?tabId=vDYoQIEnqh&salesOrderType=MATERIAL",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-18T10:59:42.022Z"
   }
 ]

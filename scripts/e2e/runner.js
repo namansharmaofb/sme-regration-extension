@@ -9,6 +9,14 @@ const TEST_EMAIL = process.env.E2E_TEST_EMAIL || "test@example.com";
 const TARGET_URL = process.env.TARGET_URL || "http://localhost:3000";
 const BACKEND_URL = "http://localhost:4000";
 
+// ANSI color codes for terminal output
+const GREEN = "\x1b[32m";
+const RED = "\x1b[31m";
+const YELLOW = "\x1b[33m";
+const CYAN = "\x1b[36m";
+const BOLD = "\x1b[1m";
+const RESET = "\x1b[0m";
+
 async function fetchTestIdByName(namePattern) {
   let connection;
   try {
@@ -102,7 +110,6 @@ async function file_bug(testName, errorMsg, ariaSnapshotPath) {
     title: `Failure in ${testName}`,
     description: errorMsg,
     ariaSnapshot: ariaSnapshotPath || null,
-    screenshot: ariaSnapshotPath || null,
     timestamp: new Date().toISOString(),
   };
 
@@ -139,20 +146,534 @@ function buildAriaSnapshotPath(prefix, testCaseId = "unknown") {
   );
 }
 
-async function captureAriaSnapshot(page, prefix, testCaseId) {
+const GENERIC_ARIA_ICONS = new Set([
+  "chevron_right",
+  "chevron_left",
+  "expand_more",
+  "expand_less",
+  "west",
+  "east",
+  "north",
+  "south",
+  "menu",
+  "more_vert",
+  "more_horiz",
+  "close",
+  "add",
+  "remove",
+  "search",
+  "filter_list",
+  "edit",
+  "delete",
+  "download",
+  "file_download",
+  "upload",
+  "file_upload",
+  "refresh",
+]);
+
+function normalizeText(value) {
+  if (!value || typeof value !== "string") return "";
+  return value.replace(/\s+/g, " ").trim().toLowerCase();
+}
+
+function isGenericAriaSelector(selector) {
+  if (!selector || typeof selector !== "string") return false;
+  if (!selector.startsWith("aria/")) return false;
+  const name = normalizeText(selector.slice(5));
+  return GENERIC_ARIA_ICONS.has(name);
+}
+
+function dedupe(list) {
+  const seen = new Set();
+  const out = [];
+  for (const item of list) {
+    if (!item || seen.has(item)) continue;
+    seen.add(item);
+    out.push(item);
+  }
+  return out;
+}
+
+function escapeAttributeValue(value) {
+  return String(value).replace(/"/g, '\\"');
+}
+
+function normalizeSelector(selector) {
+  if (!selector || typeof selector !== "string") return null;
+  const raw = selector.trim();
+  if (!raw) return null;
+
+  if (
+    raw.startsWith("aria/") ||
+    raw.startsWith("xpath/") ||
+    raw.startsWith("text/")
+  ) {
+    return raw;
+  }
+
+  if (raw.startsWith("//") || raw.startsWith("(//")) {
+    return `xpath/${raw}`;
+  }
+
+  const eqIndex = raw.indexOf("=");
+  if (eqIndex > 0) {
+    const type = raw.slice(0, eqIndex).toLowerCase();
+    const value = raw.slice(eqIndex + 1);
+    switch (type) {
+      case "css":
+        return value;
+      case "id":
+        return `[id="${escapeAttributeValue(value)}"]`;
+      case "name":
+        return `[name="${escapeAttributeValue(value)}"]`;
+      case "placeholder":
+        return `[placeholder="${escapeAttributeValue(value)}"]`;
+      case "testid":
+        return `[data-testid="${escapeAttributeValue(
+          value,
+        )}"], [data-cy="${escapeAttributeValue(
+          value,
+        )}"], [data-test-id="${escapeAttributeValue(
+          value,
+        )}"], [data-qa="${escapeAttributeValue(value)}"]`;
+      case "aria":
+        return `aria/${value}`;
+      case "xpath":
+        return `xpath/${value}`;
+      case "linktext":
+        return `aria/${value}`;
+      default:
+        break;
+    }
+  }
+
+  return raw;
+}
+
+function addSelector(out, selector) {
+  const normalized = normalizeSelector(selector);
+  if (normalized) out.push(normalized);
+}
+
+function selectorsFromTargets(targets) {
+  const out = [];
+  if (!Array.isArray(targets)) return out;
+  for (const target of targets) {
+    if (!target) continue;
+    if (typeof target === "string") {
+      addSelector(out, target);
+      continue;
+    }
+    if (Array.isArray(target) && target.length > 0) {
+      addSelector(out, target[0]);
+      continue;
+    }
+    if (typeof target === "object" && target.type && target.value) {
+      const type = String(target.type).toLowerCase();
+      const value = String(target.value);
+      switch (type) {
+        case "aria":
+          addSelector(out, `aria/${value}`);
+          break;
+        case "xpath":
+          addSelector(out, `xpath/${value}`);
+          break;
+        case "css":
+        case "css:finder":
+          addSelector(out, value);
+          break;
+        case "id":
+          addSelector(out, `id=${value}`);
+          break;
+        case "name":
+          addSelector(out, `name=${value}`);
+          break;
+        case "placeholder":
+          addSelector(out, `placeholder=${value}`);
+          break;
+        case "testid":
+          addSelector(out, `testId=${value}`);
+          break;
+        case "linktext":
+          addSelector(out, `linkText=${value}`);
+          break;
+        default:
+          addSelector(out, value);
+          break;
+      }
+    }
+  }
+  return out;
+}
+
+function buildSelectorCandidates(step) {
+  const out = [];
+  if (!step || typeof step !== "object") return out;
+
+  if (Array.isArray(step.selectors)) {
+    if (step.selectors.length > 0 && Array.isArray(step.selectors[0])) {
+      for (const group of step.selectors) {
+        if (!Array.isArray(group)) continue;
+        for (const selector of group) addSelector(out, selector);
+      }
+    } else {
+      for (const selector of step.selectors) addSelector(out, selector);
+    }
+  } else if (step.selectors && Array.isArray(step.selectors.selectors)) {
+    for (const group of step.selectors.selectors) {
+      if (Array.isArray(group)) {
+        for (const selector of group) addSelector(out, selector);
+      } else {
+        addSelector(out, group);
+      }
+    }
+  } else if (step.selectors && typeof step.selectors === "object") {
+    const selectorMap = step.selectors;
+    if (selectorMap.css) addSelector(out, selectorMap.css);
+    if (selectorMap.id) addSelector(out, `id=${selectorMap.id}`);
+    if (selectorMap.name) addSelector(out, `name=${selectorMap.name}`);
+    if (selectorMap.placeholder)
+      addSelector(out, `placeholder=${selectorMap.placeholder}`);
+    if (selectorMap.aria) addSelector(out, `aria/${selectorMap.aria}`);
+    if (selectorMap.xpath) addSelector(out, `xpath/${selectorMap.xpath}`);
+    if (selectorMap.testId) addSelector(out, `testId=${selectorMap.testId}`);
+  }
+
+  addSelector(out, step.selector);
+  addSelector(out, step.target);
+
+  selectorsFromTargets(step.targets).forEach((selector) =>
+    addSelector(out, selector),
+  );
+
+  let candidates = dedupe(out);
+  const hasSpecificAria = candidates.some(
+    (selector) =>
+      selector.startsWith("aria/") && !isGenericAriaSelector(selector),
+  );
+  if (hasSpecificAria) {
+    candidates = candidates.filter(
+      (selector) =>
+        !selector.startsWith("aria/") || !isGenericAriaSelector(selector),
+    );
+  }
+
+  return candidates;
+}
+
+async function findElementForSelectors(page, selectors) {
+  for (const selector of selectors) {
+    try {
+      const handle = await page.$(selector);
+      if (handle) {
+        return { handle, selector };
+      }
+    } catch (err) {
+      // Invalid selector or handler not available; try next one.
+    }
+  }
+  return null;
+}
+
+async function captureFocusedSnapshot(page, focusStep) {
+  const selectors = buildSelectorCandidates(focusStep);
+  if (selectors.length === 0) return null;
+
+  const match = await findElementForSelectors(page, selectors);
+  if (!match) return null;
+
+  const elementHandle = match.handle;
+  let rootHandle = elementHandle;
+  let containerHandle = null;
+  try {
+    containerHandle = await elementHandle.evaluateHandle((el) => {
+      const selectors = [
+        "form",
+        "section",
+        "main",
+        "article",
+        "[role='dialog']",
+        "[role='alert']",
+        "[role='form']",
+        "[role='region']",
+        "[role='table']",
+        "[role='list']",
+        "[role='grid']",
+        "[aria-label]",
+        "[aria-labelledby]",
+        "[data-testid]",
+        "[data-test-id]",
+        "[data-qa]",
+        "[data-cy]",
+      ];
+      return el.closest(selectors.join(",")) || el;
+    });
+
+    const containerElement = containerHandle.asElement();
+    if (containerElement) {
+      rootHandle = containerElement;
+    } else {
+      await containerHandle.dispose();
+      containerHandle = null;
+    }
+
+    return await page.accessibility.snapshot({
+      interestingOnly: false,
+      root: rootHandle,
+    });
+  } finally {
+    if (containerHandle && containerHandle !== rootHandle) {
+      await containerHandle.dispose();
+    }
+    if (rootHandle && rootHandle !== elementHandle) {
+      await rootHandle.dispose();
+    }
+    await elementHandle.dispose();
+  }
+}
+
+/**
+ * Capture a snapshot scoped to the main content area (<main> or [role="main"]).
+ * Falls back to null if no main element is found.
+ */
+async function captureMainContentSnapshot(page) {
+  try {
+    const mainHandle = await page.$('main, [role="main"]');
+    if (!mainHandle) return null;
+    try {
+      return await page.accessibility.snapshot({
+        interestingOnly: false,
+        root: mainHandle,
+      });
+    } finally {
+      await mainHandle.dispose();
+    }
+  } catch (err) {
+    return null;
+  }
+}
+
+const PRUNE_MAX_DEPTH = 8;
+const PRUNE_MAX_NODES = 500;
+
+/**
+ * Strip noise from an accessibility snapshot tree:
+ * - Remove InlineTextBox nodes
+ * - Remove role:"none" leaves with no name
+ * - Limit tree depth
+ * - Cap total nodes
+ */
+function pruneSnapshot(node, depth = 0) {
+  if (!node || typeof node !== "object") return null;
+  if (node.role === "InlineTextBox") return null;
+  if (depth > PRUNE_MAX_DEPTH) return null;
+
+  let pruned = { ...node };
+  if (Array.isArray(node.children) && node.children.length > 0) {
+    const kids = [];
+    for (const child of node.children) {
+      const p = pruneSnapshot(child, depth + 1);
+      if (p) kids.push(p);
+    }
+    if (kids.length > 0) {
+      pruned.children = kids;
+    } else {
+      delete pruned.children;
+    }
+  } else {
+    delete pruned.children;
+  }
+
+  // Remove empty role:"none" / role:"generic" leaves with no name
+  if (
+    (pruned.role === "none" || pruned.role === "generic") &&
+    !pruned.name &&
+    !pruned.children
+  ) {
+    return null;
+  }
+
+  return pruned;
+}
+
+/** Walk a pruned tree and cap total nodes to PRUNE_MAX_NODES */
+function capNodes(node) {
+  let count = 0;
+  function walk(n) {
+    if (!n || count >= PRUNE_MAX_NODES) return null;
+    count++;
+    const out = { ...n };
+    if (Array.isArray(n.children)) {
+      const kids = [];
+      for (const child of n.children) {
+        if (count >= PRUNE_MAX_NODES) break;
+        const c = walk(child);
+        if (c) kids.push(c);
+      }
+      if (kids.length > 0) out.children = kids;
+      else delete out.children;
+    }
+    return out;
+  }
+  return walk(node);
+}
+
+function buildFocusNames(step) {
+  if (!step || typeof step !== "object") return [];
+  if (step.action === "navigate" || step.action === "scroll") return [];
+  const names = [];
+
+  if (typeof step.description === "string") {
+    names.push(step.description);
+  }
+
+  const selectors = buildSelectorCandidates(step);
+  for (const selector of selectors) {
+    if (selector.startsWith("aria/")) {
+      const value = selector.slice(5);
+      if (!isGenericAriaSelector(selector)) names.push(value);
+    }
+  }
+
+  return dedupe(names);
+}
+
+function findSnapshotNodeByName(root, focusNames) {
+  if (!root || !focusNames.length) return null;
+  const normalizedNames = focusNames
+    .map((name) => normalizeText(name))
+    .filter(Boolean);
+  if (!normalizedNames.length) return null;
+
+  const matches = (node) => {
+    const nodeName = normalizeText(node?.name || "");
+    if (!nodeName) return false;
+    return normalizedNames.some(
+      (candidate) => nodeName === candidate || nodeName.includes(candidate),
+    );
+  };
+
+  const stack = [root];
+  while (stack.length) {
+    const current = stack.pop();
+    if (!current || typeof current !== "object") continue;
+    if (matches(current)) return current;
+    const children = Array.isArray(current.children) ? current.children : [];
+    for (let i = children.length - 1; i >= 0; i -= 1) {
+      stack.push(children[i]);
+    }
+  }
+  return null;
+}
+
+async function captureAriaSnapshot(page, prefix, testCaseId, options = {}) {
   const snapshotPath = buildAriaSnapshotPath(prefix, testCaseId);
   const dir = path.dirname(snapshotPath);
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
-  const snapshot = await page.accessibility.snapshot({
-    interestingOnly: false,
-  });
+  let snapshot = null;
+  let focused = false;
+
+  // 1. Try element-level focused snapshot from the step selector
+  if (options.focusStep) {
+    try {
+      snapshot = await captureFocusedSnapshot(page, options.focusStep);
+      focused = !!snapshot;
+    } catch (err) {
+      snapshot = null;
+      focused = false;
+    }
+  }
+
+  // 2. If focused snapshot failed, try to find the node by name in a main-scoped snapshot
+  if (!snapshot && options.focusStep) {
+    const mainSnapshot = await captureMainContentSnapshot(page);
+    if (mainSnapshot) {
+      const focusNames = buildFocusNames(options.focusStep);
+      const focusedNode = findSnapshotNodeByName(mainSnapshot, focusNames);
+      if (focusedNode) {
+        snapshot = focusedNode;
+        focused = true;
+      } else {
+        // Use main content area instead of full page
+        snapshot = mainSnapshot;
+        focused = true;
+      }
+    }
+  }
+
+  // 3. If still nothing, try main content snapshot without name search
+  if (!snapshot) {
+    const mainSnapshot = await captureMainContentSnapshot(page);
+    if (mainSnapshot) {
+      snapshot = mainSnapshot;
+    }
+  }
+
+  // 4. Last resort: full page snapshot
+  if (!snapshot) {
+    snapshot = await page.accessibility.snapshot({
+      interestingOnly: false,
+    });
+  }
+
   if (!snapshot) {
     throw new Error("Accessibility snapshot was empty");
   }
+
+  // Prune noise and cap size before writing
+  snapshot = pruneSnapshot(snapshot);
+  if (snapshot) snapshot = capNodes(snapshot);
+  if (!snapshot) {
+    throw new Error("Accessibility snapshot was empty after pruning");
+  }
+
   fs.writeFileSync(snapshotPath, JSON.stringify(snapshot, null, 2));
+  console.log(
+    `${CYAN}[Snapshot]${RESET} ARIA snapshot captured (${focused ? "focused" : "main"}): ${CYAN}${snapshotPath}${RESET}`,
+  );
   return snapshotPath;
+}
+
+async function getFailedStepIndex(executionId) {
+  if (!executionId) return null;
+  try {
+    const stepRes = await fetch(
+      `${BACKEND_URL}/api/executions/${executionId}/steps`,
+    );
+    if (stepRes.ok) {
+      const steps = await stepRes.json();
+      const failed = Array.isArray(steps)
+        ? steps.find((s) => s.status === "failed")
+        : null;
+      if (failed && Number.isFinite(Number(failed.step_index))) {
+        return Number(failed.step_index);
+      }
+    }
+  } catch (err) {
+    // ignore and fall back
+  }
+
+  try {
+    const reportRes = await fetch(
+      `${BACKEND_URL}/api/executions/${executionId}/report`,
+    );
+    if (reportRes.ok) {
+      const reports = await reportRes.json();
+      const failed = Array.isArray(reports)
+        ? reports.find((r) => r.type === "error")
+        : null;
+      if (failed && Number.isFinite(Number(failed.step_index))) {
+        return Number(failed.step_index);
+      }
+    }
+  } catch (err) {
+    // ignore and fall back
+  }
+
+  return null;
 }
 
 async function postFailureIfMissing({
@@ -199,6 +720,32 @@ async function postFailureIfMissing({
         bugs,
       }),
     });
+
+    // Also file a local bug report for parity
+    try {
+      const conn = await mysql.createConnection({
+        socketPath: "/var/run/mysqld/mysqld.sock",
+        user: process.env.DB_USER || "root",
+        password: process.env.DB_PASSWORD || "",
+        database: process.env.DB_NAME || "test_recorder",
+      });
+      const [[test]] = await conn.execute(
+        "SELECT name FROM tests WHERE id = ? LIMIT 1",
+        [testCaseId],
+      );
+      if (test) {
+        await file_bug(test.name, errorMessage, ariaSnapshotPath);
+      } else {
+        await file_bug(`Test ${testCaseId}`, errorMessage, ariaSnapshotPath);
+      }
+      await conn.end();
+    } catch (dbErr) {
+      console.warn(
+        "Failed to lookup test name for local bug report:",
+        dbErr.message,
+      );
+      await file_bug(`Test ${testCaseId}`, errorMessage, ariaSnapshotPath);
+    }
   } catch (err) {
     console.warn("Failed to post timeout failure:", err.message);
   }
@@ -356,20 +903,64 @@ async function executeTestCase(browser, page, testCaseId) {
     // Check for success/failure with timing buffer for clock skew
     if (latest && new Date(latest.created_at).getTime() > startTime - 10000) {
       if (latest.status === "success") {
-        console.log(`Execution of ${testCase.name} Successful (from DB)!`);
+        console.log(
+          `${GREEN}${BOLD}Execution of ${testCase.name} Successful (from DB)!${RESET}`,
+        );
+
+        // Capture final snapshot even on success from DB
+        try {
+          const successFocusStep =
+            typeof lastStepIndex === "number"
+              ? testCase.steps?.[lastStepIndex]
+              : null;
+          const ariaSnapshotPath = await captureAriaSnapshot(
+            page,
+            "success",
+            testCaseId,
+            successFocusStep ? { focusStep: successFocusStep } : {},
+          );
+          const snapshotUrl = `/aria-snapshots/${path.basename(ariaSnapshotPath)}`;
+
+          await fetch(`${BACKEND_URL}/api/executions/${latest.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ariaSnapshotUrl: snapshotUrl }),
+          }).catch((err) =>
+            console.warn(
+              "Failed to patch successful execution with ARIA snapshot:",
+              err.message,
+            ),
+          );
+        } catch (snapshotErr) {
+          console.warn(
+            "Failed to capture success ARIA snapshot:",
+            snapshotErr.message,
+          );
+        }
+
         return true;
       } else if (latest.status === "failed") {
         const errorMsg = latest.error_message || "Unknown error";
         console.log(
-          `Execution of ${testCase.name} Failed (from DB): ${errorMsg}`,
+          `${RED}${BOLD}Execution of ${testCase.name} Failed (from DB): ${errorMsg}${RESET}`,
         );
 
         let ariaSnapshotPath = null;
+        const failedStepIndex = await getFailedStepIndex(latest.id);
+        const focusStepIndex =
+          Number.isFinite(failedStepIndex) && failedStepIndex >= 0
+            ? failedStepIndex
+            : lastStepIndex;
+        const focusStep =
+          typeof focusStepIndex === "number"
+            ? testCase.steps?.[focusStepIndex]
+            : null;
         try {
           ariaSnapshotPath = await captureAriaSnapshot(
             page,
             "error",
             testCaseId,
+            focusStep ? { focusStep } : {},
           );
           await file_bug(testCase.name, errorMsg, ariaSnapshotPath);
 
@@ -399,7 +990,50 @@ async function executeTestCase(browser, page, testCaseId) {
     }
 
     if (foundFinishedLog) {
-      console.log(`Execution of ${testCase.name} Successful (from Logs)!`);
+      console.log(
+        `${GREEN}${BOLD}Execution of ${testCase.name} Successful (from Logs)!${RESET}`,
+      );
+
+      // Capture final snapshot even on success
+      try {
+        const successFocusStep =
+          typeof lastStepIndex === "number"
+            ? testCase.steps?.[lastStepIndex]
+            : null;
+        const ariaSnapshotPath = await captureAriaSnapshot(
+          page,
+          "success",
+          testCaseId,
+          successFocusStep ? { focusStep: successFocusStep } : {},
+        );
+        const snapshotUrl = `/aria-snapshots/${path.basename(ariaSnapshotPath)}`;
+
+        // Fetch latest to get ID for patching
+        const execRes = await fetch(
+          `${BACKEND_URL}/api/tests/${testCaseId}/executions`,
+        );
+        const executions = await execRes.json();
+        const latest = executions[0];
+
+        if (latest && latest.id) {
+          await fetch(`${BACKEND_URL}/api/executions/${latest.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ariaSnapshotUrl: snapshotUrl }),
+          }).catch((err) =>
+            console.warn(
+              "Failed to patch successful execution with ARIA snapshot:",
+              err.message,
+            ),
+          );
+        }
+      } catch (snapshotErr) {
+        console.warn(
+          "Failed to capture success ARIA snapshot:",
+          snapshotErr.message,
+        );
+      }
+
       return true;
     }
 
@@ -407,11 +1041,26 @@ async function executeTestCase(browser, page, testCaseId) {
     if (lastStepAt && Date.now() - lastStepAt > stepStallMs) {
       const stallMessage = `Step ${typeof lastStepIndex === "number" ? lastStepIndex + 1 : "?"} stalled for ${Math.round(stepStallMs / 1000)}s: ${lastStepLine || "No step details"}`;
       let ariaSnapshotPath = null;
+      const focusStep =
+        typeof lastStepIndex === "number"
+          ? testCase.steps?.[lastStepIndex]
+          : null;
       try {
-        ariaSnapshotPath = await captureAriaSnapshot(page, "stall", testCaseId);
+        ariaSnapshotPath = await captureAriaSnapshot(
+          page,
+          "stall",
+          testCaseId,
+          focusStep ? { focusStep } : {},
+        );
       } catch (err) {
         console.warn("Failed to capture stall ARIA snapshot:", err.message);
         ariaSnapshotPath = null;
+      }
+
+      if (ariaSnapshotPath) {
+        console.log(
+          `[Stall Debug] ARIA snapshot for stall: ${ariaSnapshotPath}`,
+        );
       }
 
       await postFailureIfMissing({
@@ -434,8 +1083,15 @@ async function executeTestCase(browser, page, testCaseId) {
   const timeoutMessage = `Execution of ${testCase.name} Timed Out after ${Math.round(totalWaitMs / 1000)}s`;
 
   let ariaSnapshotPath = null;
+  const focusStep =
+    typeof lastStepIndex === "number" ? testCase.steps?.[lastStepIndex] : null;
   try {
-    ariaSnapshotPath = await captureAriaSnapshot(page, "timeout", testCaseId);
+    ariaSnapshotPath = await captureAriaSnapshot(
+      page,
+      "timeout",
+      testCaseId,
+      focusStep ? { focusStep } : {},
+    );
   } catch (err) {
     console.warn("Failed to capture timeout ARIA snapshot:", err.message);
     ariaSnapshotPath = null;
@@ -632,8 +1288,11 @@ async function runE2E() {
       try {
         await executeTestCase(browser, page, id);
         results.push({ id, status: "SUCCESS" });
+        console.log(`${GREEN}${BOLD}=== Flow ${id}: SUCCESS ===${RESET}`);
       } catch (err) {
-        console.error(`ERROR in Flow ${id}: ${err.message}`);
+        console.error(
+          `${RED}${BOLD}ERROR in Flow ${id}: ${err.message}${RESET}`,
+        );
         results.push({ id, status: "FAILED", error: err.message });
         // If it's a login flow failure, we should probably stop the whole thing
         if (String(id) === String(loginTestId)) {
@@ -647,7 +1306,10 @@ async function runE2E() {
     console.log("E2E RUN SUMMARY");
     console.log("=".repeat(30));
     results.forEach((r) => {
-      console.log(`Flow ${r.id}: ${r.status}${r.error ? ` (${r.error})` : ""}`);
+      const color = r.status === "SUCCESS" ? GREEN : RED;
+      console.log(
+        `${color}${BOLD}Flow ${r.id}: ${r.status}${r.error ? ` (${r.error})` : ""}${RESET}`,
+      );
     });
     console.log("=".repeat(30));
 
@@ -655,7 +1317,7 @@ async function runE2E() {
       process.exit(1);
     }
   } catch (err) {
-    console.error("CRITICAL E2E ERROR:", err.message);
+    console.error(`${RED}${BOLD}CRITICAL E2E ERROR: ${err.message}${RESET}`);
     process.exit(1);
   } finally {
     await new Promise((r) => setTimeout(r, 5000));

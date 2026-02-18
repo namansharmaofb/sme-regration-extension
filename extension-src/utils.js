@@ -93,6 +93,46 @@ function getElementDescriptor(element) {
         if (labelText) return labelText;
       }
     }
+    // 4. Proximity Label (SLDS / Common Enterprise Grids)
+    // Find nearest container that might hold a label
+    const parentContainer = element.closest(
+      ".slds-form-element, .form-group, .row",
+    );
+    if (parentContainer) {
+      const labelText = parentContainer.querySelector(
+        ".slds-form-element__label, .label, label, .slds-text-title",
+      )?.innerText;
+      if (labelText) {
+        // Double check it's not the value itself
+        const normalizedLabel = labelText.replace(/\s+/g, " ").trim();
+        if (normalizedLabel && normalizedLabel !== element.value) {
+          return normalizedLabel;
+        }
+      }
+    }
+
+    // 5. Section Header Discovery (h2/h3 in ancestors)
+    // Walk up the tree to find the nearest ancestor that contains a heading
+    let current = element.parentElement;
+    while (current && !current.classList.contains("pageWrapper")) {
+      if (
+        current.classList.contains("col") ||
+        current.classList.contains("form-group") ||
+        current.classList.contains("row") ||
+        current.classList.contains("item-details")
+      ) {
+        const heading = current.querySelector(
+          "h1, h2, h3, .slds-text-title_caps, .heading5, .control-label",
+        );
+        if (heading && heading.innerText) {
+          const headingText = heading.innerText.replace(/\s+/g, " ").trim();
+          if (headingText && headingText !== element.value) {
+            return headingText;
+          }
+        }
+      }
+      current = current.parentElement;
+    }
   }
 
   const text = getVisibleText(element);

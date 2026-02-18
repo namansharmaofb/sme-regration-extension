@@ -238,33 +238,52 @@ function locateElementWithSelectorArray(step) {
         if (expectedText && expectedText.length > 2) {
           const visibleMatches = elements.filter(isElementVisible);
           const textMatches = visibleMatches.filter((e) => {
-            const text = getElementDescriptor(e) || getVisibleText(e);
-            return textMatchesExpected(expectedText, text);
+            const descriptor = getElementDescriptor(e);
+            const visibleText = getVisibleText(e);
+            return (
+              textMatchesExpected(expectedText, descriptor) ||
+              textMatchesExpected(expectedText, visibleText)
+            );
           });
 
           if (textMatches.length === 1) {
             el = textMatches[0];
           } else if (textMatches.length > 1) {
             logExecution(
-              `Strategy ${selector} matched ${textMatches.length} elements for text "${expectedText}", skipping ambiguous match`,
+              `Strategy ${selector} matched ${textMatches.length} elements for description "${expectedText}", skipping ambiguous match`,
               "info",
             );
             continue;
           } else if (
             isSpecificSelector(selector) &&
-            visibleMatches.length === 1
+            visibleMatches.length === 1 &&
+            step.action === "input"
           ) {
+            // Only allow relaxed text match for INPUT steps (handles dynamic placeholders)
+            // For CLICK steps, we must be strict about the text.
             el = visibleMatches[0];
-          } else {
+          } else if (visibleMatches.length > 0) {
             logExecution(
-              `Strategy ${selector} found elements but none matched text "${expectedText}", skipping`,
+              `Strategy ${selector} found ${visibleMatches.length} elements but none matched "${expectedText}"${step.action !== "input" ? " (skipping because it is a click step)" : ""}`,
               "info",
             );
-            continue;
           }
         }
 
-        if (!el) el = elements.find(isElementVisible);
+        // If this is a generic selector and multiple visible matches exist,
+        // skip it to let more specific selectors (XPath, full CSS path) win.
+        if (!el) {
+          const visibleList = elements.filter(isElementVisible);
+          if (visibleList.length === 1) {
+            el = visibleList[0];
+          } else if (visibleList.length > 1) {
+            logExecution(
+              `Strategy ${selector} matched ${visibleList.length} visible elements, skipping ambiguous selector`,
+              "info",
+            );
+            continue; // Force fallback to next selector (e.g. XPath)
+          }
+        }
 
         // Try deep shadow if not found
         if (!el) el = deepQuerySelector(selector);
@@ -661,7 +680,7 @@ function isGenericIconAria(text) {
 function isSpecificSelector(selector) {
   if (!selector || typeof selector !== "string") return false;
   if (selector.includes("#")) return true;
-  return /\[(data-testid|data-cy|data-test-id|data-qa|aria-label|name|placeholder|role)=/i.test(
+  return /\[(data-testid|data-cy|data-test-id|data-qa|aria-label|name)=/i.test(
     selector,
   );
 }
@@ -1174,5 +1193,80 @@ async function executeSingleStep(step, index) {
         stepIndex: index,
       });
     }
+  }
+}
+
+/**
+ * Captures a simplified ARIA snapshot of the page for extension-side failure reporting.
+ */
+function captureAriaSnapshotContent() {
+  const isVisible = (el) => {
+    if (!el || el.nodeType !== 1) return false;
+    const style = window.getComputedStyle(el);
+    return (
+      style.display !== "none" &&
+      style.visibility !== "hidden" &&
+      style.opacity !== "0" &&
+      el.offsetWidth > 0 &&
+      el.offsetHeight > 0
+    );
+  };
+
+  const getAriaRole = (el) => {
+    return el.getAttribute("role") || el.tagName.toLowerCase() || "generic";
+  };
+
+  const getAriaName = (el) => {
+    // Priority: aria-label -> aria-labelledby -> title -> alt (for images) -> inner text
+    const label = el.getAttribute("aria-label");
+    if (label) return label;
+
+    const labelledBy = el.getAttribute("aria-labelledby");
+    if (labelledBy) {
+      const labelEl = document.getElementById(labelledBy);
+      if (labelEl) return labelEl.innerText.trim();
+    }
+
+    const title = el.getAttribute("title");
+    if (title) return title;
+
+    if (el.tagName === "IMG") {
+      const alt = el.getAttribute("alt");
+      if (alt) return alt;
+    }
+
+    // Capture first line of text or truncated text
+    return (el.innerText || "").split("\n")[0].trim().substring(0, 100);
+  };
+
+  const walk = (node, depth = 0) => {
+    if (!node || node.nodeType !== 1 || !isVisible(node) || depth > 15)
+      return null;
+
+    // Skip technical elements
+    const tag = node.tagName;
+    if (["SCRIPT", "STYLE", "NOSCRIPT", "HEAD", "META", "LINK"].includes(tag))
+      return null;
+
+    const snapshot = {
+      role: getAriaRole(node),
+      name: getAriaName(node),
+    };
+
+    if (node.children && node.children.length > 0) {
+      const children = Array.from(node.children)
+        .map((c) => walk(c, depth + 1))
+        .filter(Boolean);
+      if (children.length > 0) snapshot.children = children;
+    }
+
+    return snapshot;
+  };
+
+  try {
+    return walk(document.body);
+  } catch (err) {
+    console.error("Failed to capture ARIA snapshot:", err);
+    return { role: "error", name: err.message };
   }
 }

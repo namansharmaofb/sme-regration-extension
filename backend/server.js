@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2/promise");
 const path = require("path");
+const fs = require("fs");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -211,18 +212,24 @@ async function initDb() {
     console.warn("Could not add offset_y column:", err.message);
   }
 
-  // Ensure 'aria_snapshot_url' column exists in 'executions' (migration from 'screenshot_url')
+  // Ensure 'aria_snapshot_url' column exists in 'executions'
   try {
-    const [cols] = await pool.query(
-      "SHOW COLUMNS FROM executions LIKE 'screenshot_url'",
-    );
-    if (cols.length > 0) {
+    const [cols] = await pool.query("SHOW COLUMNS FROM executions");
+    const hasAria = cols.some((c) => c.Field === "aria_snapshot_url");
+    const hasScreenshot = cols.some((c) => c.Field === "screenshot_url");
+
+    if (!hasAria && hasScreenshot) {
       await pool.query(
         "ALTER TABLE executions CHANGE COLUMN screenshot_url aria_snapshot_url TEXT",
       );
       console.log(
         "Renamed 'screenshot_url' to 'aria_snapshot_url' in 'executions' table.",
       );
+    } else if (!hasAria) {
+      await pool.query(
+        "ALTER TABLE executions ADD COLUMN aria_snapshot_url TEXT AFTER error_message",
+      );
+      console.log("Added 'aria_snapshot_url' column to 'executions' table.");
     }
   } catch (err) {
     console.warn("Could not migrate executions table:", err.message);
@@ -764,6 +771,36 @@ app.patch("/api/executions/:id", async (req, res) => {
       [ariaSnapshotUrl, req.params.id],
     );
     res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Snapshot Uploads (for extension-side capture)
+app.post("/api/snapshots/upload", (req, res) => {
+  const { testId, snapshot, type } = req.body; // type: 'error' or 'stall'
+  if (!snapshot)
+    return res.status(400).json({ error: "Missing snapshot data" });
+
+  const filename = `aria_snapshot_${type || "manual"}_${testId || "unknown"}_${Date.now()}.json`;
+  const snapshotData = JSON.stringify(snapshot, null, 2);
+
+  // Primary location: scripts/e2e/aria-snapshots
+  const snapshotDir = path.join(__dirname, "../scripts/e2e/aria-snapshots");
+  if (!fs.existsSync(snapshotDir)) {
+    fs.mkdirSync(snapshotDir, { recursive: true });
+  }
+
+  // Secondary location: backend/aria-snapshots
+  const backendSnapshotDir = path.join(__dirname, "aria-snapshots");
+  if (!fs.existsSync(backendSnapshotDir)) {
+    fs.mkdirSync(backendSnapshotDir, { recursive: true });
+  }
+
+  try {
+    fs.writeFileSync(path.join(snapshotDir, filename), snapshotData);
+    fs.writeFileSync(path.join(backendSnapshotDir, filename), snapshotData);
+    res.json({ success: true, url: `/aria-snapshots/${filename}` });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

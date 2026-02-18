@@ -111,7 +111,16 @@ async function executeCurrentStep() {
   if (!executionState.isRunning) return;
 
   if (executionState.currentIndex >= executionState.steps.length) {
-    finishExecution(true);
+    // Check if any bugs were detected before declaring success
+    const hasBugs = (executionState.detectedBugs || []).length > 0;
+    if (hasBugs) {
+      const bugMsg = executionState.detectedBugs
+        .map((b) => `Step ${b.stepIndex + 1}: ${b.message}`)
+        .join("; ");
+      finishExecution(false, `Completed with bugs: ${bugMsg}`);
+    } else {
+      finishExecution(true);
+    }
     return;
   }
 

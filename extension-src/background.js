@@ -56,12 +56,7 @@ function backgroundLog(text, level = "info") {
   chrome.runtime
     .sendMessage({ type: "LOG_MESSAGE", text, level })
     .catch(() => {});
-
-  const logEntry = `[${new Date().toISOString()}] Background: ${text}`;
-  chrome.storage.local.get("e2e_debug_logs").then(({ e2e_debug_logs = [] }) => {
-    e2e_debug_logs.push(logEntry);
-    chrome.storage.local.set({ e2e_debug_logs }).catch(() => {});
-  });
+  // Removed persistent storage logging to prevent IO-related stalls during busy E2E runs
 }
 
 async function recordStepResult(stepIndex, status, message = null) {
@@ -80,7 +75,11 @@ async function recordStepResult(stepIndex, status, message = null) {
   await saveExecutionState();
 }
 
-async function postExecutionReport(status, error = null) {
+async function postExecutionReport(
+  status,
+  error = null,
+  ariaSnapshotUrl = null,
+) {
   if (!executionState.testId) {
     backgroundLog(
       "postExecutionReport: Missing testId, report skipped",
@@ -108,6 +107,7 @@ async function postExecutionReport(status, error = null) {
           status,
           duration,
           errorMessage: error,
+          ariaSnapshotUrl: ariaSnapshotUrl || null,
           stepResults: executionState.stepResults || [],
         }),
       },
@@ -131,8 +131,18 @@ async function executeCurrentStep() {
   if (!executionState.isRunning) return;
 
   if (executionState.currentIndex >= executionState.steps.length) {
-    // Done
-    await finishExecution(true);
+    // Check if any steps had failures before declaring success
+    const failedSteps = (executionState.stepResults || []).filter(
+      (r) => r.status === "failed",
+    );
+    if (failedSteps.length > 0) {
+      const failedMsg = failedSteps
+        .map((s) => `Step ${s.stepIndex + 1}: ${s.message || "failed"}`)
+        .join("; ");
+      await finishExecution(false, `Completed with errors: ${failedMsg}`);
+    } else {
+      await finishExecution(true);
+    }
     return;
   }
 
@@ -149,6 +159,7 @@ async function executeCurrentStep() {
     }
 
     const isScrollStep = step.action === "scroll";
+    const isInputStep = step.action === "input";
     const stepTimeoutMs = isScrollStep ? 4000 : 30000;
 
     // Set a timeout for this step.
@@ -189,9 +200,12 @@ async function executeCurrentStep() {
     const stepUrl = normalizeUrl(step.url);
     const isArchiveOrg = currentUrl.includes("web.archive.org");
 
-    // For scroll steps, we are much more lenient with URL matching.
-    // If the path matches, we don't force a navigation for query params.
-    const urlsMatch = isScrollStep
+    // For interaction steps (click, input, scroll), we use path-only matching
+    // to avoid unwanted reloads when query parameters change in an SPA.
+    const isInteractionStep = ["click", "input", "scroll"].includes(
+      step.action,
+    );
+    const urlsMatch = isInteractionStep
       ? urlsHaveSamePath(currentUrl, stepUrl)
       : currentUrl === stepUrl;
 
@@ -262,10 +276,13 @@ function urlsHaveSamePath(url1, url2) {
   try {
     const u1 = new URL(url1);
     const u2 = new URL(url2);
-    return (
-      u1.origin === u2.origin &&
-      u1.pathname.replace(/\/$/, "") === u2.pathname.replace(/\/$/, "")
-    );
+    if (u1.origin !== u2.origin) return false;
+
+    // Normalize paths by removing trailing slash and common organization prefixes
+    const normalizePath = (p) =>
+      p.replace(/\/$/, "").replace(/^\/(ovs|accordd|billing|inventory)\//, "/");
+
+    return normalizePath(u1.pathname) === normalizePath(u2.pathname);
   } catch (e) {
     return url1 === url2;
   }
@@ -282,15 +299,58 @@ async function finishExecution(success, error = null) {
   // Keep isRunning: true until we actually finish the report to avoid losing state during suspension
   executionState.waitingForNavigation = false;
 
+  let ariaSnapshotUrl = null;
+  if (executionState.tabId) {
+    try {
+      const logMsg = success
+        ? "Capturing ARIA snapshot for successful run..."
+        : "Capturing ARIA snapshot for manual failure...";
+      backgroundLog(logMsg, "info");
+      const resp = await chrome.tabs
+        .sendMessage(executionState.tabId, { type: "GET_ARIA_SNAPSHOT" })
+        .catch(() => null);
+
+      if (resp && resp.success && resp.snapshot) {
+        const uploadRes = await fetch(`${API_BASE_URL}/api/snapshots/upload`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            testId: executionState.testId,
+            snapshot: resp.snapshot,
+            type: success ? "success" : "manual_failure",
+          }),
+        });
+        if (uploadRes.ok) {
+          const uploadData = await uploadRes.json();
+          ariaSnapshotUrl = uploadData.url;
+          backgroundLog(
+            `ARIA snapshot uploaded: ${ariaSnapshotUrl}`,
+            "success",
+          );
+        }
+      }
+    } catch (e) {
+      backgroundLog(
+        `Failed to capture/upload ARIA snapshot: ${e.message}`,
+        "warning",
+      );
+    }
+  }
+
   const status = {
     success,
     error,
     stepCount: finalIndex,
+    ariaSnapshotUrl,
   };
 
   // Ensure report is posted before worker might terminate
   try {
-    await postExecutionReport(success ? "success" : "failed", error);
+    await postExecutionReport(
+      success ? "success" : "failed",
+      error,
+      ariaSnapshotUrl,
+    );
     backgroundLog("Final report confirmed saved.", "debug");
   } catch (e) {
     backgroundLog(`Final report failed: ${e.message}`, "error");
@@ -380,9 +440,19 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 async function handleMessageAsync(message, sender, sendResponse) {
-  // Use a simple poll if state not loaded yet
-  for (let i = 0; i < 10 && !isStateLoaded; i++) {
-    await new Promise((r) => setTimeout(r, 100));
+  // Use a longer poll if state not loaded yet - busy E2E profiles can be slow
+  if (!isStateLoaded) {
+    console.log(
+      `[Background] Waiting for state load (msg: ${message.type})...`,
+    );
+    for (let i = 0; i < 50 && !isStateLoaded; i++) {
+      await new Promise((r) => setTimeout(r, 100));
+    }
+    if (!isStateLoaded) {
+      console.error(
+        `[Background] WARNING: State load timeout for message ${message.type}`,
+      );
+    }
   }
 
   if (message.type === "START_RECORDING") {
@@ -499,7 +569,15 @@ async function handleMessageAsync(message, sender, sendResponse) {
       console.log(
         `Advancing to next step. New index: ${executionState.currentIndex}, Total: ${executionState.steps.length}`,
       );
-      executeCurrentStep();
+      try {
+        await executeCurrentStep();
+      } catch (err) {
+        console.error(`[Background] Error advancing step: ${err.message}`);
+        await postExecutionReport(
+          "failed",
+          `Internal error advancing: ${err.message}`,
+        );
+      }
     } else {
       console.warn(
         "STEP_COMPLETE received but executionState.isRunning is false",

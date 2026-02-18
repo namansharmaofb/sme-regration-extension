@@ -1,0 +1,2412 @@
+{
+  "role": "body",
+  "name": "chevron_right",
+  "children": [
+    {
+      "role": "div",
+      "name": "chevron_right",
+      "children": [
+        {
+          "role": "div",
+          "name": "chevron_right",
+          "children": [
+            {
+              "role": "div",
+              "name": "chevron_right",
+              "children": [
+                {
+                  "role": "div",
+                  "name": "chevron_right",
+                  "children": [
+                    {
+                      "role": "div",
+                      "name": "chevron_right",
+                      "children": [
+                        {
+                          "role": "div",
+                          "name": "chevron_right",
+                          "children": [
+                            {
+                              "role": "button",
+                              "name": "chevron_right",
+                              "children": [
+                                {
+                                  "role": "i",
+                                  "name": "chevron_right"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "div",
+                      "name": "dashboard",
+                      "children": [
+                        {
+                          "role": "div",
+                          "name": "dashboard",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "dashboard",
+                              "children": [
+                                {
+                                  "role": "h3",
+                                  "name": "dashboard",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "dashboard",
+                                      "children": [
+                                        {
+                                          "role": "span",
+                                          "name": "dashboard",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "dashboard",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "dashboard"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "mark_email_unread",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "mark_email_unread",
+                              "children": [
+                                {
+                                  "role": "h3",
+                                  "name": "mark_email_unread",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "mark_email_unread",
+                                      "children": [
+                                        {
+                                          "role": "span",
+                                          "name": "mark_email_unread",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "mark_email_unread",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "mark_email_unread"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "inventory_2",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "inventory_2",
+                              "children": [
+                                {
+                                  "role": "h3",
+                                  "name": "inventory_2",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "inventory_2",
+                                      "children": [
+                                        {
+                                          "role": "span",
+                                          "name": "inventory_2",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "inventory_2",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "inventory_2"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "maps_home_work",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "maps_home_work",
+                              "children": [
+                                {
+                                  "role": "h3",
+                                  "name": "maps_home_work",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "maps_home_work",
+                                      "children": [
+                                        {
+                                          "role": "span",
+                                          "name": "maps_home_work",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "maps_home_work",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "maps_home_work"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "contact_page",
+                          "children": [
+                            {
+                              "role": "a",
+                              "name": "contact_page",
+                              "children": [
+                                {
+                                  "role": "div",
+                                  "name": "contact_page",
+                                  "children": [
+                                    {
+                                      "role": "i",
+                                      "name": "contact_page"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "shopping_cart",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "shopping_cart",
+                              "children": [
+                                {
+                                  "role": "h3",
+                                  "name": "shopping_cart",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "shopping_cart",
+                                      "children": [
+                                        {
+                                          "role": "span",
+                                          "name": "shopping_cart",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "shopping_cart",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "shopping_cart"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "receipt",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "receipt",
+                              "children": [
+                                {
+                                  "role": "h3",
+                                  "name": "receipt",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "receipt",
+                                      "children": [
+                                        {
+                                          "role": "span",
+                                          "name": "receipt",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "receipt",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "receipt"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "credit_card",
+                          "children": [
+                            {
+                              "role": "a",
+                              "name": "credit_card",
+                              "children": [
+                                {
+                                  "role": "div",
+                                  "name": "credit_card",
+                                  "children": [
+                                    {
+                                      "role": "i",
+                                      "name": "credit_card"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "manage_accounts",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "manage_accounts",
+                              "children": [
+                                {
+                                  "role": "h3",
+                                  "name": "manage_accounts",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "manage_accounts",
+                                      "children": [
+                                        {
+                                          "role": "span",
+                                          "name": "manage_accounts",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "manage_accounts",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "manage_accounts"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "biotech",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "biotech",
+                              "children": [
+                                {
+                                  "role": "h3",
+                                  "name": "biotech",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "biotech",
+                                      "children": [
+                                        {
+                                          "role": "span",
+                                          "name": "biotech",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "biotech",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "biotech"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "assured_workload",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "assured_workload",
+                              "children": [
+                                {
+                                  "role": "h3",
+                                  "name": "assured_workload",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "assured_workload",
+                                      "children": [
+                                        {
+                                          "role": "span",
+                                          "name": "assured_workload",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "assured_workload",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "assured_workload"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "work_outline",
+                          "children": [
+                            {
+                              "role": "a",
+                              "name": "work_outline",
+                              "children": [
+                                {
+                                  "role": "div",
+                                  "name": "work_outline",
+                                  "children": [
+                                    {
+                                      "role": "i",
+                                      "name": "work_outline"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "auto_stories",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "auto_stories",
+                              "children": [
+                                {
+                                  "role": "h3",
+                                  "name": "auto_stories",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "auto_stories",
+                                      "children": [
+                                        {
+                                          "role": "span",
+                                          "name": "auto_stories",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "auto_stories",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "auto_stories"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "wallet",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "wallet",
+                              "children": [
+                                {
+                                  "role": "h3",
+                                  "name": "wallet",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "wallet",
+                                      "children": [
+                                        {
+                                          "role": "span",
+                                          "name": "wallet",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "wallet",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "wallet"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "apartment",
+                          "children": [
+                            {
+                              "role": "a",
+                              "name": "apartment",
+                              "children": [
+                                {
+                                  "role": "div",
+                                  "name": "apartment",
+                                  "children": [
+                                    {
+                                      "role": "i",
+                                      "name": "apartment"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "analytics",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "analytics",
+                              "children": [
+                                {
+                                  "role": "h3",
+                                  "name": "analytics",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "analytics",
+                                      "children": [
+                                        {
+                                          "role": "span",
+                                          "name": "analytics",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "analytics",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "analytics"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "cached",
+                          "children": [
+                            {
+                              "role": "a",
+                              "name": "cached",
+                              "children": [
+                                {
+                                  "role": "div",
+                                  "name": "cached",
+                                  "children": [
+                                    {
+                                      "role": "i",
+                                      "name": "cached"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "hub",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "hub",
+                              "children": [
+                                {
+                                  "role": "h3",
+                                  "name": "hub",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "hub",
+                                      "children": [
+                                        {
+                                          "role": "span",
+                                          "name": "hub",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "hub",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "hub"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "tune",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "tune",
+                              "children": [
+                                {
+                                  "role": "h3",
+                                  "name": "tune",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "tune",
+                                      "children": [
+                                        {
+                                          "role": "span",
+                                          "name": "tune",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "tune",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "tune"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "local_library",
+                          "children": [
+                            {
+                              "role": "a",
+                              "name": "local_library",
+                              "children": [
+                                {
+                                  "role": "div",
+                                  "name": "local_library",
+                                  "children": [
+                                    {
+                                      "role": "i",
+                                      "name": "local_library"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "role": "header",
+                  "name": "west",
+                  "children": [
+                    {
+                      "role": "div",
+                      "name": "west",
+                      "children": [
+                        {
+                          "role": "button",
+                          "name": "west",
+                          "children": [
+                            {
+                              "role": "i",
+                              "name": "west"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "Create Material PO"
+                        },
+                        {
+                          "role": "div",
+                          "name": "help_outline",
+                          "children": [
+                            {
+                              "role": "span",
+                              "name": "help_outline",
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "User Guide",
+                                  "children": [
+                                    {
+                                      "role": "i",
+                                      "name": "help_outline"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "role": "span",
+                              "name": "report",
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "Report Issue",
+                                  "children": [
+                                    {
+                                      "role": "i",
+                                      "name": "report"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "role": "button",
+                              "name": "cached",
+                              "children": [
+                                {
+                                  "role": "span",
+                                  "name": "cached",
+                                  "children": [
+                                    {
+                                      "role": "i",
+                                      "name": "Data is Loaded from cache to clear data click here!"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "role": "button",
+                              "name": "Preview"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "role": "div",
+                  "name": "apartment",
+                  "children": [
+                    {
+                      "role": "div",
+                      "name": "apartment",
+                      "children": [
+                        {
+                          "role": "div",
+                          "name": "apartment",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "apartment",
+                              "children": [
+                                {
+                                  "role": "div",
+                                  "name": "apartment",
+                                  "children": [
+                                    {
+                                      "role": "h2",
+                                      "name": "apartment",
+                                      "children": [
+                                        {
+                                          "role": "i",
+                                          "name": "apartment"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "role": "div",
+                                  "name": "ACCORDD ORGANICS PRIVATE LIMITED",
+                                  "children": [
+                                    {
+                                      "role": "div",
+                                      "name": "ACCORDD ORGANICS PRIVATE LIMITED",
+                                      "children": [
+                                        {
+                                          "role": "div",
+                                          "name": "ACCORDD ORGANICS PRIVATE LIMITED",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "ACCORDD ORGANICS PRIVATE LIMITED",
+                                              "children": [
+                                                {
+                                                  "role": "div",
+                                                  "name": "ACCORDD ORGANICS PRIVATE LIMITED",
+                                                  "children": [
+                                                    {
+                                                      "role": "h4",
+                                                      "name": "ACCORDD ORGANICS PRIVATE LIMITED"
+                                                    },
+                                                    {
+                                                      "role": "p",
+                                                      "name": "27AAJCA1610L1ZS - Maharashtra"
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "role": "div",
+                                                  "name": "highlight_off",
+                                                  "children": [
+                                                    {
+                                                      "role": "button",
+                                                      "name": "highlight_off",
+                                                      "children": [
+                                                        {
+                                                          "role": "i",
+                                                          "name": "highlight_off"
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "role": "div",
+                                      "name": "Billing Address",
+                                      "children": [
+                                        {
+                                          "role": "div",
+                                          "name": "Billing Address",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "Billing Address",
+                                              "children": [
+                                                {
+                                                  "role": "div",
+                                                  "name": "Billing Address"
+                                                },
+                                                {
+                                                  "role": "div",
+                                                  "name": "F - 34,, MIDC SUPA,, SUPA PANER ROAD,, SUPA PANER ROAD,, Ahmed Nagar, Maharashtra, 414301"
+                                                },
+                                                {
+                                                  "role": "div",
+                                                  "name": "edit",
+                                                  "children": [
+                                                    {
+                                                      "role": "button",
+                                                      "name": "edit",
+                                                      "children": [
+                                                        {
+                                                          "role": "i",
+                                                          "name": "edit"
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "role": "div",
+                              "name": "apartment",
+                              "children": [
+                                {
+                                  "role": "div",
+                                  "name": "apartment",
+                                  "children": [
+                                    {
+                                      "role": "div",
+                                      "name": "apartment",
+                                      "children": [
+                                        {
+                                          "role": "div",
+                                          "name": "apartment",
+                                          "children": [
+                                            {
+                                              "role": "h2",
+                                              "name": "apartment",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "apartment"
+                                                },
+                                                {
+                                                  "role": "span",
+                                                  "name": "Ship To Plant",
+                                                  "children": [
+                                                    {
+                                                      "role": "span",
+                                                      "name": "info",
+                                                      "children": [
+                                                        {
+                                                          "role": "i",
+                                                          "name": "Choose from your assigned plants"
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "role": "div",
+                                              "name": "Is the Consignee same as the Company?",
+                                              "children": [
+                                                {
+                                                  "role": "div",
+                                                  "name": "Is the Consignee same as the Company?",
+                                                  "children": [
+                                                    {
+                                                      "role": "div",
+                                                      "name": "",
+                                                      "children": [
+                                                        {
+                                                          "role": "button",
+                                                          "name": "",
+                                                          "children": [
+                                                            {
+                                                              "role": "label",
+                                                              "name": ""
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "role": "div",
+                                                      "name": "Is the Consignee same as the Company?",
+                                                      "children": [
+                                                        {
+                                                          "role": "div",
+                                                          "name": "Is the Consignee same as the Company?",
+                                                          "children": [
+                                                            {
+                                                              "role": "h4",
+                                                              "name": "Is the Consignee same as the Company?"
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "role": "span",
+                                                          "name": "info",
+                                                          "children": [
+                                                            {
+                                                              "role": "i",
+                                                              "name": "Consignee is one to whom something is consigned or shipped."
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "role": "div",
+                                          "name": "",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "",
+                                              "children": [
+                                                {
+                                                  "role": "div",
+                                                  "name": "",
+                                                  "children": [
+                                                    {
+                                                      "role": "form",
+                                                      "name": "",
+                                                      "children": [
+                                                        {
+                                                          "role": "div",
+                                                          "name": "",
+                                                          "children": [
+                                                            {
+                                                              "role": "div",
+                                                              "name": ""
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "role": "div",
+                                          "name": "Shipping Address",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "Shipping Address",
+                                              "children": [
+                                                {
+                                                  "role": "div",
+                                                  "name": "Shipping Address",
+                                                  "children": [
+                                                    {
+                                                      "role": "div",
+                                                      "name": "Shipping Address"
+                                                    },
+                                                    {
+                                                      "role": "div",
+                                                      "name": "AMBAPADA, NEAR BPCL REFINERY MAIN GATE, MAHUL VILLAGE CHEMBUR, Mumbai, Maharashtra, 400074"
+                                                    },
+                                                    {
+                                                      "role": "div",
+                                                      "name": "edit",
+                                                      "children": [
+                                                        {
+                                                          "role": "button",
+                                                          "name": "edit",
+                                                          "children": [
+                                                            {
+                                                              "role": "i",
+                                                              "name": "edit"
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "apartment",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "apartment",
+                              "children": [
+                                {
+                                  "role": "h2",
+                                  "name": "apartment",
+                                  "children": [
+                                    {
+                                      "role": "i",
+                                      "name": "apartment"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "role": "div",
+                                  "name": "BATXO INFO SUPPORT SERVICE PRIVATE LIMITED",
+                                  "children": [
+                                    {
+                                      "role": "div",
+                                      "name": "BATXO INFO SUPPORT SERVICE PRIVATE LIMITED",
+                                      "children": [
+                                        {
+                                          "role": "div",
+                                          "name": "BATXO INFO SUPPORT SERVICE PRIVATE LIMITED",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "BATXO INFO SUPPORT SERVICE PRIVATE LIMITED",
+                                              "children": [
+                                                {
+                                                  "role": "div",
+                                                  "name": "BATXO INFO SUPPORT SERVICE PRIVATE LIMITED",
+                                                  "children": [
+                                                    {
+                                                      "role": "div",
+                                                      "name": "BATXO INFO SUPPORT SERVICE PRIVATE LIMITED",
+                                                      "children": [
+                                                        {
+                                                          "role": "h4",
+                                                          "name": "BATXO INFO SUPPORT SERVICE PRIVATE LIMITED"
+                                                        },
+                                                        {
+                                                          "role": "p",
+                                                          "name": "27AAHCB8387R1ZL - Maharashtra"
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "role": "div",
+                                                      "name": "highlight_off",
+                                                      "children": [
+                                                        {
+                                                          "role": "button",
+                                                          "name": "highlight_off",
+                                                          "children": [
+                                                            {
+                                                              "role": "i",
+                                                              "name": "highlight_off"
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "role": "div",
+                                      "name": "Billing Address",
+                                      "children": [
+                                        {
+                                          "role": "div",
+                                          "name": "Billing Address",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "Billing Address",
+                                              "children": [
+                                                {
+                                                  "role": "div",
+                                                  "name": "Billing Address"
+                                                },
+                                                {
+                                                  "role": "div",
+                                                  "name": "FLAOT NO 302, MADHUBAN LANE NO 10, S NO 15/4 RADHESHYAM HEIGHTS, OLD SANGAVI ROAD, PUNE, PUNE, Pune,"
+                                                },
+                                                {
+                                                  "role": "div",
+                                                  "name": "edit",
+                                                  "children": [
+                                                    {
+                                                      "role": "button",
+                                                      "name": "edit",
+                                                      "children": [
+                                                        {
+                                                          "role": "i",
+                                                          "name": "edit"
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "role": "div",
+                                              "name": "Contact Details",
+                                              "children": [
+                                                {
+                                                  "role": "div",
+                                                  "name": "Contact Details"
+                                                },
+                                                {
+                                                  "role": "div",
+                                                  "name": "Amol Hole, 9657955422"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "receipt",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "receipt",
+                              "children": [
+                                {
+                                  "role": "div",
+                                  "name": "receipt",
+                                  "children": [
+                                    {
+                                      "role": "h2",
+                                      "name": "receipt",
+                                      "children": [
+                                        {
+                                          "role": "i",
+                                          "name": "receipt"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "role": "div",
+                                      "name": "Expected Series*",
+                                      "children": [
+                                        {
+                                          "role": "div",
+                                          "name": "PO/0000691/25-26",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "Expected Series*",
+                                              "children": [
+                                                {
+                                                  "role": "button",
+                                                  "name": "Expected Series*",
+                                                  "children": [
+                                                    {
+                                                      "role": "div",
+                                                      "name": "Expected Series*",
+                                                      "children": [
+                                                        {
+                                                          "role": "label",
+                                                          "name": "Expected Series*",
+                                                          "children": [
+                                                            {
+                                                              "role": "span",
+                                                              "name": "Expected Series*"
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "role": "div",
+                                                          "name": "edit",
+                                                          "children": [
+                                                            {
+                                                              "role": "input",
+                                                              "name": ""
+                                                            },
+                                                            {
+                                                              "role": "span",
+                                                              "name": "edit"
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "role": "div",
+                                          "name": "PO Date*",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "PO Date*",
+                                              "children": [
+                                                {
+                                                  "role": "label",
+                                                  "name": "PO Date*",
+                                                  "children": [
+                                                    {
+                                                      "role": "span",
+                                                      "name": "PO Date*"
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "role": "div",
+                                                  "name": "",
+                                                  "children": [
+                                                    {
+                                                      "role": "div",
+                                                      "name": "",
+                                                      "children": [
+                                                        {
+                                                          "role": "div",
+                                                          "name": "",
+                                                          "children": [
+                                                            {
+                                                              "role": "input",
+                                                              "name": ""
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "role": "div",
+                                          "name": "Account Manager",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "Account Manager",
+                                              "children": [
+                                                {
+                                                  "role": "label",
+                                                  "name": "Account Manager",
+                                                  "children": [
+                                                    {
+                                                      "role": "span",
+                                                      "name": "Account Manager"
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "role": "div",
+                                                  "name": "",
+                                                  "children": [
+                                                    {
+                                                      "role": "form",
+                                                      "name": "",
+                                                      "children": [
+                                                        {
+                                                          "role": "div",
+                                                          "name": "",
+                                                          "children": [
+                                                            {
+                                                              "role": "div",
+                                                              "name": ""
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "role": "div",
+                                          "name": "Payment Term*",
+                                          "children": [
+                                            {
+                                              "role": "label",
+                                              "name": "Payment Term*",
+                                              "children": [
+                                                {
+                                                  "role": "span",
+                                                  "name": "Payment Term*"
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "role": "div",
+                                              "name": "",
+                                              "children": [
+                                                {
+                                                  "role": "form",
+                                                  "name": "",
+                                                  "children": [
+                                                    {
+                                                      "role": "div",
+                                                      "name": "",
+                                                      "children": [
+                                                        {
+                                                          "role": "div",
+                                                          "name": "",
+                                                          "children": [
+                                                            {
+                                                              "role": "div",
+                                                              "name": ""
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "role": "div",
+                                          "name": "Expected Delivery Date",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "Expected Delivery Date",
+                                              "children": [
+                                                {
+                                                  "role": "label",
+                                                  "name": "Expected Delivery Date",
+                                                  "children": [
+                                                    {
+                                                      "role": "span",
+                                                      "name": "Expected Delivery Date"
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "role": "div",
+                                                  "name": "",
+                                                  "children": [
+                                                    {
+                                                      "role": "div",
+                                                      "name": "",
+                                                      "children": [
+                                                        {
+                                                          "role": "div",
+                                                          "name": "",
+                                                          "children": [
+                                                            {
+                                                              "role": "input",
+                                                              "name": ""
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "new_label",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "new_label",
+                              "children": [
+                                {
+                                  "role": "div",
+                                  "name": "new_label",
+                                  "children": [
+                                    {
+                                      "role": "div",
+                                      "name": "new_label",
+                                      "children": [
+                                        {
+                                          "role": "h3",
+                                          "name": "new_label",
+                                          "children": [
+                                            {
+                                              "role": "button",
+                                              "name": "new_label",
+                                              "children": [
+                                                {
+                                                  "role": "span",
+                                                  "name": "new_label",
+                                                  "children": [
+                                                    {
+                                                      "role": "div",
+                                                      "name": "new_label",
+                                                      "children": [
+                                                        {
+                                                          "role": "i",
+                                                          "name": "new_label"
+                                                        },
+                                                        {
+                                                          "role": "h4",
+                                                          "name": "Additional Fields"
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "role": "span",
+                                                  "name": "expand_more",
+                                                  "children": [
+                                                    {
+                                                      "role": "i",
+                                                      "name": "expand_more"
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "assignment",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "assignment",
+                              "children": [
+                                {
+                                  "role": "div",
+                                  "name": "assignment",
+                                  "children": [
+                                    {
+                                      "role": "h2",
+                                      "name": "assignment",
+                                      "children": [
+                                        {
+                                          "role": "i",
+                                          "name": "assignment"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "role": "div",
+                                      "name": "Download/Upload Items",
+                                      "children": [
+                                        {
+                                          "role": "button",
+                                          "name": "Download/Upload Items"
+                                        },
+                                        {
+                                          "role": "button",
+                                          "name": "Customize Columns"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "role": "div",
+                                  "name": "Item Name\tHSN Code\tQuantity\tTolerance(%)\tUnit\tUnit Price\tTaxable\tGST(%)\tTotal\tQuality Check\tActions",
+                                  "children": [
+                                    {
+                                      "role": "div",
+                                      "name": "Item Name\tHSN Code\tQuantity\tTolerance(%)\tUnit\tUnit Price\tTaxable\tGST(%)\tTotal\tQuality Check\tActions",
+                                      "children": [
+                                        {
+                                          "role": "div",
+                                          "name": "Item Name\tHSN Code\tQuantity\tTolerance(%)\tUnit\tUnit Price\tTaxable\tGST(%)\tTotal\tQuality Check\tActions",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "Item Name\tHSN Code\tQuantity\tTolerance(%)\tUnit\tUnit Price\tTaxable\tGST(%)\tTotal\tQuality Check\tActions",
+                                              "children": [
+                                                {
+                                                  "role": "table",
+                                                  "name": "Item Name\tHSN Code\tQuantity\tTolerance(%)\tUnit\tUnit Price\tTaxable\tGST(%)\tTotal\tQuality Check\tActions",
+                                                  "children": [
+                                                    {
+                                                      "role": "thead",
+                                                      "name": "Item Name\tHSN Code\tQuantity\tTolerance(%)\tUnit\tUnit Price\tTaxable\tGST(%)\tTotal\tQuality Check\tActions",
+                                                      "children": [
+                                                        {
+                                                          "role": "tr",
+                                                          "name": "Item Name\tHSN Code\tQuantity\tTolerance(%)\tUnit\tUnit Price\tTaxable\tGST(%)\tTotal\tQuality Check\tActions",
+                                                          "children": [
+                                                            {
+                                                              "role": "th",
+                                                              "name": "Item Name"
+                                                            },
+                                                            {
+                                                              "role": "th",
+                                                              "name": "HSN Code"
+                                                            },
+                                                            {
+                                                              "role": "th",
+                                                              "name": "Quantity"
+                                                            },
+                                                            {
+                                                              "role": "th",
+                                                              "name": "Tolerance(%)"
+                                                            },
+                                                            {
+                                                              "role": "th",
+                                                              "name": "Unit"
+                                                            },
+                                                            {
+                                                              "role": "th",
+                                                              "name": "Unit Price"
+                                                            },
+                                                            {
+                                                              "role": "th",
+                                                              "name": "Taxable"
+                                                            },
+                                                            {
+                                                              "role": "th",
+                                                              "name": "GST(%)"
+                                                            },
+                                                            {
+                                                              "role": "th",
+                                                              "name": "Total"
+                                                            },
+                                                            {
+                                                              "role": "th",
+                                                              "name": "Quality Check"
+                                                            },
+                                                            {
+                                                              "role": "th",
+                                                              "name": "Actions"
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "role": "tbody",
+                                                      "name": "SKU: AOPLS-2",
+                                                      "children": [
+                                                        {
+                                                          "role": "tr",
+                                                          "name": "SKU: AOPLS-2",
+                                                          "children": [
+                                                            {
+                                                              "role": "td",
+                                                              "name": "SKU: AOPLS-2"
+                                                            },
+                                                            {
+                                                              "role": "td",
+                                                              "name": ""
+                                                            },
+                                                            {
+                                                              "role": "td",
+                                                              "name": "info_outline"
+                                                            },
+                                                            {
+                                                              "role": "td",
+                                                              "name": "info"
+                                                            },
+                                                            {
+                                                              "role": "td",
+                                                              "name": ""
+                                                            },
+                                                            {
+                                                              "role": "td",
+                                                              "name": "info_outline"
+                                                            },
+                                                            {
+                                                              "role": "td",
+                                                              "name": "₹15,470.000"
+                                                            },
+                                                            {
+                                                              "role": "td",
+                                                              "name": ""
+                                                            },
+                                                            {
+                                                              "role": "td",
+                                                              "name": "₹18,254.600"
+                                                            },
+                                                            {
+                                                              "role": "td",
+                                                              "name": "Select Configurations"
+                                                            },
+                                                            {
+                                                              "role": "td",
+                                                              "name": "content_copy"
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "role": "button",
+                                          "name": "add",
+                                          "children": [
+                                            {
+                                              "role": "i",
+                                              "name": "add"
+                                            },
+                                            {
+                                              "role": "span",
+                                              "name": "Add Item"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "assignment",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "assignment",
+                              "children": [
+                                {
+                                  "role": "div",
+                                  "name": "assignment",
+                                  "children": [
+                                    {
+                                      "role": "h2",
+                                      "name": "assignment",
+                                      "children": [
+                                        {
+                                          "role": "i",
+                                          "name": "assignment"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "role": "div",
+                                      "name": "Customize Columns",
+                                      "children": [
+                                        {
+                                          "role": "button",
+                                          "name": "Customize Columns"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "role": "div",
+                                  "name": "add",
+                                  "children": [
+                                    {
+                                      "role": "div",
+                                      "name": "add",
+                                      "children": [
+                                        {
+                                          "role": "button",
+                                          "name": "add",
+                                          "children": [
+                                            {
+                                              "role": "i",
+                                              "name": "add"
+                                            },
+                                            {
+                                              "role": "span",
+                                              "name": "Add Lumpsum Charge"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "account_balance_wallet",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "account_balance_wallet",
+                              "children": [
+                                {
+                                  "role": "div",
+                                  "name": "account_balance_wallet",
+                                  "children": [
+                                    {
+                                      "role": "div",
+                                      "name": "account_balance_wallet",
+                                      "children": [
+                                        {
+                                          "role": "div",
+                                          "name": "account_balance_wallet",
+                                          "children": [
+                                            {
+                                              "role": "i",
+                                              "name": "account_balance_wallet"
+                                            },
+                                            {
+                                              "role": "h4",
+                                              "name": "Expenditure"
+                                            },
+                                            {
+                                              "role": "p",
+                                              "name": "Total Amount(in INR): ₹0.000",
+                                              "children": [
+                                                {
+                                                  "role": "span",
+                                                  "name": "₹0.000"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "role": "div",
+                                          "name": "info",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "info",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "info"
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "role": "div",
+                                              "name": "Expenditure Impact",
+                                              "children": [
+                                                {
+                                                  "role": "p",
+                                                  "name": "Expenditure Impact"
+                                                },
+                                                {
+                                                  "role": "p",
+                                                  "name": "These are expected costs for fulfilling this Purchase Order (e.g., Logistics Cost, Incentives, etc.)"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "role": "div",
+                                          "name": "Logistic Handler",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "Logistic Handler",
+                                              "children": [
+                                                {
+                                                  "role": "h3",
+                                                  "name": "Logistic Handler",
+                                                  "children": [
+                                                    {
+                                                      "role": "button",
+                                                      "name": "Logistic Handler",
+                                                      "children": [
+                                                        {
+                                                          "role": "span",
+                                                          "name": "Logistic Handler",
+                                                          "children": [
+                                                            {
+                                                              "role": "div",
+                                                              "name": "Logistic Handler"
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "role": "div",
+                                          "name": "Supplier Incentive",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "Supplier Incentive",
+                                              "children": [
+                                                {
+                                                  "role": "h3",
+                                                  "name": "Supplier Incentive",
+                                                  "children": [
+                                                    {
+                                                      "role": "button",
+                                                      "name": "Supplier Incentive",
+                                                      "children": [
+                                                        {
+                                                          "role": "span",
+                                                          "name": "Supplier Incentive",
+                                                          "children": [
+                                                            {
+                                                              "role": "div",
+                                                              "name": "Supplier Incentive"
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "role": "div",
+                                          "name": "Others",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "Others",
+                                              "children": [
+                                                {
+                                                  "role": "h3",
+                                                  "name": "Others",
+                                                  "children": [
+                                                    {
+                                                      "role": "button",
+                                                      "name": "Others",
+                                                      "children": [
+                                                        {
+                                                          "role": "span",
+                                                          "name": "Others",
+                                                          "children": [
+                                                            {
+                                                              "role": "div",
+                                                              "name": "Others"
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "description",
+                          "children": [
+                            {
+                              "role": "div",
+                              "name": "description",
+                              "children": [
+                                {
+                                  "role": "div",
+                                  "name": "description",
+                                  "children": [
+                                    {
+                                      "role": "h2",
+                                      "name": "description",
+                                      "children": [
+                                        {
+                                          "role": "i",
+                                          "name": "description"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "role": "div",
+                                  "name": "fact_check",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "fact_check",
+                                      "children": [
+                                        {
+                                          "role": "i",
+                                          "name": "fact_check"
+                                        },
+                                        {
+                                          "role": "span",
+                                          "name": "Terms & Conditions (13)"
+                                        },
+                                        {
+                                          "role": "i",
+                                          "name": "add_circle_outline"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "role": "div",
+                                  "name": "local_shipping",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "local_shipping",
+                                      "children": [
+                                        {
+                                          "role": "i",
+                                          "name": "local_shipping"
+                                        },
+                                        {
+                                          "role": "span",
+                                          "name": "Transport Details",
+                                          "children": [
+                                            {
+                                              "role": "span",
+                                              "name": "Transport Details"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "role": "i",
+                                          "name": "add_circle_outline"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "role": "h2",
+                                  "name": "Remarks"
+                                },
+                                {
+                                  "role": "textarea",
+                                  "name": ""
+                                },
+                                {
+                                  "role": "h2",
+                                  "name": "Notes"
+                                },
+                                {
+                                  "role": "textarea",
+                                  "name": ""
+                                },
+                                {
+                                  "role": "h2",
+                                  "name": "Additional Documents"
+                                },
+                                {
+                                  "role": "p",
+                                  "name": "Please upload additional documents like quotation and chats screenshot for your future reference."
+                                },
+                                {
+                                  "role": "div",
+                                  "name": "backup",
+                                  "children": [
+                                    {
+                                      "role": "button",
+                                      "name": "backup",
+                                      "children": [
+                                        {
+                                          "role": "div",
+                                          "name": "backup",
+                                          "children": [
+                                            {
+                                              "role": "label",
+                                              "name": "backup",
+                                              "children": [
+                                                {
+                                                  "role": "i",
+                                                  "name": "backup"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "role": "p",
+                                      "name": "Supported Format: png, jpg, jpeg, pdf"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "role": "div",
+                              "name": "Pricing Details",
+                              "children": [
+                                {
+                                  "role": "div",
+                                  "name": "Pricing Details",
+                                  "children": [
+                                    {
+                                      "role": "h2",
+                                      "name": "Pricing Details"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "role": "div",
+                                  "name": "Taxable Value",
+                                  "children": [
+                                    {
+                                      "role": "div",
+                                      "name": "Taxable Value",
+                                      "children": [
+                                        {
+                                          "role": "div",
+                                          "name": "Taxable Value"
+                                        },
+                                        {
+                                          "role": "div",
+                                          "name": "₹15,470.000"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "role": "div",
+                                      "name": "CGST",
+                                      "children": [
+                                        {
+                                          "role": "div",
+                                          "name": "CGST"
+                                        },
+                                        {
+                                          "role": "div",
+                                          "name": "₹1,392.300"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "role": "div",
+                                      "name": "SGST",
+                                      "children": [
+                                        {
+                                          "role": "div",
+                                          "name": "SGST"
+                                        },
+                                        {
+                                          "role": "div",
+                                          "name": "₹1,392.300"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "role": "div",
+                                      "name": "Total Cess",
+                                      "children": [
+                                        {
+                                          "role": "div",
+                                          "name": "Total Cess"
+                                        },
+                                        {
+                                          "role": "div",
+                                          "name": "₹0.000"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "role": "div",
+                                      "name": "Additional discount",
+                                      "children": [
+                                        {
+                                          "role": "div",
+                                          "name": "Additional discount",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "Additional discount",
+                                              "children": [
+                                                {
+                                                  "role": "div",
+                                                  "name": "Additional discount"
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "role": "div",
+                                              "name": "₹",
+                                              "children": [
+                                                {
+                                                  "role": "div",
+                                                  "name": "₹",
+                                                  "children": [
+                                                    {
+                                                      "role": "div",
+                                                      "name": "₹",
+                                                      "children": [
+                                                        {
+                                                          "role": "div",
+                                                          "name": "₹",
+                                                          "children": [
+                                                            {
+                                                              "role": "span",
+                                                              "name": "₹"
+                                                            },
+                                                            {
+                                                              "role": "input",
+                                                              "name": ""
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "role": "div",
+                                      "name": "Round Off",
+                                      "children": [
+                                        {
+                                          "role": "div",
+                                          "name": "Round Off",
+                                          "children": [
+                                            {
+                                              "role": "div",
+                                              "name": "Round Off",
+                                              "children": [
+                                                {
+                                                  "role": "div",
+                                                  "name": "Round Off",
+                                                  "children": [
+                                                    {
+                                                      "role": "div",
+                                                      "name": "Round Off",
+                                                      "children": [
+                                                        {
+                                                          "role": "div",
+                                                          "name": "Round Off",
+                                                          "children": [
+                                                            {
+                                                              "role": "h4",
+                                                              "name": "Round Off"
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "role": "div",
+                                                      "name": "",
+                                                      "children": [
+                                                        {
+                                                          "role": "button",
+                                                          "name": "",
+                                                          "children": [
+                                                            {
+                                                              "role": "label",
+                                                              "name": ""
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "role": "div",
+                                          "name": "₹0.400"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "role": "div",
+                                      "name": "Total Amount",
+                                      "children": [
+                                        {
+                                          "role": "div",
+                                          "name": "Total Amount"
+                                        },
+                                        {
+                                          "role": "div",
+                                          "name": "₹18,255.000"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "div",
+                          "name": "Save as Draft",
+                          "children": [
+                            {
+                              "role": "button",
+                              "name": "Save as Draft"
+                            },
+                            {
+                              "role": "button",
+                              "name": "Submit"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

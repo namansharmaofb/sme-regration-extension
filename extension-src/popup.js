@@ -341,12 +341,86 @@ document.querySelectorAll(".tab").forEach((tab) => {
       ? "block"
       : "none";
 
-    // Load history when tab is opened
+    // Load history or bugs when tab is opened
     if (isHistory) {
       loadExecutionHistory();
+    } else if (isBugs) {
+      loadBugs();
     }
   };
 });
+
+async function loadBugs() {
+  const bugList = document.getElementById("bugList");
+  const bugCountBadge = document.getElementById("bugCount");
+  if (!bugList) return;
+
+  try {
+    bugList.innerHTML =
+      '<div style="padding: 10px; text-align: center;">Loading bugs...</div>';
+
+    const res = await fetch(`${API_BASE_URL}/api/bugs?limit=20`);
+    if (!res.ok) throw new Error(`Backend error: ${res.status}`);
+
+    const bugs = await res.json();
+
+    if (bugCountBadge) {
+      bugCountBadge.textContent = bugs.length;
+      bugCountBadge.style.display = bugs.length > 0 ? "inline-block" : "none";
+    }
+
+    if (bugs.length === 0) {
+      bugList.innerHTML =
+        '<div style="padding: 20px; text-align: center; color: #64748b;">No failed runs detected.</div>';
+      return;
+    }
+
+    bugList.innerHTML = "";
+    bugs.forEach((bug) => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.style.marginBottom = "8px";
+      card.style.padding = "10px";
+      card.style.borderColor = "#451a1a";
+      card.style.background = "rgba(239, 68, 68, 0.05)";
+
+      const date = new Date(bug.created_at).toLocaleString([], {
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+      let snapshotLink = "";
+      if (bug.aria_snapshot_url) {
+        const fullUrl = `${API_BASE_URL}${bug.aria_snapshot_url}`;
+        snapshotLink = `
+          <div style="margin-top: 8px;">
+            <a href="${fullUrl}" target="_blank" style="color: #60a5fa; text-decoration: none; font-size: 10px; display: flex; align-items: center; gap: 4px;">
+              <span>📄 View ARIA Snapshot</span>
+              <span style="font-size: 12px;">↗</span>
+            </a>
+          </div>
+        `;
+      }
+
+      const errorMsg = bug.error_message || "Unknown execution failure";
+
+      card.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+          <span style="font-weight: 600; color: #f87171;">${bug.test_name} (ID: ${bug.test_id})</span>
+          <span style="font-size: 9px; color: #64748b;">${date}</span>
+        </div>
+        <div style="color: #e5e7eb; font-size: 11px; line-height: 1.4; white-space: pre-wrap; word-break: break-word;">${errorMsg}</div>
+        ${snapshotLink}
+      `;
+      bugList.appendChild(card);
+    });
+  } catch (err) {
+    console.error("Error loading bugs", err);
+    bugList.innerHTML = `<div style="padding: 10px; color: #ef4444;">Error: ${err.message}</div>`;
+  }
+}
 
 function syncStepsToBackground() {
   chrome.runtime
@@ -674,11 +748,42 @@ async function loadExecutionHistory() {
 
       const row = document.createElement("tr");
       row.style.borderBottom = "1px solid #1e293b";
+
+      let detailRow = "";
+      if (exec.error_message || exec.aria_snapshot_url) {
+        const fullUrl = exec.aria_snapshot_url
+          ? `${API_BASE_URL}${exec.aria_snapshot_url}`
+          : null;
+        const snapshotLink = fullUrl
+          ? `
+          <div style="margin-top: 4px;">
+            <a href="${fullUrl}" target="_blank" style="color: #60a5fa; text-decoration: none; font-size: 9px; display: inline-flex; align-items: center; gap: 2px;">
+              <span>📄 View ARIA Snapshot</span>
+              <span style="font-size: 10px;">↗</span>
+            </a>
+          </div>
+        `
+          : "";
+
+        const msgStyle = isSuccess
+          ? "color: #94a3b8; border-left: 2px solid #22c55e;"
+          : "color: #fca5a5; border-left: 2px solid #ef4444;";
+
+        detailRow = `
+          <div style="margin-top: 4px; padding: 4px; background: rgba(255, 255, 255, 0.02); border-radius: 4px; ${msgStyle}">
+             ${exec.error_message ? `<div style="font-size: 9px; line-height: 1.3; margin-bottom: 2px;">${exec.error_message}</div>` : ""}
+             ${snapshotLink}
+          </div>
+        `;
+      }
+
       row.innerHTML = `
-        <td style="padding: 8px; color: #e5e7eb;">
-          ${exec.test_id} - ${exec.test_name || "Unknown"}
+        <td style="padding: 8px; color: #e5e7eb; vertical-align: top;">
+          <div style="font-weight: 500;">${exec.test_name || "Unknown"}</div>
+          <div style="font-size: 9px; color: #64748b;">Test ID: ${exec.test_id}</div>
+          ${detailRow}
         </td>
-        <td style="padding: 8px; text-align: center;">
+        <td style="padding: 8px; text-align: center; vertical-align: top;">
           <span style="
             display: inline-block;
             padding: 2px 8px;
@@ -689,7 +794,7 @@ async function loadExecutionHistory() {
             background: ${statusBg};
           ">${statusText}</span>
         </td>
-        <td style="padding: 8px; color: #94a3b8; font-size: 10px;">
+        <td style="padding: 8px; color: #94a3b8; font-size: 10px; text-align: right; vertical-align: top;">
           ${timeStr}
         </td>
       `;
@@ -705,6 +810,7 @@ function init() {
   // Load flows from backend first
   checkBackendStatus();
   loadFlowsFromBackend();
+  loadBugs(); // Initial bug load to show badge
 
   // Re-check status every 10s
   setInterval(checkBackendStatus, 10000);
