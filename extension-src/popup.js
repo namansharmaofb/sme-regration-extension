@@ -967,6 +967,9 @@ function onSaveFlow() {
   });
 }
 
+let deleteConfirmPending = false;
+let deleteConfirmTimer = null;
+
 async function onDeleteFlow() {
   const selectedId = flowSelect?.value;
   if (!selectedId || selectedId === "") {
@@ -974,18 +977,29 @@ async function onDeleteFlow() {
     return;
   }
 
-  // Get flow name for confirmation
-  const flowName =
-    flowSelect.options[flowSelect.selectedIndex]?.textContent || "this flow";
+  // Double-click confirmation pattern (avoids confirm() which kills popup)
+  if (!deleteConfirmPending) {
+    deleteConfirmPending = true;
+    deleteFlowBtn.textContent = "⚠ Confirm?";
+    deleteFlowBtn.style.background = "#991b1b";
 
-  // Confirm deletion
-  if (
-    !confirm(
-      `Are you sure you want to delete "${flowName}"?\n\nThis action cannot be undone.`,
-    )
-  ) {
+    // Reset after 3 seconds if not confirmed
+    deleteConfirmTimer = setTimeout(() => {
+      deleteConfirmPending = false;
+      deleteFlowBtn.textContent = "🗑 Delete";
+      deleteFlowBtn.style.background = "";
+    }, 3000);
     return;
   }
+
+  // Second click — actually delete
+  deleteConfirmPending = false;
+  clearTimeout(deleteConfirmTimer);
+  deleteFlowBtn.textContent = "🗑 Delete";
+  deleteFlowBtn.style.background = "";
+
+  const flowName =
+    flowSelect.options[flowSelect.selectedIndex]?.textContent || "this flow";
 
   try {
     logLine(`Deleting flow ID ${selectedId}...`, "info");

@@ -764,6 +764,22 @@ async function executeTestCase(browser, page, testCaseId) {
 
   page.on("console", (msg) => console.log(`PAGE CONSOLE: ${msg.text()}`));
 
+  // Auto-handle file upload dialogs with a dummy test PDF
+  const testUploadFile = path.resolve(__dirname, "test-upload.pdf");
+  page.on("filechooser", async (fileChooser) => {
+    console.log(
+      `${CYAN}[Upload]${RESET} File chooser detected, uploading: ${testUploadFile}`,
+    );
+    try {
+      await fileChooser.accept([testUploadFile]);
+      console.log(`${GREEN}[Upload]${RESET} File uploaded successfully.`);
+    } catch (err) {
+      console.error(
+        `${RED}[Upload]${RESET} File upload failed: ${err.message}`,
+      );
+    }
+  });
+
   // Always re-find the worker to avoid "Execution context is not available" errors if it suspended
   const worker = await getWorker(browser);
 

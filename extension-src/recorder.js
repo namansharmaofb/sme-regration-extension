@@ -200,6 +200,30 @@ function handleChange(event) {
     )
       return;
 
+    // Handle file upload inputs separately
+    if (target instanceof HTMLInputElement && target.type === "file") {
+      const fileNames = Array.from(target.files || []).map((f) => f.name);
+      if (fileNames.length === 0) return;
+
+      const selectors = generateSelectors(target);
+      const descriptor = getElementDescriptor(target) || "File Upload";
+
+      const step = {
+        action: "upload",
+        selectors: selectors.selectors,
+        selector: selectors.selector,
+        selectorType: selectors.selectorType,
+        tagName: target.tagName,
+        value: fileNames.join(", "),
+        description: `Upload: ${fileNames.join(", ")}`,
+        url: window.location.href,
+      };
+
+      chrome.runtime.sendMessage({ type: "RECORD_STEP", step });
+      console.log("Recorded file upload step:", fileNames);
+      return;
+    }
+
     // Clear any pending debounced input
     if (inputTimers.has(target)) {
       clearTimeout(inputTimers.get(target));

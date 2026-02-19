@@ -1,6 +1,52 @@
 // Engine for finding elements and executing commands during flow playback
 
 /**
+ * Extracts a search-friendly term from a step's selectors/target to type
+ * into a search field when a dropdown option isn't immediately visible.
+ * Handles patterns like "aria/GSTIN: 27AAICT9043M1ZP - Maharashtra" or
+ * "aria/BATXO INFO SUPPORT SERVICE".
+ */
+function extractSearchTermFromStep(step) {
+  // Get the primary selector target
+  let label = null;
+
+  // Check step.selector or step.target for aria/ prefix
+  const target = step.selector || step.target || "";
+  if (target.startsWith("aria/")) {
+    label = target.substring(5); // Remove "aria/" prefix
+  }
+
+  // Also check selectors array for aria patterns
+  if (!label && step.selectors) {
+    const selectors = Array.isArray(step.selectors) ? step.selectors : [];
+    for (const sel of selectors) {
+      const s = Array.isArray(sel) ? sel[0] : sel;
+      if (typeof s === "string" && s.startsWith("aria/")) {
+        label = s.substring(5);
+        break;
+      }
+    }
+  }
+
+  if (!label) return null;
+
+  // Extract a meaningful search term from the label
+  // Pattern: "GSTIN: XXXXX - State" -> extract the GSTIN code
+  const gstinMatch = label.match(/GSTIN:\s*(\S+)/i);
+  if (gstinMatch) return gstinMatch[1];
+
+  // Pattern: "XXXXX Supplier/Customer" -> use first word(s) as search
+  // Take the first meaningful word (3+ chars) as search term
+  const words = label.split(/\s+/).filter((w) => w.length >= 3);
+  if (words.length > 0) {
+    // Use first word as search term (enough to filter dropdowns)
+    return words[0];
+  }
+
+  return null;
+}
+
+/**
  * Verifies that an element exists or contains specific text.
  * @param {Object} step
  */
@@ -925,6 +971,75 @@ async function executeSingleStep(step, index) {
         element = locateElement(step);
         if (element && isElementVisible(element)) break;
         element = null;
+
+        // Phase 1 (after 1.5s): Re-click/focus combobox inputs to reopen
+        // dropdowns that may have closed during script re-injection
+        if (i === 6 && step.action === "click") {
+          const comboboxInputs = Array.from(
+            document.querySelectorAll('input[role="combobox"]'),
+          ).filter((el) => isElementVisible(el));
+
+          for (const cb of comboboxInputs) {
+            logExecution(
+              `Step ${index + 1}: Re-clicking combobox "${cb.placeholder}" to reopen dropdown`,
+              "info",
+            );
+            cb.click();
+            cb.focus();
+            cb.dispatchEvent(new Event("focus", { bubbles: true }));
+            cb.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
+            cb.dispatchEvent(new MouseEvent("mouseup", { bubbles: true }));
+            cb.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+            await new Promise((r) => setTimeout(r, 1500));
+
+            element = locateElement(step);
+            if (element && isElementVisible(element)) break;
+            element = null;
+          }
+          if (element) break;
+        }
+
+        // Phase 2 (after 5s): Try typing a search term to filter results
+        if (i === 20 && step.action === "click") {
+          const searchTerm = extractSearchTermFromStep(step);
+          if (searchTerm) {
+            logExecution(
+              `Step ${index + 1}: Typing "${searchTerm}" into combobox to trigger search`,
+              "info",
+            );
+
+            const searchInputs = Array.from(
+              document.querySelectorAll(
+                'input[role="combobox"], input[placeholder*="Search" i], input[placeholder*="GSTIN" i], input[placeholder*="contact" i], input[placeholder*="company" i]',
+              ),
+            ).filter((el) => isElementVisible(el));
+
+            for (const searchInput of searchInputs) {
+              searchInput.click();
+              searchInput.focus();
+              await new Promise((r) => setTimeout(r, 200));
+
+              const nativeSetter = Object.getOwnPropertyDescriptor(
+                HTMLInputElement.prototype,
+                "value",
+              )?.set;
+              if (nativeSetter) {
+                nativeSetter.call(searchInput, searchTerm);
+              } else {
+                searchInput.value = searchTerm;
+              }
+              searchInput.dispatchEvent(new Event("input", { bubbles: true }));
+              searchInput.dispatchEvent(new Event("change", { bubbles: true }));
+              await new Promise((r) => setTimeout(r, 2000));
+
+              element = locateElement(step);
+              if (element && isElementVisible(element)) break;
+              element = null;
+            }
+            if (element) break;
+          }
+        }
+
         await new Promise((r) => setTimeout(r, waitTime));
       }
 
@@ -1105,6 +1220,55 @@ async function executeSingleStep(step, index) {
       setTimeout(() => {
         chrome.runtime.sendMessage({ type: "STEP_COMPLETE", stepIndex: index });
       }, 500);
+    } else if (step.action === "upload") {
+      // FILE UPLOAD: Create a synthetic file and attach it to the input
+      await new Promise((r) => setTimeout(r, 300));
+
+      element.scrollIntoView({
+        behavior: "auto",
+        block: "center",
+        inline: "center",
+      });
+      highlightElement(element);
+
+      try {
+        const fileName = step.value || "test-upload.pdf";
+        const mimeType = fileName.endsWith(".pdf")
+          ? "application/pdf"
+          : fileName.endsWith(".png")
+            ? "image/png"
+            : fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")
+              ? "image/jpeg"
+              : "application/octet-stream";
+
+        // Create a dummy file using DataTransfer
+        const dt = new DataTransfer();
+        const dummyContent = `%PDF-1.4\nTest document for automated upload\n`;
+        const file = new File([dummyContent], fileName, { type: mimeType });
+        dt.items.add(file);
+        element.files = dt.files;
+
+        // Dispatch change event so the app detects the file selection
+        element.dispatchEvent(new Event("change", { bubbles: true }));
+        element.dispatchEvent(new Event("input", { bubbles: true }));
+
+        logExecution(
+          `Step ${index + 1}: File "${fileName}" uploaded to ${element.tagName}`,
+          "success",
+        );
+        console.log(`Executed step ${index + 1}: Upload "${fileName}"`);
+      } catch (e) {
+        console.error("File upload failed:", e);
+        logExecution(
+          `Step ${index + 1}: File upload failed: ${e.message}`,
+          "error",
+        );
+        throw e;
+      }
+
+      setTimeout(() => {
+        chrome.runtime.sendMessage({ type: "STEP_COMPLETE", stepIndex: index });
+      }, 800);
     } else if (step.action === "scroll") {
       try {
         const pos = JSON.parse(step.value || '{"x":0,"y":0}');
@@ -1166,8 +1330,8 @@ async function executeSingleStep(step, index) {
     }
   } catch (err) {
     if (err.message.includes("Element not found")) {
-      // In multi-frame pages, only one frame has the element.
-      // Log to debug logs so the runner can see what happened.
+      // In multi-frame pages, only one frame may have the element.
+      // Send STEP_ERROR after a delay to give other frames a chance first.
       console.log(
         `Step ${index + 1}: Element not found in this frame (${window.location.href})`,
       );
@@ -1175,6 +1339,16 @@ async function executeSingleStep(step, index) {
         `Step ${index + 1}: Element not found/not visible in frame ${window.location.href}`,
         "warning",
       );
+      // Only send error from top frame to avoid duplicate errors from subframes
+      if (window === window.top) {
+        setTimeout(() => {
+          chrome.runtime.sendMessage({
+            type: "STEP_ERROR",
+            error: `Element not found for step ${index + 1}: ${err.message}`,
+            stepIndex: index,
+          });
+        }, 2000); // Delay to let subframes try first
+      }
     } else {
       console.error(`Error executing step ${index + 1}:`, err);
       chrome.runtime

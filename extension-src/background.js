@@ -202,7 +202,7 @@ async function executeCurrentStep() {
 
     // For interaction steps (click, input, scroll), we use path-only matching
     // to avoid unwanted reloads when query parameters change in an SPA.
-    const isInteractionStep = ["click", "input", "scroll"].includes(
+    const isInteractionStep = ["click", "input", "scroll", "upload"].includes(
       step.action,
     );
     const urlsMatch = isInteractionStep
