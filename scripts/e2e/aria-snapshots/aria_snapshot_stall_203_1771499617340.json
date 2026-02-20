@@ -1,0 +1,58 @@
+{
+  "role": "RootWebArea",
+  "name": "Purchase Order Details | SMEAssist | Leading automation tool for SMEs",
+  "children": [
+    {
+      "role": "none",
+      "children": [
+        {
+          "role": "generic",
+          "name": "",
+          "children": [
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "dashboard Dashboard chevron_right mark_email_unread Tasks & Activity chevron_right inventory_2 Inventory chevron_right maps_home_work Asset Management chevron_right contact_page Contacts shopping_cart Purchase expand_more shopping_cart Purchase expand_more receipt Sales chevron_right credit_card Internal Order"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "banner",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "west"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

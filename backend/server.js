@@ -6,9 +6,10 @@ const fs = require("fs");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+const JSON_LIMIT = process.env.JSON_LIMIT || "50mb";
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: JSON_LIMIT }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   "/aria-snapshots",

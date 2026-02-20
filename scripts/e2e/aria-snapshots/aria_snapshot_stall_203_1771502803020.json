@@ -1,0 +1,48 @@
+{
+  "role": "RootWebArea",
+  "name": "Purchase Order Details | SMEAssist | Leading automation tool for SMEs",
+  "children": [
+    {
+      "role": "none",
+      "children": [
+        {
+          "role": "generic",
+          "name": "",
+          "children": [
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "banner",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "west"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

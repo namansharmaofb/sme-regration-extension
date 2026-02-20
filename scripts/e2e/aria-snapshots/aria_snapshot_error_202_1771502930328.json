@@ -1,0 +1,1607 @@
+{
+  "role": "none",
+  "children": [
+    {
+      "role": "none",
+      "children": [
+        {
+          "role": "none",
+          "children": [
+            {
+              "role": "none",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "heading",
+                      "name": "Overview",
+                      "level": 4,
+                      "children": [
+                        {
+                          "role": "StaticText",
+                          "name": "Overview"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "button",
+                          "name": "This Month expand_more",
+                          "children": [
+                            {
+                              "role": "button",
+                              "name": "This Month expand_more",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "This Month"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "none",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "link",
+                      "name": "Invoice 228 Approval Pending (0) Active (58) Completed (159) Revoked (08) Draft (03) Approval Pending (0) Active (58) Completed (159) Revoked (08) Draft (03)",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Invoice"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "228"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Approval Pending (0) "
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "Active (58)"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "Completed (159)"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "Revoked (08)"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "Draft (03)"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "link",
+                      "name": "Purchase Order 71 Approval Pending (34) Active (20) Completed (13) Revoked (0) Draft (04) Approval Pending (34) Active (20) Completed (13) Revoked (0) Draft (04)",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Purchase Order"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "71"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Approval Pending (34)"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "Active (20)"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "Completed (13)"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "Revoked (0) "
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "Draft (04)"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "link",
+                      "name": "Sales Order 78 Approval Pending (24) Active (19) Completed (30) Revoked (05) Approval Pending (24) Active (19) Completed (30) Revoked (05)",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Sales Order"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "78"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Approval Pending (24)"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "Active (19)"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "Completed (30)"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "Revoked (05)"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "link",
+                      "name": "Dispatch Order 295 Approval Pending (0) Active (0) Dispatched (271) Revoked (24) Approval Pending (0) Active (0) Dispatched (271) Revoked (24)",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Dispatch Order"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "295"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Approval Pending (0) "
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "Active (0) "
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "Dispatched (271)"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "Revoked (24)"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "role": "none",
+          "children": [
+            {
+              "role": "none",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "heading",
+                          "name": "Sales",
+                          "level": 3,
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "Sales"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "button",
+                              "name": "This Month expand_more",
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "This Month expand_more"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "heading",
+                                  "name": "Gross Sales",
+                                  "level": 4
+                                }
+                              ]
+                            },
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "heading",
+                                  "name": "Net Sales",
+                                  "level": 4
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": ""
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "list",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "listitem",
+                              "name": "",
+                              "level": 1,
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "Items"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "listitem",
+                              "name": "",
+                              "level": 1,
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "Buyers"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "listitem",
+                              "name": "",
+                              "level": 1,
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "Account Manager"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "link",
+                          "name": "View All Invoices chevron_right",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "View All Invoices"
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "chevron_right"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "none",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "heading",
+                              "name": "Orders By Account Manager",
+                              "level": 4,
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Orders By Account Manager"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "-"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "Yesterday expand_more"
+                                },
+                                {
+                                  "role": "button",
+                                  "name": "file_download"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "image",
+                                  "name": "no permission"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "paragraph",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "No data found"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "none",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "heading",
+                              "name": "Dispatch Summary",
+                              "level": 4,
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Dispatch Summary"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "Yesterday expand_more"
+                                },
+                                {
+                                  "role": "button",
+                                  "name": "file_download"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "image",
+                                  "name": "no permission"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "paragraph",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "No data found"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "none",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "heading",
+                              "name": "Sales by Account Manager",
+                              "level": 4,
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Sales by Account Manager"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "Yesterday expand_more"
+                                },
+                                {
+                                  "role": "button",
+                                  "name": "file_download"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "none",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "heading",
+                              "name": "State Wise Sale",
+                              "level": 4,
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "State Wise Sale"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "This Month expand_more"
+                                },
+                                {
+                                  "role": "button",
+                                  "name": "file_download"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "none",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "heading",
+                              "name": "Total Purchase",
+                              "level": 4,
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Total Purchase"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "This Month expand_more"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "list",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "listitem",
+                              "name": "",
+                              "level": 1,
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "Items"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "listitem",
+                              "name": "",
+                              "level": 1,
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "Suppliers"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Glacial Acetic Acid"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "8,850,000.000 KGS"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "₹35.927 Cr"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Raw Coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "3,010,000.000 KGS"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "₹2.318 Cr"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Hdpe Plastic Barrels"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "1,500.000 NOS"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "₹19.204 L"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Storage Charges"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "2,600.000 KLR"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "₹16.721 L"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Service Charges"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "9.000 NOS"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "₹6.247 L"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "link",
+                          "name": "View All Purchase Orders chevron_right",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "View All Purchase Orders"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "chevron_right"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "none",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "heading",
+                              "name": "Avg. Purchase Rate",
+                              "level": 4,
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Avg. Purchase Rate"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "-"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "This Month expand_more"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "paragraph",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "No Data Found"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "SvgRoot",
+                                  "name": ""
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "none",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "heading",
+                              "name": "Avg. Sales Rate",
+                              "level": 4,
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Avg. Sales Rate"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "This Month expand_more"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "none",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "heading",
+                              "name": "Sales Comparison",
+                              "level": 4,
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Sales Comparison"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "Weekly"
+                                },
+                                {
+                                  "role": "button",
+                                  "name": "Monthly"
+                                },
+                                {
+                                  "role": "button",
+                                  "name": "Yearly"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Current "
+                                },
+                                {
+                                  "role": "StaticText",
+                                  "name": "Month"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "-"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Last "
+                                },
+                                {
+                                  "role": "StaticText",
+                                  "name": "Month"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "-"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "paragraph",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "No Data Found"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "SvgRoot",
+                                  "name": ""
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "none",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "heading",
+                              "name": "Monthly Sales Forecast",
+                              "level": 4,
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Monthly Sales Forecast"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Feb 2026"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Projected Sale"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Run Rate/Day"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "paragraph",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "No Data Found"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "SvgRoot",
+                                  "name": ""
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "none",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "heading",
+                              "name": "Stock Value",
+                              "level": 4,
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Stock Value"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "-"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "paragraph",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "No Data Found"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "SvgRoot",
+                                  "name": ""
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "none",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "heading",
+                              "name": "Stock Trend",
+                              "level": 4,
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Stock Trend"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "Last 7 Days expand_more"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "paragraph",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "No Data Found"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "SvgRoot",
+                                  "name": ""
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

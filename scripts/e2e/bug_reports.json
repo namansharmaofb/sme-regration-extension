@@ -337,5 +337,110 @@
     "description": "Step 13 stalled for 30s: Element not found/not visible in frame http://localhost:3007/accordd/sales-order/create?tabId=vDYoQIEnqh&salesOrderType=MATERIAL",
     "ariaSnapshot": null,
     "timestamp": "2026-02-18T10:59:42.022Z"
+  },
+  {
+    "id": "BUG-1771495598490",
+    "title": "Failure in sflkh",
+    "description": "Step 38 stalled for 30s: Element not found/not visible in frame http://localhost:3007/accordd/purchase-orders/1473983905265442816/1/details?pageSize=20&pageNumber=0&filter=PO_STATUS:APPROVAL_PENDING&filter=PURCHASE_TYPE:DOMESTIC&filter=IS_APPROVAL_PENDING_FOR_ME:true",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_201_1771495598364.json",
+    "timestamp": "2026-02-19T10:06:38.490Z"
+  },
+  {
+    "id": "BUG-1771497884433",
+    "title": "Failure in big",
+    "description": "Step 7 stalled for 30s: Element not found/not visible in frame http://localhost:3007/accordd/stock/list?pageSize=20&pageNumber=0&filter=PLANT_TYPE:PHYSICAL&filter=PLANT_ID:1294997185084076032&filter=ZONE_ID:1294999823706374144",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-19T10:44:44.433Z"
+  },
+  {
+    "id": "BUG-1771497904609",
+    "title": "Failure in sflkh",
+    "description": "Timeout waiting for step 7 (60s limit)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_201_1771497904528.json",
+    "timestamp": "2026-02-19T10:45:04.609Z"
+  },
+  {
+    "id": "BUG-1771498331433",
+    "title": "Failure in so",
+    "description": "Step 7 stalled for 30s: Element not found/not visible in frame http://localhost:3007/accordd/purchase-orders/1473995350141132800/1/details?pageSize=20&pageNumber=0&filter=PO_STATUS:APPROVAL_PENDING&filter=PURCHASE_TYPE:DOMESTIC&filter=IS_APPROVAL_PENDING_FOR_ME:true",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_203_1771498331303.json",
+    "timestamp": "2026-02-19T10:52:11.433Z"
+  },
+  {
+    "id": "BUG-1771499617501",
+    "title": "Failure in so",
+    "description": "Step 4 stalled for 30s: Element not found/not visible in frame http://localhost:3007/accordd/purchase-orders/1474000768544366592/1/details?pageSize=20&pageNumber=0&filter=PO_STATUS:APPROVAL_PENDING&filter=PURCHASE_TYPE:DOMESTIC&filter=IS_APPROVAL_PENDING_FOR_ME:true",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_203_1771499617340.json",
+    "timestamp": "2026-02-19T11:13:37.501Z"
+  },
+  {
+    "id": "BUG-1771501176774",
+    "title": "Failure in so",
+    "description": "Step 8 stalled for 30s: Element not found/not visible in frame http://localhost:3007/accordd/purchase-orders/1474007269904310272/1/details?pageSize=20&pageNumber=0&filter=PO_STATUS:APPROVAL_PENDING&filter=PURCHASE_TYPE:DOMESTIC&filter=IS_APPROVAL_PENDING_FOR_ME:true",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-19T11:39:36.774Z"
+  },
+  {
+    "id": "BUG-1771501267828",
+    "title": "Failure in so",
+    "description": "Step 8 stalled for 30s: Element not found/not visible in frame http://localhost:3007/accordd/sales-order/create?tabId=URnHNUUhnk&salesOrderType=MATERIAL",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_203_1771501267694.json",
+    "timestamp": "2026-02-19T11:41:07.828Z"
+  },
+  {
+    "id": "BUG-1771502803109",
+    "title": "Failure in so",
+    "description": "Step 7 stalled for 30s: Element not found/not visible in frame http://localhost:3007/accordd/purchase-orders/1474014107316084736/1/details?pageSize=20&pageNumber=0&filter=PO_STATUS:APPROVAL_PENDING&filter=PURCHASE_TYPE:DOMESTIC&filter=IS_APPROVAL_PENDING_FOR_ME:true",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_203_1771502803020.json",
+    "timestamp": "2026-02-19T12:06:43.109Z"
+  },
+  {
+    "id": "BUG-1771502930396",
+    "title": "Failure in po",
+    "description": "No tab with id: 556886158.",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_202_1771502930328.json",
+    "timestamp": "2026-02-19T12:08:50.396Z"
+  },
+  {
+    "id": "BUG-1771502962576",
+    "title": "Failure in so",
+    "description": "Step 1 stalled for 30s: click on http://localhost:3007/accordd/dashboard/overview",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_203_1771502962489.json",
+    "timestamp": "2026-02-19T12:09:22.576Z"
+  },
+  {
+    "id": "BUG-1771504804620",
+    "title": "Failure in recep",
+    "description": "Step 6 stalled for 30s: Element not found/not visible in frame http://localhost:3007/accordd/stock-adjustment/list?pageSize=20&pageNumber=0&filter=PLANT_ID:825185985032625021&filter=ZONE_ID:839006711967650323&filter=STATUS:ALL",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_206_1771504804463.json",
+    "timestamp": "2026-02-19T12:40:04.620Z"
+  },
+  {
+    "id": "BUG-1771565957168",
+    "title": "Failure in so",
+    "description": "Step 9 stalled for 30s: Click executed on Contact* at (509.5, 390)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-20T05:39:17.168Z"
+  },
+  {
+    "id": "BUG-1771566572577",
+    "title": "Failure in poOrder",
+    "description": "Step 26 stalled for 30s: Element not found/not visible in frame http://localhost:3007/ovs/purchase-orders/create?tabId=WdzqIWJSkF&purchaseOrderType=MATERIAL",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-20T05:49:32.577Z"
+  },
+  {
+    "id": "BUG-1771566962019",
+    "title": "Failure in iugewlgdi",
+    "description": "Timeout waiting for step 14",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_210_1771566961910.json",
+    "timestamp": "2026-02-20T05:56:02.019Z"
+  },
+  {
+    "id": "BUG-1771567052244",
+    "title": "Failure in iugewlgdi",
+    "description": "Step 15 stalled for 30s: Click executed on highlight_off at (900.984375, 144)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-20T05:57:32.244Z"
   }
 ]

@@ -1,0 +1,116 @@
+{
+  "role": "RootWebArea",
+  "name": "Stock | SMEAssist | Leading automation tool for SMEs",
+  "children": [
+    {
+      "role": "none",
+      "children": [
+        {
+          "role": "generic",
+          "name": "",
+          "children": [
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "dashboard Dashboard chevron_right mark_email_unread Tasks & Activity chevron_right inventory_2 Inventory expand_more inventory_2 Inventory expand_more maps_home_work Asset Management chevron_right contact_page Contacts shopping_cart Purchase chevron_right receipt Sales chevron_right credit_card Internal Order"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "banner",
+                          "name": ""
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "tooltip",
+              "name": "Download Batch Wise Stock Adjustment Sheet Last 3 Months Batch Wise Report Upload Batch Wise Stock Adjustment Sheet",
+              "children": [
+                {
+                  "role": "button",
+                  "name": "Download Batch Wise Stock Adjustment Sheet Last 3 Months Batch Wise Report",
+                  "disabled": true,
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "Download Batch Wise Stock Adjustment Sheet"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "Last 3 Months Batch Wise Report",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "info"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "role": "generic",
+                  "name": "",
+                  "children": [
+                    {
+                      "role": "button",
+                      "name": "Upload Batch Wise Stock Adjustment Sheet",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "LabelText",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Upload Batch Wise Stock Adjustment Sheet"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

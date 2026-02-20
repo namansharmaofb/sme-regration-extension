@@ -1,9 +1,3 @@
-2026/02/18-11:31:47.850 5 Reusing MANIFEST /home/namansharma/.config/google-chrome/Default/Local Storage/leveldb/MANIFEST-000001
-2026/02/18-11:31:47.851 5 Recovering log #189
-2026/02/18-11:31:47.856 5 Reusing old log /home/namansharma/.config/google-chrome/Default/Local Storage/leveldb/000189.log 
-2026/02/18-11:32:47.876 7 Level-0 table #193: started
-2026/02/18-11:32:47.879 7 Level-0 table #193: 50127 bytes OK
-2026/02/18-11:32:47.881 7 Delete type=0 #189
-2026/02/18-16:23:37.295 7 Level-0 table #195: started
-2026/02/18-16:23:37.300 7 Level-0 table #195: 13726 bytes OK
-2026/02/18-16:23:37.303 7 Delete type=0 #192
+2026/02/20-10:45:42.247 5 Reusing MANIFEST /home/namansharma/.config/google-chrome/Default/Local Storage/leveldb/MANIFEST-000001
+2026/02/20-10:45:42.249 5 Recovering log #197
+2026/02/20-10:45:42.250 5 Reusing old log /home/namansharma/.config/google-chrome/Default/Local Storage/leveldb/000197.log 

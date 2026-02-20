@@ -1,0 +1,78 @@
+{
+  "role": "RootWebArea",
+  "name": "Create Material PO | SMEAssist | Leading automation tool for SMEs",
+  "children": [
+    {
+      "role": "none",
+      "children": [
+        {
+          "role": "generic",
+          "name": "",
+          "children": [
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "banner",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "button",
+                                  "name": "west"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "LayoutTable",
+                                  "name": ""
+                                },
+                                {
+                                  "role": "LayoutTable",
+                                  "name": ""
+                                },
+                                {
+                                  "role": "LayoutTable",
+                                  "name": ""
+                                },
+                                {
+                                  "role": "LayoutTable",
+                                  "name": ""
+                                },
+                                {
+                                  "role": "LayoutTable",
+                                  "name": ""
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

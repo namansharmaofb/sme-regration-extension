@@ -1,0 +1,95 @@
+{
+  "role": "RootWebArea",
+  "name": "localhost",
+  "children": [
+    {
+      "role": "none",
+      "children": [
+        {
+          "role": "none",
+          "children": [
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "generic",
+                  "name": "",
+                  "children": [
+                    {
+                      "role": "image",
+                      "name": ""
+                    },
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "heading",
+                          "name": "This site can’t be reached",
+                          "level": 1,
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "This site can’t be reached"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "strong",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "localhost"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "StaticText",
+                          "name": " refused to connect."
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "role": "generic",
+                  "name": "",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "button",
+                          "name": "Reload",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "Reload"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "button",
+                      "name": "Details",
+                      "children": [
+                        {
+                          "role": "StaticText",
+                          "name": "Details"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
