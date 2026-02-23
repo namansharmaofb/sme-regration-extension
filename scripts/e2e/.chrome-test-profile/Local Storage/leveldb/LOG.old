@@ -1,15 +1,24 @@
-2026/02/18-17:41:33.335 7 Reusing MANIFEST /home/namansharma/.config/google-chrome/Default/Local Storage/leveldb/MANIFEST-000001
-2026/02/18-17:41:33.337 7 Recovering log #194
-2026/02/18-17:41:33.338 7 Reusing old log /home/namansharma/.config/google-chrome/Default/Local Storage/leveldb/000194.log 
-2026/02/18-18:05:03.963 7 Level-0 table #198: started
-2026/02/18-18:05:03.969 7 Level-0 table #198: 32292 bytes OK
-2026/02/18-18:05:03.971 7 Delete type=0 #194
-2026/02/18-18:05:03.972 7 Compacting 4@0 + 1@1 files
-2026/02/18-18:05:03.989 7 Generated table #199@0: 959 keys, 1147571 bytes
-2026/02/18-18:05:03.989 7 Compacted 4@0 + 1@1 files => 1147571 bytes
-2026/02/18-18:05:03.990 7 compacted to: files[ 0 1 1 0 0 0 0 ]
-2026/02/18-18:05:03.991 7 Delete type=2 #195
-2026/02/18-18:05:03.991 7 Delete type=2 #188
-2026/02/18-18:05:03.991 7 Delete type=2 #190
-2026/02/18-18:05:03.991 7 Delete type=2 #198
-2026/02/18-18:05:03.991 7 Delete type=2 #193
+2026/02/23-10:42:20.253 5 Reusing MANIFEST /home/namansharma/.config/google-chrome/Default/Local Storage/leveldb/MANIFEST-000001
+2026/02/23-10:42:20.256 5 Recovering log #197
+2026/02/23-10:42:20.257 5 Reusing old log /home/namansharma/.config/google-chrome/Default/Local Storage/leveldb/000197.log 
+2026/02/23-11:02:20.140 7 Level-0 table #202: started
+2026/02/23-11:02:20.143 7 Level-0 table #202: 39151 bytes OK
+2026/02/23-11:02:20.144 7 Delete type=0 #197
+2026/02/23-13:01:43.002 7 Level-0 table #204: started
+2026/02/23-13:01:43.004 7 Level-0 table #204: 27194 bytes OK
+2026/02/23-13:01:43.006 7 Delete type=0 #201
+2026/02/23-13:02:07.639 7 Level-0 table #206: started
+2026/02/23-13:02:07.642 7 Level-0 table #206: 31597 bytes OK
+2026/02/23-13:02:07.644 7 Delete type=0 #203
+2026/02/23-13:13:44.674 7 Level-0 table #208: started
+2026/02/23-13:13:44.679 7 Level-0 table #208: 40438 bytes OK
+2026/02/23-13:13:44.682 7 Delete type=0 #205
+2026/02/23-13:13:44.683 7 Compacting 4@0 + 1@1 files
+2026/02/23-13:13:44.715 7 Generated table #209@0: 1071 keys, 1171119 bytes
+2026/02/23-13:13:44.716 7 Compacted 4@0 + 1@1 files => 1171119 bytes
+2026/02/23-13:13:44.717 7 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/02/23-13:13:44.718 7 Delete type=2 #206
+2026/02/23-13:13:44.719 7 Delete type=2 #199
+2026/02/23-13:13:44.719 7 Delete type=2 #202
+2026/02/23-13:13:44.719 7 Delete type=2 #204
+2026/02/23-13:13:44.719 7 Delete type=2 #208

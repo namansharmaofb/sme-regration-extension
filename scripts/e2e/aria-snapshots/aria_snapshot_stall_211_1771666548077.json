@@ -1,0 +1,2206 @@
+{
+  "role": "RootWebArea",
+  "name": "Create Material PO | SMEAssist | Leading automation tool for SMEs",
+  "children": [
+    {
+      "role": "none",
+      "children": [
+        {
+          "role": "generic",
+          "name": "",
+          "children": [
+            {
+              "role": "dialog",
+              "name": "",
+              "focused": true,
+              "modal": true,
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "Add QC Details"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "button",
+                          "name": "close",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "close"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "LabelText",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Test Configurations*"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "paragraph",
+                                  "name": ""
+                                },
+                                {
+                                  "role": "button",
+                                  "name": "close"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "paragraph",
+                                  "name": ""
+                                },
+                                {
+                                  "role": "button",
+                                  "name": "close"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "paragraph",
+                                  "name": ""
+                                },
+                                {
+                                  "role": "button",
+                                  "name": "close"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "button",
+                          "name": "Cancel",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "Cancel"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "button",
+                          "name": "Submit",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "Submit"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "listbox",
+                  "name": "",
+                  "orientation": "vertical",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "status",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "No data found"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "listbox",
+                  "name": "",
+                  "orientation": "vertical",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "list",
+                          "name": "68071010 articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) in-rolls: tarfelt roofing 68071090 articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) in-rolls: other 68079010 articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) other: tarfelt roofing 68079090 articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) other: other 84289010 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : for coal handling 84303110 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: coal cutters 84303120 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: tunneling machinery 84303190 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: other 84303900 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: other 84305010 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - other machinery, self-propelled: mining machinery (excluding coal mining) 84741010 machinery for sorting, screening, separating, washing, crushing, grinding, mixing or kneading earth, stone, ores or other mineral substances, in solid (including powder or paste) form; machinery for agglomerating, shaping or moulding solid mineral fuels, ceramic paste, unhardened cements, plastering materials or other mineral products in powder or paste form; machines for forming foundry moulds of sand - sorting, screening, separating or washing machines: for coal 84742020 machinery for sorting, screening, separating, washing, crushing, grinding, mixing or kneading earth, stone, ores or other mineral substances, in solid (including powder or paste) form; machinery for agglomerating, shaping or moulding solid mineral fuels, ceramic paste, unhardened cements, plastering materials or other mineral products in powder or paste form; machines for forming foundry moulds of sand - crushing or grinding machines: for coal 96092000 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - pencil leads, black or coloured 96099010 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : slate pencils 96099020 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : other pencils 96099030 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : pastels, drawing charcoals and writing or drawing chalks and tailors chalks 96099090 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : other 03025300 coalfish (pollachius virens) 03026300 fish, fresh or chilled, excluding fishfillets and other fish meat of heading 0304 other fish, excluding livers and roes coalfish (pollachius virens) 03036500 coalfish (pollachius virens)",
+                          "children": [
+                            {
+                              "role": "option",
+                              "name": "68071010 articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) in-rolls: tarfelt roofing",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "68071010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) in-rolls: tarfelt roofing"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "68071090 articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) in-rolls: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "68071090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) in-rolls: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "68079010 articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) other: tarfelt roofing",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "68079010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) other: tarfelt roofing"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "68079090 articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) other: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "68079090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) other: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84289010 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : for coal handling",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84289010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : for coal handling"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84303110 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: coal cutters",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84303110"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: coal cutters"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84303120 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: tunneling machinery",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84303120"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: tunneling machinery"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84303190 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84303190"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84303900 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84303900"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84305010 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - other machinery, self-propelled: mining machinery (excluding coal mining)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84305010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - other machinery, self-propelled: mining machinery (excluding coal mining)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84741010 machinery for sorting, screening, separating, washing, crushing, grinding, mixing or kneading earth, stone, ores or other mineral substances, in solid (including powder or paste) form; machinery for agglomerating, shaping or moulding solid mineral fuels, ceramic paste, unhardened cements, plastering materials or other mineral products in powder or paste form; machines for forming foundry moulds of sand - sorting, screening, separating or washing machines: for coal",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84741010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "machinery for sorting, screening, separating, washing, crushing, grinding, mixing or kneading earth, stone, ores or other mineral substances, in solid (including powder or paste) form; machinery for agglomerating, shaping or moulding solid mineral fuels, ceramic paste, unhardened cements, plastering materials or other mineral products in powder or paste form; machines for forming foundry moulds of sand - sorting, screening, separating or washing machines: for coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84742020 machinery for sorting, screening, separating, washing, crushing, grinding, mixing or kneading earth, stone, ores or other mineral substances, in solid (including powder or paste) form; machinery for agglomerating, shaping or moulding solid mineral fuels, ceramic paste, unhardened cements, plastering materials or other mineral products in powder or paste form; machines for forming foundry moulds of sand - crushing or grinding machines: for coal",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84742020"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "machinery for sorting, screening, separating, washing, crushing, grinding, mixing or kneading earth, stone, ores or other mineral substances, in solid (including powder or paste) form; machinery for agglomerating, shaping or moulding solid mineral fuels, ceramic paste, unhardened cements, plastering materials or other mineral products in powder or paste form; machines for forming foundry moulds of sand - crushing or grinding machines: for coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "96092000 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - pencil leads, black or coloured",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "96092000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - pencil leads, black or coloured"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "96099010 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : slate pencils",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "96099010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : slate pencils"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "96099020 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : other pencils",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "96099020"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : other pencils"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "96099030 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : pastels, drawing charcoals and writing or drawing chalks and tailors chalks",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "96099030"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : pastels, drawing charcoals and writing or drawing chalks and tailors chalks"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "96099090 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "96099090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "03025300 coalfish (pollachius virens)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "03025300"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coalfish (pollachius virens)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "03026300 fish, fresh or chilled, excluding fishfillets and other fish meat of heading 0304 other fish, excluding livers and roes coalfish (pollachius virens)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "03026300"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "fish, fresh or chilled, excluding fishfillets and other fish meat of heading 0304 other fish, excluding livers and roes coalfish (pollachius virens)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "03036500 coalfish (pollachius virens)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "03036500"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coalfish (pollachius virens)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "03037300 fish, frozen, excluding fish fillets andother fish meat of heading 0304 other fish, excluding livers and roes : coalfish (pollachius virens)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "03037300"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "fish, frozen, excluding fish fillets andother fish meat of heading 0304 other fish, excluding livers and roes : coalfish (pollachius virens)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27011100 coal; briquettes, ovoids and similar solid fuels manufactured from coal - coal, whether or not pulverised, but not agglomerated: anthracite",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27011100"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coal; briquettes, ovoids and similar solid fuels manufactured from coal - coal, whether or not pulverised, but not agglomerated: anthracite"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27011200 coal; briquettes, ovoids and similar solid fuels manufactured from coal - coal, whether or not pulverised, but not agglomerated: bituminous coal",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27011200"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coal; briquettes, ovoids and similar solid fuels manufactured from coal - coal, whether or not pulverised, but not agglomerated: bituminous coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "270119 other coal",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "270119"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27011910 coal; briquettes, ovoids and similar solid fuels manufactured from coal - coal, whether or not pulverised, but not agglomerated: - other coal: coking coal",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27011910"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coal; briquettes, ovoids and similar solid fuels manufactured from coal - coal, whether or not pulverised, but not agglomerated: - other coal: coking coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27011990 coal; briquettes, ovoids and similar solid fuels manufactured from coal - coal, whether or not pulverised, but not agglomerated: - other coal: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27011990"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coal; briquettes, ovoids and similar solid fuels manufactured from coal - coal, whether or not pulverised, but not agglomerated: - other coal: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "270120 briquettes, ovoids and similar solid fuels manufactured from coal",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "270120"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "briquettes, ovoids and similar solid fuels manufactured from coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27012010 coal; briquettes, ovoids and similar solid fuels manufactured from coal - briquettes, ovoids and similar solid fuels manufactured from coal: anthracite agglomerated",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27012010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coal; briquettes, ovoids and similar solid fuels manufactured from coal - briquettes, ovoids and similar solid fuels manufactured from coal: anthracite agglomerated"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27012090 coal; briquettes, ovoids and similar solid fuels manufactured from coal - briquettes, ovoids and similar solid fuels manufactured from coal: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27012090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coal; briquettes, ovoids and similar solid fuels manufactured from coal - briquettes, ovoids and similar solid fuels manufactured from coal: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "270400 coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "270400"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27040010 coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon - coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon: retort carbon (gas carbon)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27040010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon - coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon: retort carbon (gas carbon)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27040020 coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon - coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon: coke and semi-coke of lignite or of peat",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27040020"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon - coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon: coke and semi-coke of lignite or of peat"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27040030 coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon - coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon: hard coke of coal",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27040030"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon - coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon: hard coke of coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27040040 coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon - coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon: soft coke of coal",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27040040"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon - coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon: soft coke of coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27050000 coal gas, water gas, producer gas and similar gases, other than petroleum gases and other gaseous hydrocarbons",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27050000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coal gas, water gas, producer gas and similar gases, other than petroleum gases and other gaseous hydrocarbons"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "270600 tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "270600"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27060010 tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars - tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars: coal tar",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27060010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars - tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars: coal tar"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27060090 tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars - tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27060090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars - tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27071000 oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents benzol (benzene)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27071000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents benzol (benzene)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27072000 oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents toluol (toluene)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27072000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents toluol (toluene)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27073000 oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents xylol (xylenes)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27073000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents xylol (xylenes)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27074000 oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents naphthelene",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27074000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents naphthelene"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27075000 oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents other aromatic hydrocarbon mixtures of which 65% or more by volume (including losses) distils at 250oc by the astm d 86 method",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27075000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents other aromatic hydrocarbon mixtures of which 65% or more by volume (including losses) distils at 250oc by the astm d 86 method"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27076000 oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents phenols",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27076000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents phenols"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27079100 oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents - other: creosote oils",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27079100"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents - other: creosote oils"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27079900 oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents - other: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27079900"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents - other: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27081010 pitch and pitch coke, obtained from coal tar or from other mineral tars - pitch: obtained by blending with creosote oil or other coal tar distillates",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27081010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pitch and pitch coke, obtained from coal tar or from other mineral tars - pitch: obtained by blending with creosote oil or other coal tar distillates"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27081090 pitch and pitch coke, obtained from coal tar or from other mineral tars - pitch: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27081090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pitch and pitch coke, obtained from coal tar or from other mineral tars - pitch: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27082000 pitch and pitch coke, obtained from coal tar or from other mineral tars - pitch coke",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27082000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pitch and pitch coke, obtained from coal tar or from other mineral tars - pitch coke"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "03047300 coalfish (pollachius virens)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "03047300"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coalfish (pollachius virens)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "38249011 prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents: ammoniacal gas liquors and spent oxide produced in coal gas purification",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "38249011"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents: ammoniacal gas liquors and spent oxide produced in coal gas purification"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "38249012 prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents: case hardening compound",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "38249012"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents: case hardening compound"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "38249013 prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents heat transfer salts",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "38249013"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents heat transfer salts"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "38249014 prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents mixture of diphenyl and diphenyl oxide as heat transfer medium",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "38249014"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents mixture of diphenyl and diphenyl oxide as heat transfer medium"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "38249015 prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents mixed polyethylene glycols",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "38249015"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents mixed polyethylene glycols"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "38249016 prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents salts for curing or salting",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "38249016"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents salts for curing or salting"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "38249017 prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents surface tension reducing agents",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "38249017"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents surface tension reducing agents"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "4402 wood charcoal (including shell or nut charcoal), whether or not agglomerated",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "4402"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "wood charcoal (including shell or nut charcoal), whether or not agglomerated"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "44020010 wood charcoal (including shell or nut charcoal), whether or not agglomerated - wood charcoal (including shell or nut charcoal), whether or not agglomerated: of coconut shell",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "44020010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "wood charcoal (including shell or nut charcoal), whether or not agglomerated - wood charcoal (including shell or nut charcoal), whether or not agglomerated: of coconut shell"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "44020090 wood charcoal (including shell or nut charcoal), whether or not agglomerated - wood charcoal (including shell or nut charcoal), whether or not agglomerated: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "44020090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "wood charcoal (including shell or nut charcoal), whether or not agglomerated - wood charcoal (including shell or nut charcoal), whether or not agglomerated: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "440210 wood charcoal (including shell or nut charcoal), whether or not agglomerated",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "440210"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "wood charcoal (including shell or nut charcoal), whether or not agglomerated"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "44021010 whether or not agglomerated - wood charcoal (including shell or nut charcoal)wood charcoal (including shell or nut charcoal), whether or not agglomerated ---of bamboo",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "44021010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "whether or not agglomerated - wood charcoal (including shell or nut charcoal)wood charcoal (including shell or nut charcoal), whether or not agglomerated ---of bamboo"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "44029010 wood charcoal (including shell or nut charcoal), whether or not agglomerated - other : --- of cocunut shell",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "44029010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "wood charcoal (including shell or nut charcoal), whether or not agglomerated - other : --- of cocunut shell"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "44029090 wood charcoal (including shell or nut charcoal), whether or not agglomerated: other --- other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "44029090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "wood charcoal (including shell or nut charcoal), whether or not agglomerated: other --- other"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "listbox",
+                  "name": "",
+                  "orientation": "vertical",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "status",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "No data found"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "listbox",
+                  "name": "",
+                  "orientation": "vertical",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "status",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "No data found"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "listbox",
+                  "name": "",
+                  "orientation": "vertical",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "status",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "No data found"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "listbox",
+                  "name": "",
+                  "orientation": "vertical",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "list",
+                          "name": "68071010 articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) in-rolls: tarfelt roofing 68071090 articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) in-rolls: other 68079010 articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) other: tarfelt roofing 68079090 articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) other: other 84289010 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : for coal handling 84303110 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: coal cutters 84303120 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: tunneling machinery 84303190 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: other 84303900 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: other 84305010 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - other machinery, self-propelled: mining machinery (excluding coal mining) 84741010 machinery for sorting, screening, separating, washing, crushing, grinding, mixing or kneading earth, stone, ores or other mineral substances, in solid (including powder or paste) form; machinery for agglomerating, shaping or moulding solid mineral fuels, ceramic paste, unhardened cements, plastering materials or other mineral products in powder or paste form; machines for forming foundry moulds of sand - sorting, screening, separating or washing machines: for coal 84742020 machinery for sorting, screening, separating, washing, crushing, grinding, mixing or kneading earth, stone, ores or other mineral substances, in solid (including powder or paste) form; machinery for agglomerating, shaping or moulding solid mineral fuels, ceramic paste, unhardened cements, plastering materials or other mineral products in powder or paste form; machines for forming foundry moulds of sand - crushing or grinding machines: for coal 96092000 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - pencil leads, black or coloured 96099010 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : slate pencils 96099020 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : other pencils",
+                          "children": [
+                            {
+                              "role": "option",
+                              "name": "68071010 articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) in-rolls: tarfelt roofing",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "68071010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) in-rolls: tarfelt roofing"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "68071090 articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) in-rolls: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "68071090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) in-rolls: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "68079010 articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) other: tarfelt roofing",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "68079010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) other: tarfelt roofing"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "68079090 articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) other: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "68079090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "articles of asphalt or of similar material (for example, petroleum bitumen or coal tar pitch) other: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84289010 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : for coal handling",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84289010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : for coal handling"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84303110 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: coal cutters",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84303110"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: coal cutters"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84303120 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: tunneling machinery",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84303120"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: tunneling machinery"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84303190 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84303190"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: self-propelled: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84303900 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84303900"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - coal or rock cutters and tunneling machinery: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84305010 other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - other machinery, self-propelled: mining machinery (excluding coal mining)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84305010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other moving, grading, levelling, scraping, excavating, tamping, compacting, extracting or boring machinery, for earth, minerals or ores; piledrivers and pile-extractors; snow-ploughs and snow-blowers - other machinery, self-propelled: mining machinery (excluding coal mining)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84741010 machinery for sorting, screening, separating, washing, crushing, grinding, mixing or kneading earth, stone, ores or other mineral substances, in solid (including powder or paste) form; machinery for agglomerating, shaping or moulding solid mineral fuels, ceramic paste, unhardened cements, plastering materials or other mineral products in powder or paste form; machines for forming foundry moulds of sand - sorting, screening, separating or washing machines: for coal",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84741010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "machinery for sorting, screening, separating, washing, crushing, grinding, mixing or kneading earth, stone, ores or other mineral substances, in solid (including powder or paste) form; machinery for agglomerating, shaping or moulding solid mineral fuels, ceramic paste, unhardened cements, plastering materials or other mineral products in powder or paste form; machines for forming foundry moulds of sand - sorting, screening, separating or washing machines: for coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84742020 machinery for sorting, screening, separating, washing, crushing, grinding, mixing or kneading earth, stone, ores or other mineral substances, in solid (including powder or paste) form; machinery for agglomerating, shaping or moulding solid mineral fuels, ceramic paste, unhardened cements, plastering materials or other mineral products in powder or paste form; machines for forming foundry moulds of sand - crushing or grinding machines: for coal",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84742020"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "machinery for sorting, screening, separating, washing, crushing, grinding, mixing or kneading earth, stone, ores or other mineral substances, in solid (including powder or paste) form; machinery for agglomerating, shaping or moulding solid mineral fuels, ceramic paste, unhardened cements, plastering materials or other mineral products in powder or paste form; machines for forming foundry moulds of sand - crushing or grinding machines: for coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "96092000 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - pencil leads, black or coloured",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "96092000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - pencil leads, black or coloured"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "96099010 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : slate pencils",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "96099010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : slate pencils"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "96099020 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : other pencils",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "96099020"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : other pencils"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "96099030 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : pastels, drawing charcoals and writing or drawing chalks and tailors chalks",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "96099030"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : pastels, drawing charcoals and writing or drawing chalks and tailors chalks"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "96099090 pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "96099090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pencils (other than pencils of heading 9608 ), crayons, pencil leads, pastels, drawing charcoals, writing or drawing chalks and tailors' chalks - other : other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "03025300 coalfish (pollachius virens)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "03025300"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coalfish (pollachius virens)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "03026300 fish, fresh or chilled, excluding fishfillets and other fish meat of heading 0304 other fish, excluding livers and roes coalfish (pollachius virens)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "03026300"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "fish, fresh or chilled, excluding fishfillets and other fish meat of heading 0304 other fish, excluding livers and roes coalfish (pollachius virens)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "03036500 coalfish (pollachius virens)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "03036500"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coalfish (pollachius virens)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "03037300 fish, frozen, excluding fish fillets andother fish meat of heading 0304 other fish, excluding livers and roes : coalfish (pollachius virens)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "03037300"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "fish, frozen, excluding fish fillets andother fish meat of heading 0304 other fish, excluding livers and roes : coalfish (pollachius virens)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27011100 coal; briquettes, ovoids and similar solid fuels manufactured from coal - coal, whether or not pulverised, but not agglomerated: anthracite",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27011100"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coal; briquettes, ovoids and similar solid fuels manufactured from coal - coal, whether or not pulverised, but not agglomerated: anthracite"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27011200 coal; briquettes, ovoids and similar solid fuels manufactured from coal - coal, whether or not pulverised, but not agglomerated: bituminous coal",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27011200"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coal; briquettes, ovoids and similar solid fuels manufactured from coal - coal, whether or not pulverised, but not agglomerated: bituminous coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "270119 other coal",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "270119"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27011910 coal; briquettes, ovoids and similar solid fuels manufactured from coal - coal, whether or not pulverised, but not agglomerated: - other coal: coking coal",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27011910"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coal; briquettes, ovoids and similar solid fuels manufactured from coal - coal, whether or not pulverised, but not agglomerated: - other coal: coking coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27011990 coal; briquettes, ovoids and similar solid fuels manufactured from coal - coal, whether or not pulverised, but not agglomerated: - other coal: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27011990"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coal; briquettes, ovoids and similar solid fuels manufactured from coal - coal, whether or not pulverised, but not agglomerated: - other coal: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "270120 briquettes, ovoids and similar solid fuels manufactured from coal",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "270120"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "briquettes, ovoids and similar solid fuels manufactured from coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27012010 coal; briquettes, ovoids and similar solid fuels manufactured from coal - briquettes, ovoids and similar solid fuels manufactured from coal: anthracite agglomerated",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27012010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coal; briquettes, ovoids and similar solid fuels manufactured from coal - briquettes, ovoids and similar solid fuels manufactured from coal: anthracite agglomerated"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27012090 coal; briquettes, ovoids and similar solid fuels manufactured from coal - briquettes, ovoids and similar solid fuels manufactured from coal: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27012090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coal; briquettes, ovoids and similar solid fuels manufactured from coal - briquettes, ovoids and similar solid fuels manufactured from coal: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "270400 coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "270400"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27040010 coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon - coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon: retort carbon (gas carbon)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27040010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon - coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon: retort carbon (gas carbon)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27040020 coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon - coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon: coke and semi-coke of lignite or of peat",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27040020"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon - coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon: coke and semi-coke of lignite or of peat"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27040030 coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon - coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon: hard coke of coal",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27040030"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon - coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon: hard coke of coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27040040 coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon - coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon: soft coke of coal",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27040040"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon - coke and semi-coke of coal, of lignite or of peat, whether or not agglomerated; retort carbon: soft coke of coal"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27050000 coal gas, water gas, producer gas and similar gases, other than petroleum gases and other gaseous hydrocarbons",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27050000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coal gas, water gas, producer gas and similar gases, other than petroleum gases and other gaseous hydrocarbons"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "270600 tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "270600"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27060010 tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars - tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars: coal tar",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27060010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars - tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars: coal tar"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27060090 tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars - tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27060090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars - tar distilled from coal, from lignite or from peat and other mineral tars, whether or not dehydrated or partially distilled, including reconstituted tars: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27071000 oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents benzol (benzene)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27071000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents benzol (benzene)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27072000 oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents toluol (toluene)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27072000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents toluol (toluene)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27073000 oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents xylol (xylenes)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27073000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents xylol (xylenes)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27074000 oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents naphthelene",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27074000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents naphthelene"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27075000 oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents other aromatic hydrocarbon mixtures of which 65% or more by volume (including losses) distils at 250oc by the astm d 86 method",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27075000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents other aromatic hydrocarbon mixtures of which 65% or more by volume (including losses) distils at 250oc by the astm d 86 method"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27076000 oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents phenols",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27076000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents phenols"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27079100 oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents - other: creosote oils",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27079100"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents - other: creosote oils"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27079900 oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents - other: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27079900"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "oils and other products of the distillation of high temperature coal tar similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents - other: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27081010 pitch and pitch coke, obtained from coal tar or from other mineral tars - pitch: obtained by blending with creosote oil or other coal tar distillates",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27081010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pitch and pitch coke, obtained from coal tar or from other mineral tars - pitch: obtained by blending with creosote oil or other coal tar distillates"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27081090 pitch and pitch coke, obtained from coal tar or from other mineral tars - pitch: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27081090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pitch and pitch coke, obtained from coal tar or from other mineral tars - pitch: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "27082000 pitch and pitch coke, obtained from coal tar or from other mineral tars - pitch coke",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "27082000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pitch and pitch coke, obtained from coal tar or from other mineral tars - pitch coke"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "03047300 coalfish (pollachius virens)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "03047300"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "coalfish (pollachius virens)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "38249011 prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents: ammoniacal gas liquors and spent oxide produced in coal gas purification",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "38249011"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents: ammoniacal gas liquors and spent oxide produced in coal gas purification"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "38249012 prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents: case hardening compound",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "38249012"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents: case hardening compound"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "38249013 prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents heat transfer salts",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "38249013"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents heat transfer salts"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "38249014 prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents mixture of diphenyl and diphenyl oxide as heat transfer medium",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "38249014"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents mixture of diphenyl and diphenyl oxide as heat transfer medium"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "38249015 prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents mixed polyethylene glycols",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "38249015"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents mixed polyethylene glycols"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "38249016 prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents salts for curing or salting",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "38249016"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents salts for curing or salting"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "38249017 prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents surface tension reducing agents",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "38249017"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "prepared binders for foundry moulds or cores; chemical products and preparations of the chemical or allied industries (including those consisting of mixtures of natural products), not elsewhere specified or included other: ammoniacal gas liquors and spent oxide produced in coal gas purification, case hardening compound, heat transfer salts; mixture of diphenyl and diphenyl oxide as heat transfer medium, mixed polyethylene glycols; salts for curing or salting, surface tension reducing agents surface tension reducing agents"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "4402 wood charcoal (including shell or nut charcoal), whether or not agglomerated",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "4402"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "wood charcoal (including shell or nut charcoal), whether or not agglomerated"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "44020010 wood charcoal (including shell or nut charcoal), whether or not agglomerated - wood charcoal (including shell or nut charcoal), whether or not agglomerated: of coconut shell",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "44020010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "wood charcoal (including shell or nut charcoal), whether or not agglomerated - wood charcoal (including shell or nut charcoal), whether or not agglomerated: of coconut shell"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "44020090 wood charcoal (including shell or nut charcoal), whether or not agglomerated - wood charcoal (including shell or nut charcoal), whether or not agglomerated: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "44020090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "wood charcoal (including shell or nut charcoal), whether or not agglomerated - wood charcoal (including shell or nut charcoal), whether or not agglomerated: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "440210 wood charcoal (including shell or nut charcoal), whether or not agglomerated",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "440210"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "wood charcoal (including shell or nut charcoal), whether or not agglomerated"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "44021010 whether or not agglomerated - wood charcoal (including shell or nut charcoal)wood charcoal (including shell or nut charcoal), whether or not agglomerated ---of bamboo",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "44021010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "whether or not agglomerated - wood charcoal (including shell or nut charcoal)wood charcoal (including shell or nut charcoal), whether or not agglomerated ---of bamboo"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "44029010 wood charcoal (including shell or nut charcoal), whether or not agglomerated - other : --- of cocunut shell",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "44029010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "wood charcoal (including shell or nut charcoal), whether or not agglomerated - other : --- of cocunut shell"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "44029090 wood charcoal (including shell or nut charcoal), whether or not agglomerated: other --- other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "44029090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "wood charcoal (including shell or nut charcoal), whether or not agglomerated: other --- other"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "listbox",
+                  "name": "",
+                  "orientation": "vertical",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "status",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "No data found"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "listbox",
+                  "name": "",
+                  "orientation": "vertical",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "status",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "No data found"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

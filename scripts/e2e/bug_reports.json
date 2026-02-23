@@ -442,5 +442,103 @@
     "description": "Step 15 stalled for 30s: Click executed on highlight_off at (900.984375, 144)",
     "ariaSnapshot": null,
     "timestamp": "2026-02-20T05:57:32.244Z"
+  },
+  {
+    "id": "BUG-1771823280212",
+    "title": "Failure in dassdf",
+    "description": "Element not found for step 1: Element not found or not visible for step:1 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_212_1771823280129.json",
+    "timestamp": "2026-02-23T05:08:00.212Z"
+  },
+  {
+    "id": "BUG-1771825343510",
+    "title": "Failure in dassdf",
+    "description": "Element not found for step 44: Element not found or not visible for step:44 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_212_1771825343412.json",
+    "timestamp": "2026-02-23T05:42:23.510Z"
+  },
+  {
+    "id": "BUG-1771826186907",
+    "title": "Failure in dassdf",
+    "description": "Element not found for step 44: Element not found or not visible for step:44 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_212_1771826186817.json",
+    "timestamp": "2026-02-23T05:56:26.907Z"
+  },
+  {
+    "id": "BUG-1771826528413",
+    "title": "Failure in dassdf",
+    "description": "Element not found for step 10: Element not found or not visible for step:10 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_212_1771826528312.json",
+    "timestamp": "2026-02-23T06:02:08.413Z"
+  },
+  {
+    "id": "BUG-1771827992499",
+    "title": "Failure in dassdf",
+    "description": "Element not found for step 58: Element not found or not visible for step:58 (input)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_212_1771827992371.json",
+    "timestamp": "2026-02-23T06:26:32.499Z"
+  },
+  {
+    "id": "BUG-1771829146014",
+    "title": "Failure in dassdf",
+    "description": "Element not found for step 58: Element not found or not visible for step:58 (input)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_212_1771829145904.json",
+    "timestamp": "2026-02-23T06:45:46.014Z"
+  },
+  {
+    "id": "BUG-1771839341605",
+    "title": "Failure in dassdf",
+    "description": "Step 75 stalled for 30s: Typing \"Handling\" into combobox to trigger search",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_212_1771839341373.json",
+    "timestamp": "2026-02-23T09:35:41.605Z"
+  },
+  {
+    "id": "BUG-1771840520192",
+    "title": "Failure in dassdf",
+    "description": "Element not found for step 56: Element not found or not visible for step:56 (click)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-23T09:55:20.192Z"
+  },
+  {
+    "id": "BUG-1771841349981",
+    "title": "Failure in dassdf",
+    "description": "Step 8 stalled for 30s: Element found, executing input",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-23T10:09:09.981Z"
+  },
+  {
+    "id": "BUG-1771841911860",
+    "title": "Failure in dassdf",
+    "description": "Step 14 stalled for 30s: input on http://localhost:3007/ovs/purchase-orders/create?tabId=mnbPzBWMbY&purchaseOrderType=MATERIAL",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-23T10:18:31.860Z"
+  },
+  {
+    "id": "BUG-1771842131412",
+    "title": "Failure in dassdf",
+    "description": "Element not found for step 56: Element not found or not visible for step:56 (click)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-23T10:22:11.412Z"
+  },
+  {
+    "id": "BUG-1771842438942",
+    "title": "Failure in dassdf",
+    "description": "Step 20 stalled for 30s: Element found, executing input",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-23T10:27:18.942Z"
+  },
+  {
+    "id": "BUG-1771845387308",
+    "title": "Failure in fghjhjsa",
+    "description": "Step 72 stalled for 30s: Typing \"Coal\" into combobox to trigger search",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-23T11:16:27.308Z"
+  },
+  {
+    "id": "BUG-1771849929030",
+    "title": "Failure in kjesafh",
+    "description": "Step 79 stalled for 30s: Typing \"Per\" into combobox to trigger search",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-23T12:32:09.030Z"
   }
 ]

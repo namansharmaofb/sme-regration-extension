@@ -6,7 +6,7 @@ const fs = require("fs");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
-const JSON_LIMIT = process.env.JSON_LIMIT || "50mb";
+const JSON_LIMIT = process.env.JSON_LIMIT || "200mb";
 
 app.use(cors());
 app.use(express.json({ limit: JSON_LIMIT }));

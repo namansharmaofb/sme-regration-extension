@@ -1,0 +1,445 @@
+{
+  "role": "RootWebArea",
+  "name": "Create Material PO | SMEAssist | Leading automation tool for SMEs",
+  "children": [
+    {
+      "role": "none",
+      "children": [
+        {
+          "role": "generic",
+          "name": "",
+          "children": [
+            {
+              "role": "generic",
+              "name": "Associated PAN: AAALS2726B 15 Maximum allowed characters for series is 16 Series Expected Counter 105 Suffix Submit",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "paragraph",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "StaticText",
+                          "name": "Associated "
+                        },
+                        {
+                          "role": "StaticText",
+                          "name": "PAN"
+                        },
+                        {
+                          "role": "StaticText",
+                          "name": ": "
+                        },
+                        {
+                          "role": "StaticText",
+                          "name": "AAALS2726B"
+                        }
+                      ]
+                    },
+                    {
+                      "role": "paragraph",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "StaticText",
+                          "name": "15"
+                        },
+                        {
+                          "role": "generic",
+                          "name": "Maximum allowed characters for series is 16",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "info"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "LabelText",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "Series"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "LabelText",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "Expected Counter"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "textbox",
+                              "name": "Enter counter value",
+                              "value": "105"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "LabelText",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "Suffix"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "role": "button",
+                  "name": "Submit",
+                  "children": [
+                    {
+                      "role": "StaticText",
+                      "name": "Submit"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "listbox",
+                  "name": "",
+                  "orientation": "vertical",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "list",
+                          "name": "Handling Charge SKU: CH0004 Unloading Charge SKU: CH0003 Freight Charge SKU: CH0001 Storage Charges SKU: CH0010 Loading Charge SKU: CH0002 Packaging Charge SKU: CH0008 Other Charges SKU: CH0005 Insurance Charge SKU: CH0006 Commission Charge SKU: CH0007 Labour Charge SKU: CH0009 Unloading Charge SKU: SKU234234234 Charges SKU: SKU_12 Broker Charge SKU: qwerty dewgrre SKU: ty576 Job Development SKU: JD_0001 aspernatur SKU: candidus desparatus SKU: succurro salt001 SKU: Salt001 Custom House Agent Services SKU: CH00012 Service Charge SKU: SER0001",
+                          "children": [
+                            {
+                              "role": "option",
+                              "name": "Handling Charge SKU: CH0004",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Handling Charge"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: CH0004"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "Unloading Charge SKU: CH0003",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Unloading Charge"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: CH0003"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "Freight Charge SKU: CH0001",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Freight Charge"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: CH0001"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "Storage Charges SKU: CH0010",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Storage Charges"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: CH0010"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "Loading Charge SKU: CH0002",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Loading Charge"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: CH0002"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "Packaging Charge SKU: CH0008",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Packaging Charge"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: CH0008"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "Other Charges SKU: CH0005",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Other Charges"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: CH0005"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "Insurance Charge SKU: CH0006",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Insurance Charge"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: CH0006"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "Commission Charge SKU: CH0007",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Commission Charge"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: CH0007"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "Labour Charge SKU: CH0009",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Labour Charge"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: CH0009"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "Unloading Charge SKU: SKU234234234",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Unloading Charge"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: SKU234234234"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "Charges SKU: SKU_12",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Charges "
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: SKU_12"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "Broker Charge SKU: qwerty",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Broker Charge"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: qwerty"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "dewgrre SKU: ty576",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "dewgrre"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: ty576"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "Job Development SKU: JD_0001",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Job Development"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: JD_0001"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "aspernatur SKU: candidus",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "aspernatur"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: candidus"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "desparatus SKU: succurro",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "desparatus"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: succurro"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "salt001 SKU: Salt001",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "salt001"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: Salt001"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "Custom House Agent Services SKU: CH00012",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Custom House Agent Services"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: CH00012"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "Service Charge SKU: SER0001",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "Service Charge"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "SKU: SER0001"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

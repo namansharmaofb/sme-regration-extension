@@ -1,0 +1,46 @@
+{
+  "role": "RootWebArea",
+  "name": "Dashboard Overview | SMEAssist | Leading automation tool for SMEs",
+  "children": [
+    {
+      "role": "none",
+      "children": [
+        {
+          "role": "none",
+          "children": [
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "dashboard mark_email_unread inventory_2 maps_home_work contact_page shopping_cart receipt credit_card manage_accounts biotech assured_workload work_outline auto_stories"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "banner",
+                          "name": ""
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

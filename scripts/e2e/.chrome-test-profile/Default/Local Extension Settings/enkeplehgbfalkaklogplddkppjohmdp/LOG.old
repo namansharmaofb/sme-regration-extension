@@ -1,3 +1,33 @@
-2026/02/20-11:25:50.772 45eca Reusing MANIFEST /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/MANIFEST-000001
-2026/02/20-11:25:50.772 45eca Recovering log #319
-2026/02/20-11:25:50.776 45eca Reusing old log /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/000319.log 
+2026/02/23-17:58:11.665 1412f Reusing MANIFEST /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/MANIFEST-000001
+2026/02/23-17:58:11.665 1412f Recovering log #939
+2026/02/23-17:58:11.680 1412f Reusing old log /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/000939.log 
+2026/02/23-17:58:37.090 14149 Level-0 table #944: started
+2026/02/23-17:58:37.098 14149 Level-0 table #944: 714784 bytes OK
+2026/02/23-17:58:37.100 14149 Delete type=0 #939
+2026/02/23-17:59:15.978 1414a Level-0 table #946: started
+2026/02/23-17:59:15.989 1414a Level-0 table #946: 706288 bytes OK
+2026/02/23-17:59:15.991 1414a Delete type=0 #943
+2026/02/23-17:59:49.629 14130 Level-0 table #948: started
+2026/02/23-17:59:49.643 14130 Level-0 table #948: 732043 bytes OK
+2026/02/23-17:59:49.645 14130 Delete type=0 #945
+2026/02/23-18:00:21.252 14121 Level-0 table #950: started
+2026/02/23-18:00:21.264 14121 Level-0 table #950: 724353 bytes OK
+2026/02/23-18:00:21.266 14121 Delete type=0 #947
+2026/02/23-18:00:21.268 14121 Compacting 4@0 + 1@1 files
+2026/02/23-18:00:21.277 14121 Generated table #951@0: 3 keys, 22979 bytes
+2026/02/23-18:00:21.277 14121 Compacted 4@0 + 1@1 files => 22979 bytes
+2026/02/23-18:00:21.278 14121 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/02/23-18:00:21.279 14121 Delete type=2 #941
+2026/02/23-18:00:21.279 14121 Delete type=2 #948
+2026/02/23-18:00:21.279 14121 Delete type=2 #944
+2026/02/23-18:00:21.279 14121 Delete type=2 #950
+2026/02/23-18:00:21.279 14121 Delete type=2 #946
+2026/02/23-18:00:53.799 14120 Level-0 table #953: started
+2026/02/23-18:00:53.809 14120 Level-0 table #953: 736473 bytes OK
+2026/02/23-18:00:53.811 14120 Delete type=0 #949
+2026/02/23-18:01:20.026 14120 Level-0 table #955: started
+2026/02/23-18:01:20.034 14120 Level-0 table #955: 723914 bytes OK
+2026/02/23-18:01:20.036 14120 Delete type=0 #952
+2026/02/23-18:01:38.279 14120 Level-0 table #957: started
+2026/02/23-18:01:38.287 14120 Level-0 table #957: 802438 bytes OK
+2026/02/23-18:01:38.289 14120 Delete type=0 #954

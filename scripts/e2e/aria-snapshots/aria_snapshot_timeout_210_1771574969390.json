@@ -1,0 +1,47 @@
+{
+  "role": "generic",
+  "name": "",
+  "children": [
+    {
+      "role": "generic",
+      "name": "",
+      "children": [
+        {
+          "role": "generic",
+          "name": "",
+          "children": [
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "combobox",
+                  "name": "",
+                  "haspopup": "listbox",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "StaticText",
+                          "name": "expand_more"
+                        }
+                      ]
+                    },
+                    {
+                      "role": "combobox",
+                      "name": "Search by contact name",
+                      "autocomplete": "off",
+                      "haspopup": "listbox"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

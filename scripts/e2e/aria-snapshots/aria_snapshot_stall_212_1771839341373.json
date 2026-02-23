@@ -1,0 +1,1874 @@
+{
+  "role": "RootWebArea",
+  "name": "Create Material PO | SMEAssist | Leading automation tool for SMEs",
+  "children": [
+    {
+      "role": "none",
+      "children": [
+        {
+          "role": "generic",
+          "name": "",
+          "children": [
+            {
+              "role": "dialog",
+              "name": "",
+              "focused": true,
+              "modal": true,
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "Customize Columns"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "button",
+                          "name": "close",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "close"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "button",
+                          "name": "Cancel",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "Cancel"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "button",
+                          "name": "Submit",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "Submit"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "listbox",
+                  "name": "",
+                  "orientation": "vertical",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "status",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "No data found"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "listbox",
+                  "name": "",
+                  "orientation": "vertical",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "list",
+                          "name": "853210 electrical machinery and equipment and parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles~electrical capacitors, fixed, variable or adjustable (pre-set)~fixed capacitors designed for use in 50 or 60 hz circuits and having a reactive power handling capacity of not less than 0.5 kvar (power capacitors) 84139140 pumps for liquids, whether or not fitted with a measuring device; liquid elevators - parts: 8413 91 - of pumps: of hand pump for handling water 84271000 fork-lift trucks; other works trucks fitted with lifting or handling equipment self-propelled trucks powered by an electric motor 84272000 8427 fork-lift trucks; other works trucks fitted with lifting or handling equipment other self-propelled trucks 84279000 8427 fork-lift trucks; other works trucks fitted with lifting or handling equipment other trucks 84281011 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) 8428 10 - lifts and skip hoists: lifts: lifts of a kind used in buildings 84281019 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) 8428 10 - lifts and skip hoists: lifts: other 84281020 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - lifts and skip hoists: skip hoists 84282011 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors: conveyors: belt conveyors 84282019 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors: conveyors: other 84282020 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors pneumatic elevators 84283100 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: specially designed for underground use 84283200 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other, bucket type 84283300 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other, belt type 84283900 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other 84284000 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - escalators and moving walkways 84285010 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - mine wagon pushers, locomotive or wagon traversers, wagon tippers and similar railway wagon handling equipment: wagon marshalling equipment 84285020 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - mine wagon pushers, locomotive or wagon traversers, wagon tippers and similar railway wagon handling equipment: wagon tippers 84285090 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - mine wagon pushers, locomotive or wagon traversers, wagon tippers and similar railway wagon handling equipment: other 84286000 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - teleferics, chair-lifts, ski-raglines, traction mechanisms for funiculars",
+                          "children": [
+                            {
+                              "role": "option",
+                              "name": "853210 electrical machinery and equipment and parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles~electrical capacitors, fixed, variable or adjustable (pre-set)~fixed capacitors designed for use in 50 or 60 hz circuits and having a reactive power handling capacity of not less than 0.5 kvar (power capacitors)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "853210"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical machinery and equipment and parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles~electrical capacitors, fixed, variable or adjustable (pre-set)~fixed capacitors designed for use in 50 or 60 hz circuits and having a reactive power handling capacity of not less than 0.5 kvar (power capacitors)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84139140 pumps for liquids, whether or not fitted with a measuring device; liquid elevators - parts: 8413 91 - of pumps: of hand pump for handling water",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84139140"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pumps for liquids, whether or not fitted with a measuring device; liquid elevators - parts: 8413 91 - of pumps: of hand pump for handling water"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84271000 fork-lift trucks; other works trucks fitted with lifting or handling equipment self-propelled trucks powered by an electric motor",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84271000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "fork-lift trucks; other works trucks fitted with lifting or handling equipment self-propelled trucks powered by an electric motor"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84272000 8427 fork-lift trucks; other works trucks fitted with lifting or handling equipment other self-propelled trucks",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84272000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "8427 fork-lift trucks; other works trucks fitted with lifting or handling equipment other self-propelled trucks"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84279000 8427 fork-lift trucks; other works trucks fitted with lifting or handling equipment other trucks",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84279000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "8427 fork-lift trucks; other works trucks fitted with lifting or handling equipment other trucks"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84281011 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) 8428 10 - lifts and skip hoists: lifts: lifts of a kind used in buildings",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84281011"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) 8428 10 - lifts and skip hoists: lifts: lifts of a kind used in buildings"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84281019 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) 8428 10 - lifts and skip hoists: lifts: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84281019"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) 8428 10 - lifts and skip hoists: lifts: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84281020 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - lifts and skip hoists: skip hoists",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84281020"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - lifts and skip hoists: skip hoists"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84282011 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors: conveyors: belt conveyors",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84282011"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors: conveyors: belt conveyors"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84282019 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors: conveyors: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84282019"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors: conveyors: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84282020 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors pneumatic elevators",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84282020"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors pneumatic elevators"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84283100 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: specially designed for underground use",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84283100"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: specially designed for underground use"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84283200 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other, bucket type",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84283200"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other, bucket type"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84283300 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other, belt type",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84283300"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other, belt type"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84283900 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84283900"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84284000 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - escalators and moving walkways",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84284000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - escalators and moving walkways"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84285010 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - mine wagon pushers, locomotive or wagon traversers, wagon tippers and similar railway wagon handling equipment: wagon marshalling equipment",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84285010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - mine wagon pushers, locomotive or wagon traversers, wagon tippers and similar railway wagon handling equipment: wagon marshalling equipment"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84285020 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - mine wagon pushers, locomotive or wagon traversers, wagon tippers and similar railway wagon handling equipment: wagon tippers",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84285020"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - mine wagon pushers, locomotive or wagon traversers, wagon tippers and similar railway wagon handling equipment: wagon tippers"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84285090 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - mine wagon pushers, locomotive or wagon traversers, wagon tippers and similar railway wagon handling equipment: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84285090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - mine wagon pushers, locomotive or wagon traversers, wagon tippers and similar railway wagon handling equipment: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84286000 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - teleferics, chair-lifts, ski-raglines, traction mechanisms for funiculars",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84286000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - teleferics, chair-lifts, ski-raglines, traction mechanisms for funiculars"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84289010 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : for coal handling",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84289010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : for coal handling"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84289020 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : for ash handling",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84289020"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : for ash handling"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84289090 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84289090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84135021 pumps for liquids, whether or not fitted with a measuring device; liquid elevators - other reciprocating positive displacement pumps: primarily designed for handling water : deep tube well turbine pump",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84135021"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pumps for liquids, whether or not fitted with a measuring device; liquid elevators - other reciprocating positive displacement pumps: primarily designed for handling water : deep tube well turbine pump"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84135029 pumps for liquids, whether or not fitted with a measuring device; liquid elevators - other reciprocating positive displacement pumps: primarily designed for handling water : other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84135029"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pumps for liquids, whether or not fitted with a measuring device; liquid elevators - other reciprocating positive displacement pumps: primarily designed for handling water : other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84138130 pumps for liquids, whether or not fitted with a measuring device; liquid elevators - other pumps-liquid elevators: 8413 81 - pumps : axial flow and mixed flow vertical pump designed primarily for handling water",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84138130"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pumps for liquids, whether or not fitted with a measuring device; liquid elevators - other pumps-liquid elevators: 8413 81 - pumps : axial flow and mixed flow vertical pump designed primarily for handling water"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85042100 electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: having a power handling capacity not exceeding 650 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85042100"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: having a power handling capacity not exceeding 650 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85042200 electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: having a power handling capacity exceeding 650 kva but not exceeding 10,000 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85042200"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: having a power handling capacity exceeding 650 kva but not exceeding 10,000 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "850423 having a power handling capacity exceeding 10,000 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "850423"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "having a power handling capacity exceeding 10,000 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85042310 electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: - having a power handling capacity exceeding 10,000 kva: having a power handling capacity exceeding 10,000 kva but not exceeding 50,000 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85042310"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: - having a power handling capacity exceeding 10,000 kva: having a power handling capacity exceeding 10,000 kva but not exceeding 50,000 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85042320 electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: - having a power handling capacity exceeding 10,000 kva: having a power handling capacity exceeding 50,000 kva but not exceeding 1,00,000 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85042320"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: - having a power handling capacity exceeding 10,000 kva: having a power handling capacity exceeding 50,000 kva but not exceeding 1,00,000 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85042330 electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: - having a power handling capacity exceeding 10,000 kva: having a power handling capacity exceeding 1,00,000 kva but not exceeding 2,50,000 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85042330"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: - having a power handling capacity exceeding 10,000 kva: having a power handling capacity exceeding 1,00,000 kva but not exceeding 2,50,000 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85042340 electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: - having a power handling capacity exceeding 10,000 kva: having a power handling capacity exceeding 2,50,000 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85042340"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: - having a power handling capacity exceeding 10,000 kva: having a power handling capacity exceeding 2,50,000 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85043100 electrical transformers, static converters (for example, rectifiers) and inductors - other transformers: having a power handling capacity not exceeding 1 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85043100"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - other transformers: having a power handling capacity not exceeding 1 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85043200 electrical transformers, static converters (for example, rectifiers) and inductors - other transformers: having a power handling capacity exceeding 1 kva but not exceeding 16 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85043200"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - other transformers: having a power handling capacity exceeding 1 kva but not exceeding 16 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85043300 electrical transformers, static converters (for example, rectifiers) and inductors - other transformers: having a power handling capacity exceeding 16 kva but not exceeding 500 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85043300"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - other transformers: having a power handling capacity exceeding 16 kva but not exceeding 500 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85043400 electrical transformers, static converters (for example, rectifiers) and inductors - other transformers: having a power handling capacity exceeding 500 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85043400"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - other transformers: having a power handling capacity exceeding 500 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85321000 electrical capacitors, fixed, variable or adjustable (pre-set) fixed capacitors designed for use in 50 or 60 hz circuits and having a reactive power handling capacity of not less than 0.5 kvar (power capacitors)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85321000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical capacitors, fixed, variable or adjustable (pre-set) fixed capacitors designed for use in 50 or 60 hz circuits and having a reactive power handling capacity of not less than 0.5 kvar (power capacitors)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "853321 for a power handling capacity not exceeding 20 w",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "853321"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "for a power handling capacity not exceeding 20 w"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85332111 electrical resistors (including rheostats and potentiometers), other than heating resistors - other fixed resistors: - for a power handling capacity not exceeding 20 w: - of bare wire : of nichrome",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85332111"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical resistors (including rheostats and potentiometers), other than heating resistors - other fixed resistors: - for a power handling capacity not exceeding 20 w: - of bare wire : of nichrome"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85332119 electrical resistors (including rheostats and potentiometers), other than heating resistors - other fixed resistors: - for a power handling capacity not exceeding 20 w: - of bare wire : other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85332119"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical resistors (including rheostats and potentiometers), other than heating resistors - other fixed resistors: - for a power handling capacity not exceeding 20 w: - of bare wire : other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85332121 electrical resistors (including rheostats and potentiometers), other than heating resistors - other fixed resistors: - for a power handling capacity not exceeding 20 w: - of insulated wire : of nichrome",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85332121"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical resistors (including rheostats and potentiometers), other than heating resistors - other fixed resistors: - for a power handling capacity not exceeding 20 w: - of insulated wire : of nichrome"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85332129 electrical resistors (including rheostats and potentiometers), other than heating resistors - other fixed resistors: - for a power handling capacity not exceeding 20 w: - of insulated wire : other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85332129"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical resistors (including rheostats and potentiometers), other than heating resistors - other fixed resistors: - for a power handling capacity not exceeding 20 w: - of insulated wire : other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "853331 for a power handling capacity not exceeding 20 w",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "853331"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "for a power handling capacity not exceeding 20 w"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85333110 electrical resistors (including rheostats and potentiometers), other than heating resistors - wirewound variable resistors, including rheostats and potentiometers: - for a power handling capacity not exceeding 20 w: potentiometers",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85333110"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical resistors (including rheostats and potentiometers), other than heating resistors - wirewound variable resistors, including rheostats and potentiometers: - for a power handling capacity not exceeding 20 w: potentiometers"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85333120 electrical resistors (including rheostats and potentiometers), other than heating resistors - wirewound variable resistors, including rheostats and potentiometers: - for a power handling capacity not exceeding 20 w: rheostats",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85333120"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical resistors (including rheostats and potentiometers), other than heating resistors - wirewound variable resistors, including rheostats and potentiometers: - for a power handling capacity not exceeding 20 w: rheostats"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85333190 electrical resistors (including rheostats and potentiometers), other than heating resistors - wirewound variable resistors, including rheostats and potentiometers: - for a power handling capacity not exceeding 20 w: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85333190"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical resistors (including rheostats and potentiometers), other than heating resistors - wirewound variable resistors, including rheostats and potentiometers: - for a power handling capacity not exceeding 20 w: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "87091100 works trucks, self-propelled, not fitted with lifting or handling equipment, of the type used in factories, warehouses, dock areas or airports for short distance transport of goods; tractors of the type used on railway station platforms; parts of the foregoing vehicles vehicles : electrical",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "87091100"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "works trucks, self-propelled, not fitted with lifting or handling equipment, of the type used in factories, warehouses, dock areas or airports for short distance transport of goods; tractors of the type used on railway station platforms; parts of the foregoing vehicles vehicles : electrical"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "87091900 works trucks, self-propelled, not fitted with lifting or handling equipment, of the type used in factories, warehouses, dock areas or airports for short distance transport of goods; tractors of the type used on railway station platforms; parts of the foregoing vehicles vehicles : other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "87091900"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "works trucks, self-propelled, not fitted with lifting or handling equipment, of the type used in factories, warehouses, dock areas or airports for short distance transport of goods; tractors of the type used on railway station platforms; parts of the foregoing vehicles vehicles : other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "87099000 works trucks, self-propelled, not fitted with lifting or handling equipment, of the type used in factories, warehouses, dock areas or airports for short distance transport of goods; tractors of the type used on railway station platforms; parts of the foregoing vehicles parts",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "87099000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "works trucks, self-propelled, not fitted with lifting or handling equipment, of the type used in factories, warehouses, dock areas or airports for short distance transport of goods; tractors of the type used on railway station platforms; parts of the foregoing vehicles parts"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "90121010 microscopes other than optical microscopes; diffraction apparatus - microscopes other than optical microscopes; diffraction apparatus: electron microscopes fitted with equipment specifically designed for the handling and transport of semiconductor wafers or reticles",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "90121010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "microscopes other than optical microscopes; diffraction apparatus - microscopes other than optical microscopes; diffraction apparatus: electron microscopes fitted with equipment specifically designed for the handling and transport of semiconductor wafers or reticles"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "40118000 of a kind used on construction, mining or industrial handling vehicles and machines",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "40118000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "of a kind used on construction, mining or industrial handling vehicles and machines"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "40119300 new pneumatic tyres, of rubber - other : of a kind used on construction or industrial handling vehicles and machines and having a rim size not exceeding 61 cm",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "40119300"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "new pneumatic tyres, of rubber - other : of a kind used on construction or industrial handling vehicles and machines and having a rim size not exceeding 61 cm"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "40119400 new pneumatic tyres, of rubber - other : of a kind used on construction or industrial handling vehicles and machines and having a rim size exceeding 61 cm",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "40119400"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "new pneumatic tyres, of rubber - other : of a kind used on construction or industrial handling vehicles and machines and having a rim size exceeding 61 cm"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "40116200 new pneumatic tyres, of rubber - other, having a herring-bone or similar tread : of a kind used on construction or industrial handling vehicles and machines and having a rim size not exceeding 61 cm",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "40116200"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "new pneumatic tyres, of rubber - other, having a herring-bone or similar tread : of a kind used on construction or industrial handling vehicles and machines and having a rim size not exceeding 61 cm"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "40116300 new pneumatic tyres, of rubber - other, having a herring-bone or similar tread : of a kind used on construction or industrial handling vehicles and machines and having a rim size exceeding 61 cm",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "40116300"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "new pneumatic tyres, of rubber - other, having a herring-bone or similar tread : of a kind used on construction or industrial handling vehicles and machines and having a rim size exceeding 61 cm"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "listbox",
+                  "name": "",
+                  "orientation": "vertical",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "status",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "No data found"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "listbox",
+                  "name": "",
+                  "orientation": "vertical",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "status",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "No data found"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "listbox",
+                  "name": "",
+                  "orientation": "vertical",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "list",
+                          "name": "853210 electrical machinery and equipment and parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles~electrical capacitors, fixed, variable or adjustable (pre-set)~fixed capacitors designed for use in 50 or 60 hz circuits and having a reactive power handling capacity of not less than 0.5 kvar (power capacitors) 84139140 pumps for liquids, whether or not fitted with a measuring device; liquid elevators - parts: 8413 91 - of pumps: of hand pump for handling water 84271000 fork-lift trucks; other works trucks fitted with lifting or handling equipment self-propelled trucks powered by an electric motor 84272000 8427 fork-lift trucks; other works trucks fitted with lifting or handling equipment other self-propelled trucks 84279000 8427 fork-lift trucks; other works trucks fitted with lifting or handling equipment other trucks 84281011 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) 8428 10 - lifts and skip hoists: lifts: lifts of a kind used in buildings 84281019 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) 8428 10 - lifts and skip hoists: lifts: other 84281020 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - lifts and skip hoists: skip hoists 84282011 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors: conveyors: belt conveyors 84282019 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors: conveyors: other 84282020 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors pneumatic elevators 84283100 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: specially designed for underground use 84283200 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other, bucket type 84283300 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other, belt type 84283900",
+                          "children": [
+                            {
+                              "role": "option",
+                              "name": "853210 electrical machinery and equipment and parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles~electrical capacitors, fixed, variable or adjustable (pre-set)~fixed capacitors designed for use in 50 or 60 hz circuits and having a reactive power handling capacity of not less than 0.5 kvar (power capacitors)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "853210"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical machinery and equipment and parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles~electrical capacitors, fixed, variable or adjustable (pre-set)~fixed capacitors designed for use in 50 or 60 hz circuits and having a reactive power handling capacity of not less than 0.5 kvar (power capacitors)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84139140 pumps for liquids, whether or not fitted with a measuring device; liquid elevators - parts: 8413 91 - of pumps: of hand pump for handling water",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84139140"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pumps for liquids, whether or not fitted with a measuring device; liquid elevators - parts: 8413 91 - of pumps: of hand pump for handling water"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84271000 fork-lift trucks; other works trucks fitted with lifting or handling equipment self-propelled trucks powered by an electric motor",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84271000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "fork-lift trucks; other works trucks fitted with lifting or handling equipment self-propelled trucks powered by an electric motor"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84272000 8427 fork-lift trucks; other works trucks fitted with lifting or handling equipment other self-propelled trucks",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84272000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "8427 fork-lift trucks; other works trucks fitted with lifting or handling equipment other self-propelled trucks"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84279000 8427 fork-lift trucks; other works trucks fitted with lifting or handling equipment other trucks",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84279000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "8427 fork-lift trucks; other works trucks fitted with lifting or handling equipment other trucks"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84281011 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) 8428 10 - lifts and skip hoists: lifts: lifts of a kind used in buildings",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84281011"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) 8428 10 - lifts and skip hoists: lifts: lifts of a kind used in buildings"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84281019 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) 8428 10 - lifts and skip hoists: lifts: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84281019"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) 8428 10 - lifts and skip hoists: lifts: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84281020 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - lifts and skip hoists: skip hoists",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84281020"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - lifts and skip hoists: skip hoists"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84282011 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors: conveyors: belt conveyors",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84282011"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors: conveyors: belt conveyors"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84282019 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors: conveyors: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84282019"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors: conveyors: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84282020 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors pneumatic elevators",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84282020"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - pneumatic elevators and conveyors pneumatic elevators"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84283100 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: specially designed for underground use",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84283100"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: specially designed for underground use"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84283200 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other, bucket type",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84283200"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other, bucket type"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84283300 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other, belt type",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84283300"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other, belt type"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84283900 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84283900"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other continuous-action elevators and conveyors, for goods or materials: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84284000 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - escalators and moving walkways",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84284000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - escalators and moving walkways"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84285010 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - mine wagon pushers, locomotive or wagon traversers, wagon tippers and similar railway wagon handling equipment: wagon marshalling equipment",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84285010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - mine wagon pushers, locomotive or wagon traversers, wagon tippers and similar railway wagon handling equipment: wagon marshalling equipment"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84285020 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - mine wagon pushers, locomotive or wagon traversers, wagon tippers and similar railway wagon handling equipment: wagon tippers",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84285020"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - mine wagon pushers, locomotive or wagon traversers, wagon tippers and similar railway wagon handling equipment: wagon tippers"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84285090 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - mine wagon pushers, locomotive or wagon traversers, wagon tippers and similar railway wagon handling equipment: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84285090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - mine wagon pushers, locomotive or wagon traversers, wagon tippers and similar railway wagon handling equipment: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84286000 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - teleferics, chair-lifts, ski-raglines, traction mechanisms for funiculars",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84286000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - teleferics, chair-lifts, ski-raglines, traction mechanisms for funiculars"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84289010 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : for coal handling",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84289010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : for coal handling"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84289020 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : for ash handling",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84289020"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : for ash handling"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84289090 other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84289090"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "other lifting, handling, loading or unloading machinery (for example, lifts, escalators, conveyors, teleferics) - other machinery : other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84135021 pumps for liquids, whether or not fitted with a measuring device; liquid elevators - other reciprocating positive displacement pumps: primarily designed for handling water : deep tube well turbine pump",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84135021"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pumps for liquids, whether or not fitted with a measuring device; liquid elevators - other reciprocating positive displacement pumps: primarily designed for handling water : deep tube well turbine pump"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84135029 pumps for liquids, whether or not fitted with a measuring device; liquid elevators - other reciprocating positive displacement pumps: primarily designed for handling water : other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84135029"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pumps for liquids, whether or not fitted with a measuring device; liquid elevators - other reciprocating positive displacement pumps: primarily designed for handling water : other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "84138130 pumps for liquids, whether or not fitted with a measuring device; liquid elevators - other pumps-liquid elevators: 8413 81 - pumps : axial flow and mixed flow vertical pump designed primarily for handling water",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "84138130"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "pumps for liquids, whether or not fitted with a measuring device; liquid elevators - other pumps-liquid elevators: 8413 81 - pumps : axial flow and mixed flow vertical pump designed primarily for handling water"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85042100 electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: having a power handling capacity not exceeding 650 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85042100"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: having a power handling capacity not exceeding 650 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85042200 electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: having a power handling capacity exceeding 650 kva but not exceeding 10,000 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85042200"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: having a power handling capacity exceeding 650 kva but not exceeding 10,000 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "850423 having a power handling capacity exceeding 10,000 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "850423"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "having a power handling capacity exceeding 10,000 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85042310 electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: - having a power handling capacity exceeding 10,000 kva: having a power handling capacity exceeding 10,000 kva but not exceeding 50,000 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85042310"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: - having a power handling capacity exceeding 10,000 kva: having a power handling capacity exceeding 10,000 kva but not exceeding 50,000 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85042320 electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: - having a power handling capacity exceeding 10,000 kva: having a power handling capacity exceeding 50,000 kva but not exceeding 1,00,000 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85042320"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: - having a power handling capacity exceeding 10,000 kva: having a power handling capacity exceeding 50,000 kva but not exceeding 1,00,000 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85042330 electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: - having a power handling capacity exceeding 10,000 kva: having a power handling capacity exceeding 1,00,000 kva but not exceeding 2,50,000 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85042330"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: - having a power handling capacity exceeding 10,000 kva: having a power handling capacity exceeding 1,00,000 kva but not exceeding 2,50,000 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85042340 electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: - having a power handling capacity exceeding 10,000 kva: having a power handling capacity exceeding 2,50,000 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85042340"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - liquid dielectric transformers: - having a power handling capacity exceeding 10,000 kva: having a power handling capacity exceeding 2,50,000 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85043100 electrical transformers, static converters (for example, rectifiers) and inductors - other transformers: having a power handling capacity not exceeding 1 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85043100"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - other transformers: having a power handling capacity not exceeding 1 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85043200 electrical transformers, static converters (for example, rectifiers) and inductors - other transformers: having a power handling capacity exceeding 1 kva but not exceeding 16 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85043200"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - other transformers: having a power handling capacity exceeding 1 kva but not exceeding 16 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85043300 electrical transformers, static converters (for example, rectifiers) and inductors - other transformers: having a power handling capacity exceeding 16 kva but not exceeding 500 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85043300"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - other transformers: having a power handling capacity exceeding 16 kva but not exceeding 500 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85043400 electrical transformers, static converters (for example, rectifiers) and inductors - other transformers: having a power handling capacity exceeding 500 kva",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85043400"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical transformers, static converters (for example, rectifiers) and inductors - other transformers: having a power handling capacity exceeding 500 kva"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85321000 electrical capacitors, fixed, variable or adjustable (pre-set) fixed capacitors designed for use in 50 or 60 hz circuits and having a reactive power handling capacity of not less than 0.5 kvar (power capacitors)",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85321000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical capacitors, fixed, variable or adjustable (pre-set) fixed capacitors designed for use in 50 or 60 hz circuits and having a reactive power handling capacity of not less than 0.5 kvar (power capacitors)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "853321 for a power handling capacity not exceeding 20 w",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "853321"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "for a power handling capacity not exceeding 20 w"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85332111 electrical resistors (including rheostats and potentiometers), other than heating resistors - other fixed resistors: - for a power handling capacity not exceeding 20 w: - of bare wire : of nichrome",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85332111"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical resistors (including rheostats and potentiometers), other than heating resistors - other fixed resistors: - for a power handling capacity not exceeding 20 w: - of bare wire : of nichrome"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85332119 electrical resistors (including rheostats and potentiometers), other than heating resistors - other fixed resistors: - for a power handling capacity not exceeding 20 w: - of bare wire : other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85332119"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical resistors (including rheostats and potentiometers), other than heating resistors - other fixed resistors: - for a power handling capacity not exceeding 20 w: - of bare wire : other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85332121 electrical resistors (including rheostats and potentiometers), other than heating resistors - other fixed resistors: - for a power handling capacity not exceeding 20 w: - of insulated wire : of nichrome",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85332121"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical resistors (including rheostats and potentiometers), other than heating resistors - other fixed resistors: - for a power handling capacity not exceeding 20 w: - of insulated wire : of nichrome"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85332129 electrical resistors (including rheostats and potentiometers), other than heating resistors - other fixed resistors: - for a power handling capacity not exceeding 20 w: - of insulated wire : other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85332129"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical resistors (including rheostats and potentiometers), other than heating resistors - other fixed resistors: - for a power handling capacity not exceeding 20 w: - of insulated wire : other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "853331 for a power handling capacity not exceeding 20 w",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "853331"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "for a power handling capacity not exceeding 20 w"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85333110 electrical resistors (including rheostats and potentiometers), other than heating resistors - wirewound variable resistors, including rheostats and potentiometers: - for a power handling capacity not exceeding 20 w: potentiometers",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85333110"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical resistors (including rheostats and potentiometers), other than heating resistors - wirewound variable resistors, including rheostats and potentiometers: - for a power handling capacity not exceeding 20 w: potentiometers"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85333120 electrical resistors (including rheostats and potentiometers), other than heating resistors - wirewound variable resistors, including rheostats and potentiometers: - for a power handling capacity not exceeding 20 w: rheostats",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85333120"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical resistors (including rheostats and potentiometers), other than heating resistors - wirewound variable resistors, including rheostats and potentiometers: - for a power handling capacity not exceeding 20 w: rheostats"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "85333190 electrical resistors (including rheostats and potentiometers), other than heating resistors - wirewound variable resistors, including rheostats and potentiometers: - for a power handling capacity not exceeding 20 w: other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "85333190"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "electrical resistors (including rheostats and potentiometers), other than heating resistors - wirewound variable resistors, including rheostats and potentiometers: - for a power handling capacity not exceeding 20 w: other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "87091100 works trucks, self-propelled, not fitted with lifting or handling equipment, of the type used in factories, warehouses, dock areas or airports for short distance transport of goods; tractors of the type used on railway station platforms; parts of the foregoing vehicles vehicles : electrical",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "87091100"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "works trucks, self-propelled, not fitted with lifting or handling equipment, of the type used in factories, warehouses, dock areas or airports for short distance transport of goods; tractors of the type used on railway station platforms; parts of the foregoing vehicles vehicles : electrical"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "87091900 works trucks, self-propelled, not fitted with lifting or handling equipment, of the type used in factories, warehouses, dock areas or airports for short distance transport of goods; tractors of the type used on railway station platforms; parts of the foregoing vehicles vehicles : other",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "87091900"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "works trucks, self-propelled, not fitted with lifting or handling equipment, of the type used in factories, warehouses, dock areas or airports for short distance transport of goods; tractors of the type used on railway station platforms; parts of the foregoing vehicles vehicles : other"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "87099000 works trucks, self-propelled, not fitted with lifting or handling equipment, of the type used in factories, warehouses, dock areas or airports for short distance transport of goods; tractors of the type used on railway station platforms; parts of the foregoing vehicles parts",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "87099000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "works trucks, self-propelled, not fitted with lifting or handling equipment, of the type used in factories, warehouses, dock areas or airports for short distance transport of goods; tractors of the type used on railway station platforms; parts of the foregoing vehicles parts"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "90121010 microscopes other than optical microscopes; diffraction apparatus - microscopes other than optical microscopes; diffraction apparatus: electron microscopes fitted with equipment specifically designed for the handling and transport of semiconductor wafers or reticles",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "90121010"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "microscopes other than optical microscopes; diffraction apparatus - microscopes other than optical microscopes; diffraction apparatus: electron microscopes fitted with equipment specifically designed for the handling and transport of semiconductor wafers or reticles"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "40118000 of a kind used on construction, mining or industrial handling vehicles and machines",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "40118000"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "of a kind used on construction, mining or industrial handling vehicles and machines"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "40119300 new pneumatic tyres, of rubber - other : of a kind used on construction or industrial handling vehicles and machines and having a rim size not exceeding 61 cm",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "40119300"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "new pneumatic tyres, of rubber - other : of a kind used on construction or industrial handling vehicles and machines and having a rim size not exceeding 61 cm"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "40119400 new pneumatic tyres, of rubber - other : of a kind used on construction or industrial handling vehicles and machines and having a rim size exceeding 61 cm",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "40119400"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "new pneumatic tyres, of rubber - other : of a kind used on construction or industrial handling vehicles and machines and having a rim size exceeding 61 cm"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "40116200 new pneumatic tyres, of rubber - other, having a herring-bone or similar tread : of a kind used on construction or industrial handling vehicles and machines and having a rim size not exceeding 61 cm",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "40116200"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "new pneumatic tyres, of rubber - other, having a herring-bone or similar tread : of a kind used on construction or industrial handling vehicles and machines and having a rim size not exceeding 61 cm"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "option",
+                              "name": "40116300 new pneumatic tyres, of rubber - other, having a herring-bone or similar tread : of a kind used on construction or industrial handling vehicles and machines and having a rim size exceeding 61 cm",
+                              "children": [
+                                {
+                                  "role": "generic",
+                                  "name": "40116300"
+                                },
+                                {
+                                  "role": "generic",
+                                  "name": "new pneumatic tyres, of rubber - other, having a herring-bone or similar tread : of a kind used on construction or industrial handling vehicles and machines and having a rim size exceeding 61 cm"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "listbox",
+                  "name": "",
+                  "orientation": "vertical",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "status",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "No data found"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "generic",
+              "name": "",
+              "children": [
+                {
+                  "role": "listbox",
+                  "name": "",
+                  "orientation": "vertical",
+                  "children": [
+                    {
+                      "role": "generic",
+                      "name": "",
+                      "children": [
+                        {
+                          "role": "status",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "none",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "No data found"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

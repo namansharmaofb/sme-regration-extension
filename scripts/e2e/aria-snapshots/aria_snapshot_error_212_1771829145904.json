@@ -1,0 +1,86 @@
+{
+  "role": "RootWebArea",
+  "name": "Create Material PO | SMEAssist | Leading automation tool for SMEs",
+  "children": [
+    {
+      "role": "none",
+      "children": [
+        {
+          "role": "generic",
+          "name": "",
+          "children": [
+            {
+              "role": "dialog",
+              "name": "",
+              "focused": true,
+              "modal": true,
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "Customize Columns"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "button",
+                          "name": "close",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "close"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "button",
+                          "name": "Cancel",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "Cancel"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "button",
+                          "name": "Submit",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "Submit"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

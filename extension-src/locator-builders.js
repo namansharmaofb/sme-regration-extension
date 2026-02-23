@@ -62,162 +62,19 @@ function getFullXPath(element) {
 }
 
 /**
- * Generates a full target object with multiple selector strategies.
- * @param {HTMLElement} element
- */
-// function generateSelectors(element) {
-//   if (!element) return null;
-
-//   try {
-//     const targets = [];
-
-//     // 1. Playwright Test ID (Highest Priority)
-//     const testIdAttrs = ["data-testid", "data-cy", "data-test-id", "data-qa"];
-//     for (const attr of testIdAttrs) {
-//       if (element.hasAttribute(attr)) {
-//         targets.push({ type: "testId", value: element.getAttribute(attr) });
-//       }
-//     }
-
-//     // 2. Playwright Placeholder
-//     if (element.hasAttribute("placeholder")) {
-//       targets.push({
-//         type: "placeholder",
-//         value: element.getAttribute("placeholder"),
-//       });
-//     }
-
-//     // 3. Playwright Role (Semantic)
-//     const role = element.getAttribute("role") || element.tagName.toLowerCase();
-//     const validRoles = [
-//       "button",
-//       "link",
-//       "checkbox",
-//       "radio",
-//       "heading",
-//       "textbox",
-//       "img",
-//     ];
-//     const accessibleName =
-//       element.getAttribute("aria-label") ||
-//       element.innerText ||
-//       element.getAttribute("alt") ||
-//       "";
-
-//     // Normalize role for standard tags
-//     let semanticRole = role;
-//     if (element.tagName === "A") semanticRole = "link";
-//     if (element.tagName === "BUTTON") semanticRole = "button";
-//     if (element.tagName === "INPUT") semanticRole = "textbox"; // simplified
-
-//     if (
-//       validRoles.includes(semanticRole) &&
-//       accessibleName.trim().length > 0 &&
-//       accessibleName.length < 50
-//     ) {
-//       const safeName = accessibleName.trim().replace(/'/g, "\\'");
-//       targets.push({
-//         type: "role",
-//         value: `${semanticRole}[name='${safeName}']`,
-//       });
-//     }
-
-//     // 4. ID (Legacy High Priority)
-//     if (element.id && !isDynamicId(element.id)) {
-//       targets.push({ type: "id", value: element.id });
-//     }
-
-//     // 5. CSS Finder
-//     const css = buildSelector(element);
-//     if (css) {
-//       targets.push({ type: "css", value: css });
-//     }
-
-//     // 6. XPath:innerText (Robust Text Match)
-//     const visibleText = getVisibleText(element);
-//     if (visibleText && visibleText.length < 50 && !visibleText.includes("'")) {
-//       // Simple text only
-//       targets.push({
-//         type: "xpath:innerText",
-//         value: `//${element.tagName.toLowerCase()}[text()='${visibleText}']`,
-//       });
-//       targets.push({
-//         type: "xpath:containsText",
-//         value: `//${element.tagName.toLowerCase()}[contains(text(), '${visibleText}')]`,
-//       });
-//     }
-
-//     // 7. Full Absolute XPath (The "Nuclear Option")
-//     const fullXpath = getFullXPath(element);
-//     if (fullXpath) {
-//       targets.push({ type: "xpath:absolute", value: fullXpath });
-//     }
-
-//     // 8. XPath Attributes (Legacy)
-
-//     const attrMap = {};
-//     for (const attr of ["placeholder", "aria-label", "type", "href"]) {
-//       if (element.hasAttribute(attr)) {
-//         const val = element.getAttribute(attr);
-//         if (val && !isDynamicId(val)) {
-//           attrMap[attr] = val;
-//         }
-//       }
-//     }
-
-//     const xpath = getXPath(element);
-//     const result = {
-//       selector: targets.length > 0 ? targets[0].value : css,
-//       selectorType: targets.length > 0 ? targets[0].type : "css",
-//       targets: targets,
-//       css: css,
-//       xpath: xpath,
-//       id: element.id && !isDynamicId(element.id) ? element.id : null,
-//       attributes: attrMap,
-//     };
-
-//     const text = getVisibleText(element);
-//     if (text && text.length < 30) {
-//       result.innerText = text;
-//       if (element.tagName === "A") {
-//         targets.push({ type: "linkText", value: text });
-//       }
-//     }
-
-//     return result;
-//   } catch (err) {
-//     console.error("Error generating selectors:", err);
-//     const css = buildSelector(element);
-//     return {
-//       selector: css,
-//       selectorType: "css",
-//       targets: [{ type: "css", value: css }],
-//       css: css,
-//       xpath: null,
-//       id: null,
-//       attributes: {},
-//     };
-//   }
-// }
-/**
  * Generates selectors in Chrome DevTools Recorder format.
- * Returns an array of selector arrays, each containing fallback strategies.
+ * 12 strategies in priority order — no post-hoc reordering needed.
  * @param {HTMLElement} element
  * @returns {Object} Selector object with arrays and metadata
  */
 function generateSelectors(element) {
   if (!element || element.nodeType !== 1) return null;
 
-  const selectors = []; // Array of [selector] arrays
+  const selectors = []; // Array of [selector] arrays — built in priority order
 
-  // 1. ARIA selector (highest priority for accessibility)
-  const ariaSelector = buildAriaSelector(element);
-  if (ariaSelector) {
-    selectors.push([ariaSelector]);
-  }
-
-  // 2. data-testid / data-cy / data-test
-  const testAttrs = ["data-testid", "data-cy", "data-test"];
+  // ── 1. data-testid / data-cy / data-test / data-qa ─────────────────
+  // Most precise — explicitly set for testing
+  const testAttrs = ["data-testid", "data-cy", "data-test", "data-qa"];
   for (const attr of testAttrs) {
     if (element.hasAttribute(attr)) {
       const value = element.getAttribute(attr);
@@ -227,7 +84,12 @@ function generateSelectors(element) {
     }
   }
 
-  // 3. Name attribute (critical for forms)
+  // ── 2. Stable ID ───────────────────────────────────────────────────
+  if (element.id && !isDynamic(element.id)) {
+    selectors.push([`#${CSS.escape(element.id)}`]);
+  }
+
+  // ── 3. Name attribute (critical for forms) ─────────────────────────
   if (element.hasAttribute("name")) {
     const name = element.getAttribute("name");
     if (name && !isDynamic(name)) {
@@ -236,26 +98,29 @@ function generateSelectors(element) {
     }
   }
 
-  // 4. Placeholder (for inputs)
+  // ── 4. Placeholder (for inputs — very specific) ────────────────────
+  // Skip short/dynamic placeholders that may be typed content (React-Select, etc.)
   if (element.hasAttribute("placeholder")) {
     const placeholder = element.getAttribute("placeholder");
-    if (placeholder) {
+    if (
+      placeholder &&
+      placeholder.trim().length >= 3 &&
+      !/^\d+$/.test(placeholder.trim()) && // Skip pure numbers
+      placeholder.trim().length < 100 // Skip absurdly long placeholders
+    ) {
       selectors.push([`[placeholder="${placeholder.replace(/"/g, '\\"')}"]`]);
     }
   }
 
-  // 5. Stable ID
-  if (element.id && !isDynamic(element.id)) {
-    selectors.push([`#${CSS.escape(element.id)}`]);
+  // ── 5. ARIA (role + accessible name) ───────────────────────────────
+  // Placed after attr-based selectors because ARIA labels can match
+  // multiple elements (e.g., section header AND the input inside it)
+  const ariaSelector = buildAriaSelector(element);
+  if (ariaSelector) {
+    selectors.push([ariaSelector]);
   }
 
-  // 6. CSS selector (stable attrs + limited classes)
-  const css = buildSelector(element);
-  if (css) {
-    selectors.push([css]);
-  }
-
-  // 7. XPath with text (for links and buttons with visible text)
+  // ── 6. XPath text match (tag + text — very specific) ───────────────
   const text = getVisibleText(element).replace(/\s+/g, " ").trim();
   if (
     text &&
@@ -265,9 +130,7 @@ function generateSelectors(element) {
     !isGenericIconText(text)
   ) {
     const tag = element.tagName.toLowerCase();
-    // Use normalize-space(.) to handle non-breaking spaces and erratic whitespace in text matches
     selectors.push([`xpath///${tag}[normalize-space(.)='${text}']`]);
-    // Contains text (more flexible)
     if (text.length > 3) {
       selectors.push([
         `xpath///${tag}[contains(normalize-space(.), '${text}')]`,
@@ -275,65 +138,74 @@ function generateSelectors(element) {
     }
   }
 
-  // 8. Full CSS path fallback
+  // ── 7. Alt / Title attributes ──────────────────────────────────────
+  if (element.hasAttribute("alt")) {
+    const alt = element.getAttribute("alt");
+    if (alt && alt.trim().length > 0 && alt.length < 80 && !isDynamic(alt)) {
+      selectors.push([
+        `${element.tagName.toLowerCase()}[alt="${alt.replace(/"/g, '\\"')}"]`,
+      ]);
+    }
+  }
+  if (element.hasAttribute("title")) {
+    const title = element.getAttribute("title");
+    if (
+      title &&
+      title.trim().length > 0 &&
+      title.length < 80 &&
+      !isDynamic(title)
+    ) {
+      selectors.push([
+        `${element.tagName.toLowerCase()}[title="${title.replace(/"/g, '\\"')}"]`,
+      ]);
+    }
+  }
+
+  // ── 8. Href / Src (for links and images with stable URLs) ──────────
+  if (element.tagName === "A" && element.hasAttribute("href")) {
+    const href = element.getAttribute("href");
+    if (href && isStableUrl(href)) {
+      selectors.push([`a[href="${href.replace(/"/g, '\\"')}"]`]);
+    }
+  }
+  if (element.tagName === "IMG" && element.hasAttribute("src")) {
+    const src = element.getAttribute("src");
+    if (src && isStableUrl(src)) {
+      selectors.push([`img[src="${src.replace(/"/g, '\\"')}"]`]);
+    }
+  }
+
+  // ── 9. Smart CSS selector (stable attrs + limited classes) ─────────
+  const css = buildSelector(element);
+  if (css) {
+    selectors.push([css]);
+  }
+
+  // ── 10. nth-of-type within parent (controlled positional fallback) ─
+  const nthSelector = buildNthSelector(element);
+  if (nthSelector) {
+    selectors.push([nthSelector]);
+  }
+
+  // ── 11. Full CSS path fallback ─────────────────────────────────────
   const cssPath = buildCssPath(element);
   if (cssPath && cssPath !== css) {
     selectors.push([cssPath]);
   }
 
-  // 9. XPath fallback (last resort)
+  // ── 12. XPath fallback (absolute path — last resort) ───────────────
   const xpath = getXPath(element);
   if (xpath) {
     selectors.push([`xpath//${xpath}`]);
   }
 
-  // REORDER: Prefer stable attribute selectors first, then aria, then css, then xpath
-  const orderedSelectors = [];
-  const used = new Set();
-
-  const addGroup = (predicate) => {
-    selectors.forEach((s, idx) => {
-      if (used.has(idx)) return;
-      if (predicate(s[0])) {
-        orderedSelectors.push(s);
-        used.add(idx);
-      }
-    });
-  };
-
-  const hasDataAttr = (sel) =>
-    sel.includes("[data-testid") ||
-    sel.includes("[data-cy") ||
-    sel.includes("[data-test") ||
-    sel.includes("[data-qa");
-  const hasName = (sel) => sel.includes("[name=");
-  const hasPlaceholder = (sel) => sel.includes("[placeholder=");
-  const isId = (sel) => sel.startsWith("#");
-  const isAria = (sel) => sel.startsWith("aria/");
-  const isXpath = (sel) => sel.startsWith("xpath/");
-
-  addGroup(hasDataAttr);
-  addGroup(hasName);
-  addGroup(hasPlaceholder);
-  addGroup(isId);
-  addGroup(isAria);
-  addGroup((sel) => !isXpath(sel) && !isAria(sel)); // CSS and other non-xpath selectors
-  addGroup(isXpath);
-  addGroup(() => true); // any leftover
-
-  // REORDER: Push any selectors containing :nth- (fragile) to the end of the list
-  const robustSelectors = orderedSelectors.filter((s) => !s[0].includes(":nth-"));
-  const fragileSelectors = orderedSelectors.filter((s) => s[0].includes(":nth-"));
-  const reorderedSelectors = [...robustSelectors, ...fragileSelectors];
-
   // Build the result object
-  const primary =
-    reorderedSelectors.length > 0 ? reorderedSelectors[0][0] : css || xpath;
+  const primary = selectors.length > 0 ? selectors[0][0] : css || xpath;
 
   return {
-    selectors: reorderedSelectors, // NEW: Reordered to favor robust strategies
-    selector: primary, // Legacy: primary selector string
-    selectorType: getSelectorType(primary), // Legacy: type of primary selector
+    selectors: selectors,
+    selector: primary,
+    selectorType: getSelectorType(primary),
     css: css,
     xpath: xpath,
     id: element.id && !isDynamic(element.id) ? element.id : null,
@@ -341,38 +213,165 @@ function generateSelectors(element) {
       "data-testid": element.getAttribute("data-testid"),
       "data-cy": element.getAttribute("data-cy"),
       "data-test": element.getAttribute("data-test"),
+      "data-qa": element.getAttribute("data-qa"),
       "aria-label": element.getAttribute("aria-label"),
+      alt: element.getAttribute("alt"),
+      title: element.getAttribute("title"),
       name: element.getAttribute("name"),
       placeholder: element.getAttribute("placeholder"),
       role: element.getAttribute("role"),
+      href: element.tagName === "A" ? element.getAttribute("href") : null,
+      src: element.tagName === "IMG" ? element.getAttribute("src") : null,
     },
     innerText: text || "",
   };
 }
 
 /**
- * Builds an ARIA selector (Puppeteer format) for the element.
- * Format: "aria/Button Text" or "aria/Input Label"
+ * Builds an ARIA selector — the "super-strategy" combining:
+ *   - Role + accessible name (e.g. aria/button[Submit])
+ *   - Label-based (label[for], wrapping label, aria-labelledby)
+ *   - Visible text for interactive elements
+ * Format: "aria/Submit" or "aria/button[Submit Order]"
  * @param {HTMLElement} element
  * @returns {string|null}
  */
 function buildAriaSelector(element) {
-  // Use getElementDescriptor logic for consistent accessible name
+  // 1. Get accessible name from getElementDescriptor (handles labels, aria-label, text, etc.)
   let accessibleName = getElementDescriptor(element);
 
   if (
-    accessibleName &&
-    accessibleName.trim().length > 0 &&
-    accessibleName.length < 80
+    !accessibleName ||
+    accessibleName.trim().length === 0 ||
+    accessibleName.length >= 80
   ) {
-    // Normalize whitespace for the final selector string
-    const finalName = accessibleName.replace(/\s+/g, " ").trim();
-    if (isGenericIconText(finalName)) return null;
-    // Format: aria/accessible name
-    return `aria/${finalName}`;
+    return null;
   }
 
-  return null;
+  const finalName = accessibleName.replace(/\s+/g, " ").trim();
+  if (isGenericIconText(finalName)) return null;
+
+  // 2. Try to determine the ARIA role for a richer selector
+  const role = getAriaRole(element);
+
+  // If we have a meaningful role, include it: aria/button[Submit]
+  if (role) {
+    return `aria/${role}[${finalName}]`;
+  }
+
+  // Otherwise just use the name: aria/Submit
+  return `aria/${finalName}`;
+}
+
+/**
+ * Determines the effective ARIA role for an element.
+ * Returns the explicit role attribute or the implicit role from the tag.
+ * @param {HTMLElement} element
+ * @returns {string|null}
+ */
+function getAriaRole(element) {
+  // Explicit role attribute takes priority
+  const explicitRole = element.getAttribute("role");
+  if (explicitRole) return explicitRole;
+
+  // Implicit roles from HTML semantics
+  const tag = element.tagName;
+  const type = (element.getAttribute("type") || "").toLowerCase();
+
+  const implicitRoles = {
+    BUTTON: "button",
+    A: "link",
+    SELECT: "combobox",
+    TEXTAREA: "textbox",
+    NAV: "navigation",
+    MAIN: "main",
+    HEADER: "banner",
+    FOOTER: "contentinfo",
+    ASIDE: "complementary",
+    FORM: "form",
+    TABLE: "table",
+    UL: "list",
+    OL: "list",
+    LI: "listitem",
+    H1: "heading",
+    H2: "heading",
+    H3: "heading",
+    H4: "heading",
+    H5: "heading",
+    H6: "heading",
+    IMG: "img",
+  };
+
+  if (tag === "INPUT") {
+    const inputRoles = {
+      checkbox: "checkbox",
+      radio: "radio",
+      range: "slider",
+      search: "searchbox",
+      email: "textbox",
+      tel: "textbox",
+      url: "textbox",
+      text: "textbox",
+      password: "textbox",
+      number: "spinbutton",
+    };
+    return inputRoles[type] || "textbox";
+  }
+
+  return implicitRoles[tag] || null;
+}
+
+/**
+ * Checks if a URL is stable (not dynamic/session-specific).
+ * @param {string} url
+ * @returns {boolean}
+ */
+function isStableUrl(url) {
+  if (!url || typeof url !== "string") return false;
+  // Skip very long URLs, data URIs, blob URIs, and javascript: URIs
+  if (url.length > 150) return false;
+  if (url.startsWith("data:")) return false;
+  if (url.startsWith("blob:")) return false;
+  if (url.startsWith("javascript:")) return false;
+  // Skip URLs with tokens, session IDs, or random hashes
+  if (/[?&](token|session|sid|auth|nonce|_t)=/i.test(url)) return false;
+  if (/[0-9a-f]{16,}/i.test(url)) return false;
+  // Skip # anchors that look dynamic
+  if (/#[0-9a-f]{8,}/i.test(url)) return false;
+  return true;
+}
+
+/**
+ * Builds a nth-of-type selector scoped to the parent element.
+ * e.g. "div > button:nth-of-type(2)"
+ * Only emitted when there are multiple siblings of the same tag.
+ * @param {HTMLElement} element
+ * @returns {string|null}
+ */
+function buildNthSelector(element) {
+  if (!element || !element.parentElement) return null;
+  const parent = element.parentElement;
+  const tag = element.tagName.toLowerCase();
+  const sameTagSiblings = Array.from(parent.children).filter(
+    (c) => c.tagName === element.tagName,
+  );
+
+  // Only useful when there are multiple siblings of the same type
+  if (sameTagSiblings.length <= 1) return null;
+
+  const index = sameTagSiblings.indexOf(element) + 1;
+  let parentSelector = "";
+
+  // Try to scope to a stable parent
+  if (parent.id && !isDynamic(parent.id)) {
+    parentSelector = `#${CSS.escape(parent.id)}`;
+  } else if (parent.getAttribute("data-testid")) {
+    parentSelector = `[data-testid="${parent.getAttribute("data-testid")}"]`;
+  } else {
+    parentSelector = parent.tagName.toLowerCase();
+  }
+
+  return `${parentSelector} > ${tag}:nth-of-type(${index})`;
 }
 
 /**
@@ -386,7 +385,16 @@ function getSelectorType(selector) {
   if (selector.startsWith("xpath/")) return "xpath";
   if (selector.startsWith("#")) return "id";
   if (selector.includes("[data-testid")) return "testId";
-  if (selector.includes("[name")) return "name";
+  if (selector.includes("[data-cy")) return "testId";
+  if (selector.includes("[data-test")) return "testId";
+  if (selector.includes("[data-qa")) return "testId";
+  if (selector.includes("[name=")) return "name";
+  if (selector.includes("[placeholder=")) return "placeholder";
+  if (selector.includes("[alt=")) return "alt";
+  if (selector.includes("[title=")) return "title";
+  if (selector.includes("[href=")) return "href";
+  if (selector.includes("[src=")) return "src";
+  if (selector.includes(":nth-of-type")) return "nth";
   return "css";
 }
 
@@ -396,6 +404,19 @@ function isDynamic(value) {
   if (typeof value !== "string") return true;
   // Ignore purely numeric long strings or hex-like strings
   if (/^[0-9a-f]{16,}$/.test(value)) return true;
+
+  // React / MUI dynamic IDs
+  if (/^:(r[0-9a-z]*):$/.test(value)) return true;
+  if (/mui-[0-9]+/.test(value)) return true;
+
+  // Dynamic Popper/Portal IDs with random suffix
+  if (/(popper|modal|dialog|select|menu)-[a-zA-Z0-9]{8,}/i.test(value)) {
+    const parts = value.split("-");
+    const suffix = parts[parts.length - 1];
+    if (/[A-Z]/.test(suffix) && /[a-z]/.test(suffix)) return true;
+    if (/[0-9]/.test(suffix) && /[a-zA-Z]/.test(suffix)) return true;
+  }
+
   // Allow common stable prefixes
   if (/^(mui|btn|nav|list|item|cell)-/i.test(value)) return false;
   return /\d{5,}|uuid|random|test-?id|tfid-/i.test(value);

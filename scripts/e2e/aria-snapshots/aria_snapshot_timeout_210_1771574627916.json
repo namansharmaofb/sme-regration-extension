@@ -1,0 +1,138 @@
+{
+  "role": "RootWebArea",
+  "name": "Create Material PO | SMEAssist | Leading automation tool for SMEs",
+  "children": [
+    {
+      "role": "none",
+      "children": [
+        {
+          "role": "generic",
+          "name": "",
+          "children": [
+            {
+              "role": "dialog",
+              "name": "",
+              "modal": true,
+              "children": [
+                {
+                  "role": "none",
+                  "children": [
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "generic",
+                          "name": "",
+                          "children": [
+                            {
+                              "role": "StaticText",
+                              "name": "Manage Items"
+                            }
+                          ]
+                        },
+                        {
+                          "role": "button",
+                          "name": "close",
+                          "children": [
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "close"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "paragraph",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "All Items "
+                                },
+                                {
+                                  "role": "StaticText",
+                                  "name": "(01)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "generic",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "LabelText",
+                                  "name": ""
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "role": "button",
+                          "name": "search",
+                          "children": [
+                            {
+                              "role": "button",
+                              "name": "search"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "role": "none",
+                      "children": [
+                        {
+                          "role": "none",
+                          "children": [
+                            {
+                              "role": "paragraph",
+                              "name": "",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Selected "
+                                },
+                                {
+                                  "role": "StaticText",
+                                  "name": "(0)"
+                                }
+                              ]
+                            },
+                            {
+                              "role": "button",
+                              "name": "Submit",
+                              "children": [
+                                {
+                                  "role": "StaticText",
+                                  "name": "Submit"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

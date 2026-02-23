@@ -1,6 +1,24 @@
-2026/02/20-11:26:17.637 45ff3 Reusing MANIFEST /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/MANIFEST-000001
-2026/02/20-11:26:17.637 45ff3 Recovering log #319
-2026/02/20-11:26:17.641 45ff3 Reusing old log /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/000319.log 
-2026/02/20-11:26:41.049 45fe4 Level-0 table #324: started
-2026/02/20-11:26:41.063 45fe4 Level-0 table #324: 661809 bytes OK
-2026/02/20-11:26:41.066 45fe4 Delete type=0 #319
+2026/02/23-18:15:42.840 1515b Reusing MANIFEST /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/MANIFEST-000001
+2026/02/23-18:15:42.841 1515b Recovering log #956
+2026/02/23-18:15:42.844 1515b Reusing old log /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Local Extension Settings/enkeplehgbfalkaklogplddkppjohmdp/000956.log 
+2026/02/23-18:16:31.693 15150 Level-0 table #960: started
+2026/02/23-18:16:31.704 15150 Level-0 table #960: 763003 bytes OK
+2026/02/23-18:16:31.706 15150 Delete type=0 #956
+2026/02/23-18:16:31.707 15150 Compacting 4@0 + 1@1 files
+2026/02/23-18:16:31.715 15150 Generated table #961@0: 3 keys, 15081 bytes
+2026/02/23-18:16:31.715 15150 Compacted 4@0 + 1@1 files => 15081 bytes
+2026/02/23-18:16:31.715 15150 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/02/23-18:16:31.716 15150 Delete type=2 #957
+2026/02/23-18:16:31.716 15150 Delete type=2 #955
+2026/02/23-18:16:31.716 15150 Delete type=2 #953
+2026/02/23-18:16:31.716 15150 Delete type=2 #960
+2026/02/23-18:16:31.716 15150 Delete type=2 #951
+2026/02/23-18:17:21.643 1515d Level-0 table #963: started
+2026/02/23-18:17:21.656 1515d Level-0 table #963: 773164 bytes OK
+2026/02/23-18:17:21.658 1515d Delete type=0 #959
+2026/02/23-18:18:03.374 1515e Level-0 table #965: started
+2026/02/23-18:18:03.384 1515e Level-0 table #965: 777382 bytes OK
+2026/02/23-18:18:03.386 1515e Delete type=0 #962
+2026/02/23-18:18:40.215 1515c Level-0 table #967: started
+2026/02/23-18:18:40.228 1515c Level-0 table #967: 780244 bytes OK
+2026/02/23-18:18:40.230 1515c Delete type=0 #964

@@ -1,3 +1,3 @@
-2026/02/20-11:26:17.314 45fef Reusing MANIFEST /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Sync Data/LevelDB/MANIFEST-000001
-2026/02/20-11:26:17.315 45fef Recovering log #3
-2026/02/20-11:26:17.315 45fef Reusing old log /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Sync Data/LevelDB/000003.log 
+2026/02/23-18:15:42.396 15150 Reusing MANIFEST /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Sync Data/LevelDB/MANIFEST-000001
+2026/02/23-18:15:42.401 15150 Recovering log #3
+2026/02/23-18:15:42.402 15150 Reusing old log /home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/.chrome-test-profile/Default/Sync Data/LevelDB/000003.log 

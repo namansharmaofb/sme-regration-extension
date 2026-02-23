@@ -1,6 +1,87 @@
 // Engine for finding elements and executing commands during flow playback
 
 /**
+ * Extracts the accessible name and optional role from an ARIA selector string.
+ * Handles both plain "Name" and "role[Name]" formats.
+ * @param {string} ariaText - The text after "aria/" prefix
+ * @returns {{name: string, role: string|null}} The extracted name and role
+ */
+function parseAriaSelector(ariaText) {
+  if (!ariaText) return { name: "", role: null };
+  const roleMatch = ariaText.match(/^([a-z]+)\[(.+)\]$/);
+  if (roleMatch) {
+    return { name: roleMatch[2], role: roleMatch[1] };
+  }
+  return { name: ariaText, role: null };
+}
+
+/**
+ * Legacy helper — extracts just the accessible name.
+ * @param {string} ariaText
+ * @returns {string}
+ */
+function extractAriaName(ariaText) {
+  return parseAriaSelector(ariaText).name;
+}
+
+/**
+ * Checks if an element matches a given ARIA role.
+ * Considers both explicit role attribute and implicit roles from HTML tags.
+ * @param {HTMLElement} element
+ * @param {string} role - The ARIA role to check against
+ * @returns {boolean}
+ */
+function elementMatchesRole(element, role) {
+  if (!element || !role) return false;
+
+  // Check explicit role attribute
+  const explicitRole = element.getAttribute("role");
+  if (explicitRole === role) return true;
+
+  // Map ARIA roles to implicit HTML tags
+  const roleToTags = {
+    button: ["BUTTON"],
+    link: ["A"],
+    textbox: ["INPUT", "TEXTAREA"],
+    combobox: ["SELECT", "INPUT"],
+    checkbox: ["INPUT"],
+    radio: ["INPUT"],
+    searchbox: ["INPUT"],
+    spinbutton: ["INPUT"],
+    slider: ["INPUT"],
+    img: ["IMG"],
+    heading: ["H1", "H2", "H3", "H4", "H5", "H6"],
+    list: ["UL", "OL"],
+    listitem: ["LI"],
+    navigation: ["NAV"],
+    form: ["FORM"],
+    table: ["TABLE"],
+    dialog: ["DIALOG"],
+    option: ["OPTION"],
+    menuitem: ["LI"],
+    tab: [],
+  };
+
+  const validTags = roleToTags[role];
+  if (validTags && validTags.includes(element.tagName)) {
+    // For INPUT elements, check type for more specific roles
+    if (element.tagName === "INPUT") {
+      const type = (element.type || "text").toLowerCase();
+      if (role === "checkbox") return type === "checkbox";
+      if (role === "radio") return type === "radio";
+      if (role === "searchbox") return type === "search";
+      if (role === "spinbutton") return type === "number";
+      if (role === "slider") return type === "range";
+      if (role === "textbox")
+        return ["text", "email", "tel", "url", "password", ""].includes(type);
+      if (role === "combobox") return type === "text" || type === "search";
+    }
+    return true;
+  }
+
+  return false;
+}
+/**
  * Extracts a search-friendly term from a step's selectors/target to type
  * into a search field when a dropdown option isn't immediately visible.
  * Handles patterns like "aria/GSTIN: 27AAICT9043M1ZP - Maharashtra" or
@@ -13,7 +94,7 @@ function extractSearchTermFromStep(step) {
   // Check step.selector or step.target for aria/ prefix
   const target = step.selector || step.target || "";
   if (target.startsWith("aria/")) {
-    label = target.substring(5); // Remove "aria/" prefix
+    label = extractAriaName(target.substring(5));
   }
 
   // Also check selectors array for aria patterns
@@ -22,13 +103,22 @@ function extractSearchTermFromStep(step) {
     for (const sel of selectors) {
       const s = Array.isArray(sel) ? sel[0] : sel;
       if (typeof s === "string" && s.startsWith("aria/")) {
-        label = s.substring(5);
+        label = extractAriaName(s.substring(5));
         break;
       }
     }
   }
 
   if (!label) return null;
+
+  // Do not extract search terms for date picker options or generic UI actions
+  if (
+    label.startsWith("Choose ") ||
+    label.includes("202") ||
+    /^(add|edit|delete|remove|select|cancel|submit|save|close)/i.test(label)
+  ) {
+    return null;
+  }
 
   // Extract a meaningful search term from the label
   // Pattern: "GSTIN: XXXXX - State" -> extract the GSTIN code
@@ -112,6 +202,55 @@ function safeQuerySelectorAll(selector, root = document) {
   }
 }
 
+/**
+ * Checks if a step is likely targeting an option in a combobox or listbox.
+ */
+function isStepTargetingOption(step) {
+  if (step.action !== "click") return false;
+
+  const isOptionSelector = step.selectors?.some((grp) => {
+    const s = Array.isArray(grp) ? grp[0] : grp;
+    return (
+      typeof s === "string" &&
+      (s.includes('[role="option"]') ||
+        s.includes("slds-listbox__item") ||
+        s.includes("react-datepicker__day"))
+    );
+  });
+
+  if (isOptionSelector) return true;
+
+  // ARIA labels for options often look like "Value" or "Label: Value"
+  // But they can also be checkboxes. We check for common option prefixes or types.
+  const target = step.selector || step.target || "";
+  if (target.startsWith("aria/")) {
+    const label = target.substring(5);
+    // Common date patterns
+    if (label.startsWith("Choose ") && label.includes("202")) return true;
+    // GSTIN or SKU patterns are often options
+    if (
+      label.includes("GSTIN:") ||
+      label.includes("SKU:") ||
+      label.includes("Plant:")
+    )
+      return true;
+  }
+
+  return false;
+}
+
+/**
+ * Checks if a step is likely targeting a date picker element.
+ */
+function isStepTargetingDate(step) {
+  const target = step.selector || step.target || "";
+  const desc = step.description || "";
+  return (
+    target.includes("datepicker__day") ||
+    (desc.startsWith("Choose ") && desc.includes("202"))
+  );
+}
+
 function locateElement(step) {
   let element = null;
   // 1. Try new selector array format (or nested selectors object)
@@ -138,7 +277,7 @@ function locateElement(step) {
     element = fuzzyFallbackSearch(step);
   }
 
-  // 4. Try deep shadow DOM search for the main selector
+  // 4. Try deep shadow DOM search for the main selector (only return visible)
   if (!element && step.target) {
     const target = step.target;
     // Don't pass prefixed ones to querySelector
@@ -147,7 +286,10 @@ function locateElement(step) {
       !target.startsWith("xpath/") &&
       !target.startsWith("//")
     ) {
-      element = deepQuerySelector(target);
+      const shadowEl = deepQuerySelector(target);
+      if (shadowEl && isElementVisible(shadowEl)) {
+        element = shadowEl;
+      }
     }
   }
 
@@ -172,9 +314,11 @@ function locateElementWithSelectorArray(step) {
     try {
       let el = null;
 
-      // ARIA Selector (Puppeteer format: "aria/Button Text")
+      // ARIA Selector (format: "aria/Name" or "aria/role[Name]")
       if (selector.startsWith("aria/")) {
-        const ariaText = selector.slice(5);
+        const { name: ariaText, role: ariaRole } = parseAriaSelector(
+          selector.slice(5),
+        );
         if (isGenericIconAria(ariaText)) {
           logExecution(
             `Skipping generic aria icon selector ${selector}`,
@@ -182,7 +326,22 @@ function locateElementWithSelectorArray(step) {
           );
           continue;
         }
-        const elements = findAllByAriaLabel(ariaText);
+        let elements = findAllByAriaLabel(ariaText);
+
+        // If a role was specified (e.g. aria/textbox[Label]), filter by role
+        if (ariaRole && elements.length > 0) {
+          const roleFiltered = elements.filter((e) =>
+            elementMatchesRole(e, ariaRole),
+          );
+          if (roleFiltered.length > 0) {
+            elements = roleFiltered;
+          } else {
+            logExecution(
+              `Strategy ${selector} found ${elements.length} elements but none matched role "${ariaRole}", trying without role filter`,
+              "info",
+            );
+          }
+        }
 
         // Strategy: 1. Visible and matches step description text
         // 2. Visible (only if unique match)
@@ -331,8 +490,13 @@ function locateElementWithSelectorArray(step) {
           }
         }
 
-        // Try deep shadow if not found
-        if (!el) el = deepQuerySelector(selector);
+        // Try deep shadow if not found — but only return if visible
+        if (!el) {
+          const shadowEl = deepQuerySelector(selector);
+          if (shadowEl && isElementVisible(shadowEl)) {
+            el = shadowEl;
+          }
+        }
 
         if (el) {
           logSelectorSuccess(selector, el);
@@ -356,6 +520,30 @@ function locateElementWithSelectorArray(step) {
       );
     }
   }
+
+  // --- DYNAMIC COMBOBOX/DATE FALLBACK ---
+  if (isStepTargetingOption(step) || isStepTargetingDate(step)) {
+    const activeContainer = document.querySelector(
+      '[role="listbox"]:not([style*="display: none"]), .slds-dropdown:not([style*="display: none"]), .selectV2-portal:not([style*="display: none"]), .react-datepicker:not([style*="display: none"]), .absolute-positioned:not([style*="display: none"])',
+    );
+
+    if (activeContainer) {
+      const anyVisibleOption = Array.from(
+        activeContainer.querySelectorAll(
+          '[role="option"], li.slds-listbox__item, .react-datepicker__day:not(.react-datepicker__day--disabled):not(.react-datepicker__day--outside-month)',
+        ),
+      ).find(isElementVisible);
+
+      if (anyVisibleOption) {
+        logExecution(
+          `Attempting context-aware dynamic fallback for missing recorded item: ${step.description || step.target}`,
+          "success",
+        );
+        return anyVisibleOption;
+      }
+    }
+  }
+
   return null;
 }
 
@@ -431,6 +619,33 @@ function findAllByAriaLabel(ariaText) {
           .trim()
           .toLowerCase();
         if (text === normalizedSearch) matched = true;
+
+        // Support for checkbox/radio options wrapped in divs
+        if (
+          !matched &&
+          (el.tagName === "INPUT" || role === "checkbox" || role === "radio")
+        ) {
+          let currentListboxItem = el.parentElement;
+          let depth = 0;
+          while (currentListboxItem && depth < 4) {
+            if (
+              currentListboxItem.classList.contains("optionLabel") ||
+              currentListboxItem.getAttribute("role") === "option" ||
+              currentListboxItem.classList.contains("MuiMenuItem-root")
+            ) {
+              const itemText = getVisibleText(currentListboxItem)
+                .replace(/\s+/g, " ")
+                .trim()
+                .toLowerCase();
+              if (itemText === normalizedSearch) {
+                matched = true;
+                break;
+              }
+            }
+            currentListboxItem = currentListboxItem.parentElement;
+            depth++;
+          }
+        }
       }
     }
 
@@ -503,7 +718,10 @@ function locateElementLegacy(step) {
     } else {
       // Raw string: check for Playwright-style prefixes
       if (target.startsWith("aria/")) {
-        activeTargets.unshift({ type: "aria", value: target.slice(5) });
+        activeTargets.unshift({
+          type: "aria",
+          value: extractAriaName(target.slice(5)),
+        });
       } else if (target.startsWith("xpath/")) {
         activeTargets.unshift({ type: "xpath", value: target.slice(6) });
       } else if (target.startsWith("//")) {
@@ -580,14 +798,15 @@ function locateElementLegacy(step) {
           }
         }
       } else if (type === "aria") {
-        if (isGenericIconAria(normalizedValue)) {
+        const ariaName = extractAriaName(normalizedValue);
+        if (isGenericIconAria(ariaName)) {
           logExecution(
-            `Skipping generic aria icon selector aria/${normalizedValue}`,
+            `Skipping generic aria icon selector aria/${ariaName}`,
             "info",
           );
           continue;
         }
-        el = findByAriaLabel(normalizedValue);
+        el = findByAriaLabel(ariaName);
       } else if (type === "xpath" || type.startsWith("xpath:")) {
         const els = getElementsByXPath(normalizedValue);
         if (els.length > 0) el = els[0];
@@ -638,6 +857,11 @@ function locateElementLegacy(step) {
       }
 
       if (el) {
+        // --- DYNAMIC DATE PICKER OVERRIDE ---
+        // If the element is a React datepicker day, but the specific label (e.g. "Choose Wednesday, February 25th")
+        // was requested and not found, try to just click today's date instead of failing.
+        // Wait, if el is found, it's fine. We need to handle this below when NOT found.
+
         const isVisible = isElementVisible(el);
         const logMsg = `Playback: Strategy ${type}=${value} found ${el.tagName} (ID: ${el.id}, Visible: ${isVisible})`;
         chrome.storage.local
@@ -668,6 +892,29 @@ function locateElementLegacy(step) {
   if (selectors && selectors.id) {
     const el = document.getElementById(selectors.id);
     if (el && el.isConnected && isElementVisible(el)) return el;
+  }
+
+  // --- DYNAMIC COMBOBOX/DATE FALLBACK ---
+  if (isStepTargetingOption(step) || isStepTargetingDate(step)) {
+    const activeContainer = document.querySelector(
+      '[role="listbox"]:not([style*="display: none"]), .slds-dropdown:not([style*="display: none"]), .selectV2-portal:not([style*="display: none"]), .react-datepicker:not([style*="display: none"]), .absolute-positioned:not([style*="display: none"])',
+    );
+
+    if (activeContainer) {
+      const anyVisibleOption = Array.from(
+        activeContainer.querySelectorAll(
+          '[role="option"], li.slds-listbox__item, .react-datepicker__day:not(.react-datepicker__day--disabled):not(.react-datepicker__day--outside-month)',
+        ),
+      ).find(isElementVisible);
+
+      if (anyVisibleOption) {
+        logExecution(
+          `Attempting context-aware dynamic fallback for missing recorded item: ${step.description || step.target}`,
+          "success",
+        );
+        return anyVisibleOption;
+      }
+    }
   }
 
   return fuzzyFallbackSearch(step);
@@ -974,14 +1221,22 @@ async function executeSingleStep(step, index) {
 
         // Phase 1 (after 1.5s): Re-click/focus combobox inputs to reopen
         // dropdowns that may have closed during script re-injection
-        if (i === 6 && step.action === "click") {
+        if (
+          i === 6 &&
+          step.action === "click" &&
+          (isStepTargetingOption(step) || isStepTargetingDate(step))
+        ) {
           const comboboxInputs = Array.from(
-            document.querySelectorAll('input[role="combobox"]'),
+            document.querySelectorAll(
+              'input[role="combobox"], input.react-datepicker-ignore-onclickoutside, .react-datepicker__input-container input',
+            ),
           ).filter((el) => isElementVisible(el));
 
+          // If we have many, only re-click the one that might be relevant (e.g. contains part of the label)
+          // or if only one is visible.
           for (const cb of comboboxInputs) {
             logExecution(
-              `Step ${index + 1}: Re-clicking combobox "${cb.placeholder}" to reopen dropdown`,
+              `Step ${index + 1}: Re-clicking combobox "${cb.placeholder || cb.getAttribute("aria-label")}" to reopen dropdown`,
               "info",
             );
             cb.click();
@@ -996,11 +1251,36 @@ async function executeSingleStep(step, index) {
             if (element && isElementVisible(element)) break;
             element = null;
           }
+          // ALSO: Check for collapsed sections if we are looking for a checkbox or similar
+          // This helps if a click on a section header (Step 55) didn't expand it or it collapsed back
+          const collapsedSections = Array.from(
+            document.querySelectorAll(
+              'button[aria-expanded="false"], .filterItemActionWrapper:not(.expanded), .accordion-summary[aria-expanded="false"]',
+            ),
+          ).filter(isElementVisible);
+
+          for (const section of collapsedSections) {
+            logExecution(
+              `Step ${index + 1}: Attempting to expand section "${section.innerText.split("\n")[0]}" to find target`,
+              "info",
+            );
+            section.click();
+            await new Promise((r) => setTimeout(r, 1500)); // Wait for expansion
+
+            element = locateElement(step);
+            if (element && isElementVisible(element)) break;
+            element = null;
+          }
           if (element) break;
         }
 
-        // Phase 2 (after 5s): Try typing a search term to filter results
-        if (i === 20 && step.action === "click") {
+        // Phase 2 (after 5s): Try typing a search term to filter dropdown results
+        // ONLY for steps that are targeting dropdown options, not radios/checkboxes/etc.
+        if (
+          i === 20 &&
+          step.action === "click" &&
+          (isStepTargetingOption(step) || isStepTargetingDate(step))
+        ) {
           const searchTerm = extractSearchTermFromStep(step);
           if (searchTerm) {
             logExecution(

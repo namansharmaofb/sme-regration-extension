@@ -1,0 +1,10 @@
+{
+  "role": "columnheader",
+  "name": "Item Name",
+  "children": [
+    {
+      "role": "StaticText",
+      "name": "Item Name"
+    }
+  ]
+}

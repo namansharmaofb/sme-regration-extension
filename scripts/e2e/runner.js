@@ -637,6 +637,27 @@ async function captureAriaSnapshot(page, prefix, testCaseId, options = {}) {
   return snapshotPath;
 }
 
+async function captureVisualScreenshot(page, prefix, testCaseId) {
+  const screenshotsDir = path.join(__dirname, "screenshots");
+  if (!fs.existsSync(screenshotsDir)) {
+    fs.mkdirSync(screenshotsDir, { recursive: true });
+  }
+  const screenshotPath = path.join(
+    screenshotsDir,
+    `screenshot_${prefix}_${testCaseId}_${Date.now()}.png`,
+  );
+  try {
+    await page.screenshot({ path: screenshotPath, fullPage: true });
+    console.log(
+      `${CYAN}[Screenshot]${RESET} Visual screenshot captured: ${CYAN}${screenshotPath}${RESET}`,
+    );
+    return screenshotPath;
+  } catch (err) {
+    console.warn(`Failed to capture visual screenshot: ${err.message}`);
+    return null;
+  }
+}
+
 async function getFailedStepIndex(executionId) {
   if (!executionId) return null;
   try {
@@ -972,6 +993,7 @@ async function executeTestCase(browser, page, testCaseId) {
             ? testCase.steps?.[focusStepIndex]
             : null;
         try {
+          await captureVisualScreenshot(page, "error", testCaseId);
           ariaSnapshotPath = await captureAriaSnapshot(
             page,
             "error",
@@ -1062,6 +1084,7 @@ async function executeTestCase(browser, page, testCaseId) {
           ? testCase.steps?.[lastStepIndex]
           : null;
       try {
+        await captureVisualScreenshot(page, "stall", testCaseId);
         ariaSnapshotPath = await captureAriaSnapshot(
           page,
           "stall",
@@ -1102,6 +1125,7 @@ async function executeTestCase(browser, page, testCaseId) {
   const focusStep =
     typeof lastStepIndex === "number" ? testCase.steps?.[lastStepIndex] : null;
   try {
+    await captureVisualScreenshot(page, "timeout", testCaseId);
     ariaSnapshotPath = await captureAriaSnapshot(
       page,
       "timeout",
@@ -1218,6 +1242,7 @@ async function runE2E() {
       console.error(`Initial navigation failed: ${err.message}`);
       let ariaSnapshotPath = null;
       try {
+        await captureVisualScreenshot(page, "system_error", "system");
         ariaSnapshotPath = await captureAriaSnapshot(
           page,
           "system_error",
@@ -1334,21 +1359,43 @@ async function runE2E() {
         );
       }
 
-      // Navigate back to TARGET_URL so each flow starts from a clean page
+      // Discover flow's starting URL if applicable
+      let flowStartUrl = TARGET_URL;
+      try {
+        const testCaseRes = await fetch(`${BACKEND_URL}/api/test-cases/${id}`);
+        if (testCaseRes.ok) {
+          const testCaseData = await testCaseRes.json();
+          if (
+            testCaseData.steps &&
+            testCaseData.steps.length > 0 &&
+            testCaseData.steps[0].url
+          ) {
+            flowStartUrl = testCaseData.steps[0].url;
+          }
+        }
+      } catch (e) {
+        console.warn(
+          `Failed to fetch test case ${id} starting URL: ${e.message}`,
+        );
+      }
+
+      // Navigate back to the flow's starting URL so each flow starts from a clean page
       try {
         const currentUrl = page.url();
         if (
           !currentUrl ||
           !currentUrl.includes("localhost:3007") ||
-          currentUrl !== TARGET_URL
+          currentUrl !== flowStartUrl
         ) {
-          console.log(`Navigating back to ${TARGET_URL} before flow ${id}...`);
-          await page.goto(TARGET_URL, { waitUntil: "load", timeout: 60000 });
+          console.log(
+            `Navigating to starting URL ${flowStartUrl} before flow ${id}...`,
+          );
+          await page.goto(flowStartUrl, { waitUntil: "load", timeout: 60000 });
           await new Promise((r) => setTimeout(r, 3000)); // Let page settle
         }
       } catch (navErr) {
         console.warn(
-          `Navigation to TARGET_URL before flow ${id} failed: ${navErr.message}`,
+          `Navigation to starting URL before flow ${id} failed: ${navErr.message}`,
         );
       }
 
