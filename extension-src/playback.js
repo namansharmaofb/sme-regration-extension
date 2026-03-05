@@ -508,7 +508,11 @@ function locateElementWithSelectorArray(step) {
               );
               el = overlayEl;
             } else {
-              el = textMatches[0]; // Fallback to first match
+              logExecution(
+                `Strategy ${selector} found ${textMatches.length} text matches for "${expectedText}", skipping ambiguous match`,
+                "info",
+              );
+              continue;
             }
           }
         }
@@ -557,10 +561,29 @@ function locateElementWithSelectorArray(step) {
         const visibleElements = els.filter(isElementVisible);
 
         if (expectedText && expectedText.length > 2) {
-          el = visibleElements.find((e) => {
+          const textMatches = visibleElements.filter((e) => {
             const text = getVisibleText(e).toLowerCase().trim();
             return text === expectedText || text.includes(expectedText);
           });
+          if (textMatches.length === 1) {
+            el = textMatches[0];
+          } else if (textMatches.length > 1) {
+            // Multiple elements with same text — try overlay disambiguation
+            const overlayEl = preferOverlayElement(textMatches);
+            if (overlayEl) {
+              logExecution(
+                `Strategy ${selector} found ${textMatches.length} XPath text matches for "${expectedText}", resolved to overlay element`,
+                "info",
+              );
+              el = overlayEl;
+            } else {
+              logExecution(
+                `Strategy ${selector} found ${textMatches.length} XPath text matches for "${expectedText}", skipping ambiguous match`,
+                "info",
+              );
+              continue;
+            }
+          }
         }
 
         // If unique visible match, use it
@@ -1414,6 +1437,59 @@ function getClickableAncestor(el, maxDepth = 5) {
 }
 
 /**
+ * Robustly sends STEP_COMPLETE to the background with retry.
+ * Heavy DOM re-renders (drawer close, table updates) can cause
+ * chrome.runtime.sendMessage to fail silently. This retries to ensure delivery.
+ */
+function sendStepComplete(stepIndex, maxRetries = 3) {
+  let attempt = 0;
+  function trySend() {
+    attempt++;
+    try {
+      chrome.runtime.sendMessage(
+        { type: "STEP_COMPLETE", stepIndex },
+        (response) => {
+          if (chrome.runtime.lastError) {
+            const errMsg = chrome.runtime.lastError.message;
+            console.warn(
+              `STEP_COMPLETE attempt ${attempt} failed for step ${stepIndex + 1}: ${errMsg}`,
+            );
+            logExecution(
+              `Step ${stepIndex + 1}: STEP_COMPLETE delivery attempt ${attempt} failed: ${errMsg}`,
+              "warning",
+            );
+            if (attempt < maxRetries) {
+              setTimeout(trySend, 500);
+            } else {
+              console.error(
+                `STEP_COMPLETE failed after ${maxRetries} attempts for step ${stepIndex + 1}`,
+              );
+              logExecution(
+                `Step ${stepIndex + 1}: STEP_COMPLETE failed after ${maxRetries} attempts — background may not advance`,
+                "error",
+              );
+            }
+          } else {
+            logExecution(
+              `Step ${stepIndex + 1}: STEP_COMPLETE delivered successfully (attempt ${attempt})`,
+              "debug",
+            );
+          }
+        },
+      );
+    } catch (err) {
+      console.warn(
+        `STEP_COMPLETE exception on attempt ${attempt} for step ${stepIndex + 1}: ${err.message}`,
+      );
+      if (attempt < maxRetries) {
+        setTimeout(trySend, 500);
+      }
+    }
+  }
+  trySend();
+}
+
+/**
  * Executes a single command on the page.
  * @param {Object} step
  * @param {number} index
@@ -1625,10 +1701,11 @@ async function executeSingleStep(step, index) {
         "success",
       );
 
-      // Some frameworks need a bit more time to process the click and update state (e.g. dropdowns)
-      setTimeout(() => {
-        chrome.runtime.sendMessage({ type: "STEP_COMPLETE", stepIndex: index });
-      }, 1200);
+      // Send STEP_COMPLETE immediately. The settle time for the NEXT step's element
+      // finding (400ms + 10s retry loop) handles framework processing time.
+      // DO NOT use setTimeout here — heavy DOM teardowns (MUI Drawer unmount,
+      // React portal cleanup) can kill pending setTimeout callbacks.
+      sendStepComplete(index);
     } else if (step.action === "input") {
       // SETTLE TIME
       await new Promise((r) => setTimeout(r, 300));
@@ -1712,10 +1789,8 @@ async function executeSingleStep(step, index) {
       element.blur();
 
       console.log(`Executed step ${index + 1}: Input "${step.value}"`);
-      // Add settle time for input to allow frameworks to process changes
-      setTimeout(() => {
-        chrome.runtime.sendMessage({ type: "STEP_COMPLETE", stepIndex: index });
-      }, 500);
+      // Send STEP_COMPLETE directly — avoid setTimeout which can be killed by DOM teardowns
+      sendStepComplete(index);
     } else if (step.action === "upload") {
       // FILE UPLOAD: Create a synthetic file and attach it to the input
       await new Promise((r) => setTimeout(r, 300));
@@ -1762,9 +1837,8 @@ async function executeSingleStep(step, index) {
         throw e;
       }
 
-      setTimeout(() => {
-        chrome.runtime.sendMessage({ type: "STEP_COMPLETE", stepIndex: index });
-      }, 800);
+      // Send STEP_COMPLETE directly — avoid setTimeout which can be killed by DOM teardowns
+      sendStepComplete(index);
     } else if (step.action === "scroll") {
       try {
         const pos = JSON.parse(step.value || '{"x":0,"y":0}');

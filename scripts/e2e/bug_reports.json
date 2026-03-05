@@ -687,5 +687,96 @@
     "description": "Step 56 stalled for 30s: Click executed on content_copy at (1709.484375, 540.5)",
     "ariaSnapshot": null,
     "timestamp": "2026-02-27T05:15:52.201Z"
+  },
+  {
+    "id": "BUG-1772184545410",
+    "title": "Failure in fhdgfhd",
+    "description": "No tab with id: 556893512.",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_264_1772184545343.json",
+    "timestamp": "2026-02-27T09:29:05.410Z"
+  },
+  {
+    "id": "BUG-1772184859198",
+    "title": "Failure in fhdgfhd",
+    "description": "Step 33 stalled for 30s: Click executed on Test_Item_In_1 SKU: TII1 at (258.046875, 540.5)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-27T09:34:19.198Z"
+  },
+  {
+    "id": "BUG-1772185715889",
+    "title": "Failure in wfgekjrew",
+    "description": "Execution of wfgekjrew Timed Out after 180s",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_timeout_267_1772185715675.json",
+    "timestamp": "2026-02-27T09:48:35.889Z"
+  },
+  {
+    "id": "BUG-1772187632047",
+    "title": "Failure in rutuyyut",
+    "description": "Element not found for step 21: Element not found or not visible for step:21 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_268_1772187631981.json",
+    "timestamp": "2026-02-27T10:20:32.047Z"
+  },
+  {
+    "id": "BUG-1772189369236",
+    "title": "Failure in dfkjdsa",
+    "description": "Step 62 stalled for 30s: Click executed on Add Columns at (1654, 90)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-27T10:49:29.236Z"
+  },
+  {
+    "id": "BUG-1772195817126",
+    "title": "Failure in dfkjdsa",
+    "description": "Step 63 stalled for 30s: Element found, executing click",
+    "ariaSnapshot": null,
+    "timestamp": "2026-02-27T12:36:57.126Z"
+  },
+  {
+    "id": "BUG-1772196632366",
+    "title": "Failure in tyrdtrdyt",
+    "description": "Execution of tyrdtrdyt Timed Out after 180s",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_timeout_272_1772196632240.json",
+    "timestamp": "2026-02-27T12:50:32.366Z"
+  },
+  {
+    "id": "BUG-1772686470981",
+    "title": "Failure in sadfsaf",
+    "description": "Step 50 stalled for 30s: Click executed on Packaging Quantity Discount Cess at (1654, 178.5)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-05T04:54:30.981Z"
+  },
+  {
+    "id": "BUG-1772688092522",
+    "title": "Failure in dgfhdf",
+    "description": "Execution of dgfhdf Timed Out after 180s",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_timeout_274_1772688092367.json",
+    "timestamp": "2026-03-05T05:21:32.522Z"
+  },
+  {
+    "id": "BUG-1772690713110",
+    "title": "Failure in dgfhdf",
+    "description": "Execution of dgfhdf Timed Out after 180s",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_timeout_274_1772690712961.json",
+    "timestamp": "2026-03-05T06:05:13.110Z"
+  },
+  {
+    "id": "BUG-1772691216968",
+    "title": "Failure in dgfhdf",
+    "description": "Step 86 stalled for 30s: Element found, executing input",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-05T06:13:36.968Z"
+  },
+  {
+    "id": "BUG-1772692189725",
+    "title": "Failure in dgfhdf",
+    "description": "Execution of dgfhdf Timed Out after 180s",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_timeout_274_1772692189577.json",
+    "timestamp": "2026-03-05T06:29:49.725Z"
+  },
+  {
+    "id": "BUG-1772692737267",
+    "title": "Failure in dgfhdf",
+    "description": "Element not found for step 157: Element not found or not visible for step:157 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_274_1772692737178.json",
+    "timestamp": "2026-03-05T06:38:57.267Z"
   }
 ]
