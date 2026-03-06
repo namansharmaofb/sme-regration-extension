@@ -25,6 +25,285 @@ function extractAriaName(ariaText) {
 }
 
 /**
+ * Max number of entries kept in e2e_debug_logs to avoid exceeding chrome.storage.local quota.
+ * Oldest entries are dropped when the limit is hit (sliding window).
+ */
+const MAX_DEBUG_LOGS = 500;
+
+/**
+ * Appends a message to e2e_debug_logs, trimming the oldest entries if the cap is exceeded.
+ * All writes to e2e_debug_logs must go through this helper.
+ * @param {string} message - Already-formatted log line (timestamp will be prepended).
+ */
+function appendDebugLog(message) {
+  chrome.storage.local
+    .get("e2e_debug_logs")
+    .then(({ e2e_debug_logs = [] }) => {
+      e2e_debug_logs.push(`[${new Date().toISOString()}] ${message}`);
+      // Trim to the most recent MAX_DEBUG_LOGS entries
+      if (e2e_debug_logs.length > MAX_DEBUG_LOGS) {
+        e2e_debug_logs = e2e_debug_logs.slice(-MAX_DEBUG_LOGS);
+      }
+      chrome.storage.local.set({ e2e_debug_logs }).catch(() => {});
+    })
+    .catch(() => {});
+}
+
+/**
+ * Checks if an element is inside an overlay container (modal, popover, dropdown, drawer).
+ * @param {HTMLElement} el
+ * @returns {boolean}
+ */
+function isInsideOverlay(el) {
+  let current = el ? el.parentElement : null;
+  let depth = 0;
+  while (current && current !== document.body && depth < 30) {
+    const role = (current.getAttribute("role") || "").toLowerCase();
+    if (
+      [
+        "dialog",
+        "alertdialog",
+        "menu",
+        "listbox",
+        "tooltip",
+        "tree",
+        "presentation",
+      ].includes(role)
+    )
+      return true;
+    if (current.tagName === "DIALOG") return true;
+    const cls = current.className || "";
+    if (
+      typeof cls === "string" &&
+      (/\b(modal|popover|dropdown-menu|drawer|popup|overlay)\b/i.test(cls) ||
+        /\b(MuiModal|MuiPopover|MuiDrawer|MuiDialog|MuiMenu-paper|MuiAutocomplete-popper)\b/i.test(
+          cls,
+        ) ||
+        /\b(ant-modal|ant-popover|ant-dropdown|ant-drawer|ant-select-dropdown)\b/i.test(
+          cls,
+        ) ||
+        /\b(modal-dialog|modal-content)\b/i.test(cls) ||
+        /\b(portal|react-select__menu|slds-modal|slds-dropdown|chakra-modal|chakra-popover)\b/i.test(
+          cls,
+        ))
+    )
+      return true;
+    if (
+      current.hasAttribute("data-popper-placement") ||
+      current.hasAttribute("data-radix-popper-content-wrapper") ||
+      current.hasAttribute("data-radix-dialog-content") ||
+      current.hasAttribute("data-floating-ui-portal")
+    )
+      return true;
+    const style = window.getComputedStyle(current);
+    if (
+      (style.position === "fixed" || style.position === "absolute") &&
+      parseInt(style.zIndex, 10) >= 100
+    ) {
+      const rect = current.getBoundingClientRect();
+      if (rect.width > 80 && rect.height > 40) return true;
+    }
+    current = current.parentElement;
+    depth++;
+  }
+  return false;
+}
+/**
+ * Gets the containing overlay element for a given element.
+ * @param {HTMLElement} el
+ * @returns {HTMLElement|null}
+ */
+function getContainingOverlay(el) {
+  let current = el ? el.parentElement : null;
+  let depth = 0;
+  while (current && current !== document.body && depth < 30) {
+    const role = (current.getAttribute("role") || "").toLowerCase();
+    const isOverlayRole = [
+      "dialog",
+      "alertdialog",
+      "menu",
+      "listbox",
+      "tooltip",
+      "tree",
+      "presentation",
+    ].includes(role);
+
+    if (isOverlayRole || current.tagName === "DIALOG") return current;
+
+    const cls = current.className || "";
+    if (
+      typeof cls === "string" &&
+      (/\b(modal|popover|dropdown-menu|drawer|popup|overlay)\b/i.test(cls) ||
+        /\b(MuiModal|MuiPopover|MuiDrawer|MuiDialog|MuiMenu-paper|MuiAutocomplete-popper)\b/i.test(
+          cls,
+        ) ||
+        /\b(ant-modal|ant-popover|ant-dropdown|ant-drawer|ant-select-dropdown)\b/i.test(
+          cls,
+        ) ||
+        /\b(modal-dialog|modal-content)\b/i.test(cls) ||
+        /\b(portal|react-select__menu|slds-modal|slds-dropdown|chakra-modal|chakra-popover)\b/i.test(
+          cls,
+        ))
+    ) {
+      return current;
+    }
+
+    if (
+      current.hasAttribute("data-popper-placement") ||
+      current.hasAttribute("data-radix-popper-content-wrapper") ||
+      current.hasAttribute("data-radix-dialog-content") ||
+      current.hasAttribute("data-floating-ui-portal")
+    ) {
+      return current;
+    }
+
+    const style = window.getComputedStyle(current);
+    if (
+      (style.position === "fixed" || style.position === "absolute") &&
+      parseInt(style.zIndex, 10) >= 100
+    ) {
+      const rect = current.getBoundingClientRect();
+      if (rect.width > 80 && rect.height > 40) return current;
+    }
+    current = current.parentElement;
+    depth++;
+  }
+  return null;
+}
+
+/**
+ * Determines whether we should wait for an overlay to close after a click.
+ * We only wait if the clicked element looks like an overlay-dismissing trigger:
+ *   - listbox option / menu item / dropdown item (these close the dropdown)
+ *   - combobox option
+ * We do NOT wait when the click is on a radio, checkbox, regular button,
+ * or any generic element inside a persistent modal — because those don't
+ * dismiss the modal and the 3s timeout just wastes time.
+ *
+ * @param {HTMLElement} element - The element that was clicked.
+ * @param {HTMLElement} overlayEl - The containing overlay.
+ * @returns {boolean}
+ */
+function shouldWaitForOverlayClose(element, overlayEl) {
+  if (!element || !overlayEl) return false;
+
+  // Identify the overlay type by its classes/role
+  const overlayRole = (overlayEl.getAttribute("role") || "").toLowerCase();
+  const overlayCls = overlayEl.className || "";
+
+  const isDropdown =
+    overlayRole === "listbox" ||
+    overlayRole === "menu" ||
+    /\b(dropdown|slds-dropdown|slds-listbox|slds-combobox|ant-dropdown|ant-select-dropdown|MuiMenu-paper|MuiAutocomplete-popper|react-select__menu)\b/i.test(
+      overlayCls,
+    ) ||
+    overlayEl.hasAttribute("data-popper-placement") ||
+    overlayEl.hasAttribute("data-radix-popper-content-wrapper");
+
+  // Identify the clicked element type
+  const elRole = (element.getAttribute("role") || "").toLowerCase();
+  const elCls = element.className || "";
+  const isOption =
+    elRole === "option" ||
+    elRole === "menuitem" ||
+    elRole === "treeitem" ||
+    /\b(slds-media__body|slds-listbox__option|option|menu-item|dropdown-item|ant-select-item|MuiMenuItem|MuiAutocomplete-option)\b/i.test(
+      elCls,
+    );
+
+  // Only wait when clicking an option INSIDE a dropdown/listbox; not for dialogs.
+  return isDropdown && isOption;
+}
+
+/**
+ * Waits for an overlay element to be removed or hidden.
+ * @param {HTMLElement} overlayEl
+ * @param {number} maxWait - Max time in ms to wait.
+ */
+async function waitForOverlayClose(overlayEl, maxWait = 3000) {
+  if (!overlayEl) return;
+  const start = Date.now();
+  appendDebugLog(
+    `Playback: Waiting for overlay ${overlayEl.className || "unnamed"} to close...`,
+  );
+
+  while (Date.now() - start < maxWait) {
+    // Check if element is still in DOM
+    if (!document.body.contains(overlayEl)) {
+      appendDebugLog(`Playback: Overlay closed (removed from DOM).`);
+      return;
+    }
+
+    // Check if element is hidden
+    const style = window.getComputedStyle(overlayEl);
+    const isHidden =
+      style.display === "none" ||
+      style.visibility === "hidden" ||
+      parseFloat(style.opacity) === 0;
+
+    if (isHidden) {
+      appendDebugLog(`Playback: Overlay closed (hidden via styles).`);
+      return;
+    }
+
+    await new Promise((r) => setTimeout(r, 100));
+  }
+
+  appendDebugLog(
+    `Playback: Warning - timed out waiting for overlay to close after ${maxWait}ms.`,
+  );
+}
+
+/**
+ * When multiple visible elements match a selector, prefer the one inside
+ * the topmost overlay (modal, popover, dropdown, drawer).
+ * @param {Array<HTMLElement>} visibleElements
+ * @returns {HTMLElement|null}
+ */
+function preferOverlayElement(visibleElements) {
+  if (!visibleElements || visibleElements.length < 2) return null;
+  const inOverlay = visibleElements.filter(isInsideOverlay);
+  if (inOverlay.length === 1) return inOverlay[0];
+  if (inOverlay.length > 1) {
+    // For each element, find its highest z-index ancestor up to body.
+    const getMaxZIndex = (el) => {
+      let maxZ = -1;
+      let current = el.parentElement;
+      while (current && current !== document.body) {
+        const z = parseInt(window.getComputedStyle(current).zIndex, 10);
+        if (!isNaN(z) && z > maxZ) maxZ = z;
+        current = current.parentElement;
+      }
+      return maxZ;
+    };
+
+    let best = inOverlay[0];
+    let bestZ = getMaxZIndex(best);
+
+    for (let i = 1; i < inOverlay.length; i++) {
+      const el = inOverlay[i];
+      const z = getMaxZIndex(el);
+      if (z > bestZ) {
+        bestZ = z;
+        best = el;
+      } else if (z === bestZ) {
+        // Tie-breaker: element appearing LATER in the DOM is rendered on top
+        // (MUI appends modal portals to body in order; last = topmost layer).
+        const rel = best.compareDocumentPosition(el);
+        if (
+          rel & Node.DOCUMENT_POSITION_FOLLOWING ||
+          rel & Node.DOCUMENT_POSITION_CONTAINED_BY
+        ) {
+          best = el;
+        }
+      }
+    }
+    return best;
+  }
+  return null;
+}
+
+/**
  * Checks if an element matches a given ARIA role.
  * Considers both explicit role attribute and implicit roles from HTML tags.
  * @param {HTMLElement} element
@@ -224,14 +503,16 @@ function isStepTargetingOption(step) {
   // But they can also be checkboxes. We check for common option prefixes or types.
   const target = step.selector || step.target || "";
   if (target.startsWith("aria/")) {
-    const label = target.substring(5);
+    const label = extractAriaName(target.slice(5));
     // Common date patterns
     if (label.startsWith("Choose ") && label.includes("202")) return true;
     // GSTIN or SKU patterns are often options
     if (
       label.includes("GSTIN:") ||
       label.includes("SKU:") ||
-      label.includes("Plant:")
+      label.includes("Plant:") ||
+      label.includes(" - ") ||
+      (label.length > 0 && label.length < 40 && !label.includes("/"))
     )
       return true;
   }
@@ -244,15 +525,110 @@ function isStepTargetingOption(step) {
  */
 function isStepTargetingDate(step) {
   const target = step.selector || step.target || "";
-  const desc = step.description || "";
+  const desc = (step.description || "").toLowerCase();
+  const isGridDay = target.includes("gridcell") && /^\d+$/.test(desc.trim());
   return (
     target.includes("datepicker__day") ||
-    (desc.startsWith("Choose ") && desc.includes("202"))
+    (desc.startsWith("choose ") && desc.includes("202")) ||
+    desc.includes("date") ||
+    desc.includes("calendar") ||
+    isGridDay
   );
 }
 
 function locateElement(step) {
   let element = null;
+
+  // 0. If the step recorded a modal_context, try to find the element INSIDE that
+  //    specific modal first. This is the most reliable strategy for nested modals:
+  //    the recorder captures exactly which overlay was visible when the user clicked,
+  //    so we can reproduce the exact same scope during playback.
+  if (step.modal_context && typeof step.modal_context === "string") {
+    try {
+      const modalEl = document.querySelector(step.modal_context);
+      if (modalEl && isElementVisible(modalEl)) {
+        // Build the selector array (same as normal, but resolved within the modal)
+        const selectorArray = Array.isArray(step.selectors)
+          ? step.selectors
+          : Array.isArray(step.selectors?.selectors)
+            ? step.selectors.selectors
+            : null;
+
+        if (selectorArray) {
+          for (const selectorGroup of selectorArray) {
+            const selector = Array.isArray(selectorGroup)
+              ? selectorGroup[0]
+              : selectorGroup;
+            if (!selector || typeof selector !== "string") continue;
+            try {
+              let el = null;
+              if (selector.startsWith("aria/")) {
+                const { name: ariaText, role: ariaRole } = parseAriaSelector(
+                  selector.slice(5),
+                );
+                const results = findAllByAriaLabel(ariaText, modalEl);
+                const visible = results.filter(isElementVisible);
+                const final = ariaRole
+                  ? visible.filter((e) => elementMatchesRole(e, ariaRole))
+                  : visible;
+                el = final[0] || null;
+              } else if (
+                selector.startsWith("xpath/") ||
+                selector.startsWith("//")
+              ) {
+                // Only scope relative XPaths — skip absolute ID-rooted ones
+                const xpath = selector.startsWith("xpath/")
+                  ? selector.slice(6)
+                  : selector;
+                if (!/\[@id\s*=/.test(xpath)) {
+                  const contextDoc = modalEl.ownerDocument || document;
+                  const xpathResult = contextDoc.evaluate(
+                    xpath,
+                    modalEl,
+                    null,
+                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                    null,
+                  );
+                  for (let i = 0; i < xpathResult.snapshotLength; i++) {
+                    const node = xpathResult.snapshotItem(i);
+                    if (node && isElementVisible(node)) {
+                      el = node;
+                      break;
+                    }
+                  }
+                }
+              } else if (!selector.startsWith("#")) {
+                // Generic CSS — scope to modal
+                const found = [...modalEl.querySelectorAll(selector)].filter(
+                  isElementVisible,
+                );
+                el = found[0] || null;
+              }
+              if (el) {
+                appendDebugLog(
+                  `Playback: Strategy ${selector} resolved via modal_context "${step.modal_context}"`,
+                );
+                return el;
+              }
+            } catch (_) {
+              /* invalid selector for scoped search */
+            }
+          }
+        }
+
+        appendDebugLog(
+          `Playback: modal_context "${step.modal_context}" found but element not within it — falling back to global search`,
+        );
+      } else {
+        appendDebugLog(
+          `Playback: modal_context "${step.modal_context}" not visible or not found — falling back to global search`,
+        );
+      }
+    } catch (_) {
+      /* querySelector failed — proceed to global search */
+    }
+  }
+
   // 1. Try new selector array format (or nested selectors object)
   const selectorArray = Array.isArray(step.selectors)
     ? step.selectors
@@ -303,7 +679,6 @@ function locateElement(step) {
  */
 function locateElementWithSelectorArray(step) {
   const { selectors } = step;
-
   for (const selectorGroup of selectors) {
     const selector = Array.isArray(selectorGroup)
       ? selectorGroup[0]
@@ -316,6 +691,46 @@ function locateElementWithSelectorArray(step) {
 
       // ARIA Selector (format: "aria/Name" or "aria/role[Name]")
       if (selector.startsWith("aria/")) {
+        // Handle nested selectors like "aria/Dialog[Settings] >> aria/button[Save]"
+        if (selector.includes(" >> ")) {
+          const parts = selector.split(" >> ");
+          let context = document;
+          let el = null;
+
+          for (let i = 0; i < parts.length; i++) {
+            const part = parts[i];
+            const { name: ariaText, role: ariaRole } = parseAriaSelector(
+              part.startsWith("aria/") ? part.slice(5) : part,
+            );
+
+            const results = findAllByAriaLabel(ariaText, context);
+            const visibleResults = results.filter(isElementVisible);
+
+            if (ariaRole && visibleResults.length > 0) {
+              const roleFiltered = visibleResults.filter((e) =>
+                elementMatchesRole(e, ariaRole),
+              );
+              if (roleFiltered.length > 0) {
+                el = roleFiltered[0]; // Take first match for intermediate parts
+              } else {
+                el = visibleResults[0];
+              }
+            } else if (visibleResults.length > 0) {
+              el = visibleResults[0];
+            } else {
+              el = null;
+              break;
+            }
+            context = el;
+          }
+
+          if (el) {
+            logSelectorSuccess(selector, el);
+            return el;
+          }
+          continue;
+        }
+
         const { name: ariaText, role: ariaRole } = parseAriaSelector(
           selector.slice(5),
         );
@@ -356,10 +771,29 @@ function locateElementWithSelectorArray(step) {
         const visibleElements = elements.filter(isElementVisible);
 
         if (expectedText && expectedText.length > 2) {
-          el = visibleElements.find((e) => {
+          const textMatches = visibleElements.filter((e) => {
             const text = getVisibleText(e).toLowerCase().trim();
             return text === expectedText || text.includes(expectedText);
           });
+          if (textMatches.length === 1) {
+            el = textMatches[0];
+          } else if (textMatches.length > 1) {
+            // Multiple elements with same text — try overlay disambiguation
+            const overlayEl = preferOverlayElement(textMatches);
+            if (overlayEl) {
+              logExecution(
+                `Strategy ${selector} found ${textMatches.length} text matches for "${expectedText}", resolved to overlay element`,
+                "info",
+              );
+              el = overlayEl;
+            } else {
+              logExecution(
+                `Strategy ${selector} found ${textMatches.length} text matches for "${expectedText}", skipping ambiguous match`,
+                "info",
+              );
+              continue;
+            }
+          }
         }
 
         // If we have exactly 1 visible match, use it
@@ -369,11 +803,21 @@ function locateElementWithSelectorArray(step) {
         // If many visible matches and text didn't disambiguate, skip to let
         // more specific selectors (XPath with ID, CSS) win
         if (!el && visibleElements.length > 1) {
-          logExecution(
-            `Strategy ${selector} found ${visibleElements.length} visible elements, skipping ambiguous match`,
-            "info",
-          );
-          continue;
+          // Try overlay disambiguation: prefer element inside topmost modal/popover/dropdown
+          const overlayEl = preferOverlayElement(visibleElements);
+          if (overlayEl) {
+            logExecution(
+              `Strategy ${selector} found ${visibleElements.length} visible elements, resolved to overlay element`,
+              "info",
+            );
+            el = overlayEl;
+          } else {
+            logExecution(
+              `Strategy ${selector} found ${visibleElements.length} visible elements, skipping ambiguous match`,
+              "info",
+            );
+            continue;
+          }
         }
 
         if (el) {
@@ -396,10 +840,29 @@ function locateElementWithSelectorArray(step) {
         const visibleElements = els.filter(isElementVisible);
 
         if (expectedText && expectedText.length > 2) {
-          el = visibleElements.find((e) => {
+          const textMatches = visibleElements.filter((e) => {
             const text = getVisibleText(e).toLowerCase().trim();
             return text === expectedText || text.includes(expectedText);
           });
+          if (textMatches.length === 1) {
+            el = textMatches[0];
+          } else if (textMatches.length > 1) {
+            // Multiple elements with same text — try overlay disambiguation
+            const overlayEl = preferOverlayElement(textMatches);
+            if (overlayEl) {
+              logExecution(
+                `Strategy ${selector} found ${textMatches.length} XPath text matches for "${expectedText}", resolved to overlay element`,
+                "info",
+              );
+              el = overlayEl;
+            } else {
+              logExecution(
+                `Strategy ${selector} found ${textMatches.length} XPath text matches for "${expectedText}", skipping ambiguous match`,
+                "info",
+              );
+              continue;
+            }
+          }
         }
 
         // If unique visible match, use it
@@ -408,11 +871,21 @@ function locateElementWithSelectorArray(step) {
         }
         // If ambiguous (multiple visible matches), skip to more specific selectors
         if (!el && visibleElements.length > 1) {
-          logExecution(
-            `Strategy ${selector} found ${visibleElements.length} visible elements, skipping ambiguous match`,
-            "info",
-          );
-          continue;
+          // Try overlay disambiguation: prefer element inside topmost modal/popover/dropdown
+          const overlayEl = preferOverlayElement(visibleElements);
+          if (overlayEl) {
+            logExecution(
+              `Strategy ${selector} found ${visibleElements.length} visible elements, resolved to overlay element`,
+              "info",
+            );
+            el = overlayEl;
+          } else {
+            logExecution(
+              `Strategy ${selector} found ${visibleElements.length} visible elements, skipping ambiguous match`,
+              "info",
+            );
+            continue;
+          }
         }
 
         if (el) {
@@ -454,18 +927,58 @@ function locateElementWithSelectorArray(step) {
           if (textMatches.length === 1) {
             el = textMatches[0];
           } else if (textMatches.length > 1) {
-            logExecution(
-              `Strategy ${selector} matched ${textMatches.length} elements for description "${expectedText}", skipping ambiguous match`,
-              "info",
-            );
-            continue;
+            // Resolve ambiguity: prefer interactive elements over generic ones
+            const interactiveElements = textMatches.filter((e) => {
+              const role = e.getAttribute("role");
+              const isInteractiveRole = [
+                "button",
+                "link",
+                "checkbox",
+                "menuitem",
+                "option",
+                "radio",
+                "switch",
+                "tab",
+                "textbox",
+                "combobox",
+                "listbox",
+                "searchbox",
+              ].includes(role);
+              const isInteractiveTag = [
+                "BUTTON",
+                "INPUT",
+                "SELECT",
+                "A",
+                "TEXTAREA",
+              ].includes(e.tagName);
+              return isInteractiveRole || isInteractiveTag;
+            });
+            if (interactiveElements.length === 1) {
+              logExecution(
+                `Strategy ${selector} matched ${textMatches.length} elements, preferring interactive element/role match`,
+                "info",
+              );
+              el = interactiveElements[0];
+            } else {
+              logExecution(
+                `Strategy ${selector} matched ${textMatches.length} elements for description "${expectedText}", skipping ambiguous match`,
+                "info",
+              );
+              continue;
+            }
           } else if (
             isSpecificSelector(selector) &&
-            visibleMatches.length === 1 &&
-            step.action === "input"
+            visibleMatches.length === 1
           ) {
-            // Only allow relaxed text match for INPUT steps (handles dynamic placeholders)
-            // For CLICK steps, we must be strict about the text.
+            // When the selector is highly specific (name=, id, placeholder, data-*)
+            // and there is exactly 1 visible match, use it — even if the text
+            // description doesn't match. This handles cases like an input field
+            // whose label text differs from step.description, or elements that are
+            // in a background modal visually covered by another overlay.
+            logExecution(
+              `Strategy ${selector} specific selector, bypassing text match (1 visible match for action=${step.action})`,
+              "info",
+            );
             el = visibleMatches[0];
           } else if (visibleMatches.length > 0) {
             logExecution(
@@ -482,11 +995,21 @@ function locateElementWithSelectorArray(step) {
           if (visibleList.length === 1) {
             el = visibleList[0];
           } else if (visibleList.length > 1) {
-            logExecution(
-              `Strategy ${selector} matched ${visibleList.length} visible elements, skipping ambiguous selector`,
-              "info",
-            );
-            continue; // Force fallback to next selector (e.g. XPath)
+            // Try overlay disambiguation: prefer element inside topmost modal/popover/dropdown
+            const overlayEl = preferOverlayElement(visibleList);
+            if (overlayEl) {
+              logExecution(
+                `Strategy ${selector} matched ${visibleList.length} visible elements, resolved to overlay element`,
+                "info",
+              );
+              el = overlayEl;
+            } else {
+              logExecution(
+                `Strategy ${selector} matched ${visibleList.length} visible elements, skipping ambiguous selector`,
+                "info",
+              );
+              continue; // Force fallback to next selector (e.g. XPath)
+            }
           }
         }
 
@@ -524,13 +1047,13 @@ function locateElementWithSelectorArray(step) {
   // --- DYNAMIC COMBOBOX/DATE FALLBACK ---
   if (isStepTargetingOption(step) || isStepTargetingDate(step)) {
     const activeContainer = document.querySelector(
-      '[role="listbox"]:not([style*="display: none"]), .slds-dropdown:not([style*="display: none"]), .selectV2-portal:not([style*="display: none"]), .react-datepicker:not([style*="display: none"]), .absolute-positioned:not([style*="display: none"])',
+      '[role="listbox"]:not([style*="display: none"]), .slds-dropdown:not([style*="display: none"]), .selectV2-portal:not([style*="display: none"]), .react-datepicker:not([style*="display: none"]), .absolute-positioned:not([style*="display: none"]), .MuiPopover-root:not([style*="display: none"]), .MuiPopper-root:not([style*="display: none"]), .MuiDialog-root:not([style*="display: none"])',
     );
 
     if (activeContainer) {
       const anyVisibleOption = Array.from(
         activeContainer.querySelectorAll(
-          '[role="option"], li.slds-listbox__item, .react-datepicker__day:not(.react-datepicker__day--disabled):not(.react-datepicker__day--outside-month)',
+          '[role="option"], [role="gridcell"], li.slds-listbox__item, .react-datepicker__day:not(.react-datepicker__day--disabled):not(.react-datepicker__day--outside-month), .MuiPickersDay-root:not(.Mui-disabled), .MuiMenuItem-root',
         ),
       ).find(isElementVisible);
 
@@ -550,14 +1073,15 @@ function locateElementWithSelectorArray(step) {
 /**
  * Finds all elements by ARIA label (accessible name).
  * @param {string} ariaText
+ * @param {Element|Document} root - Scopes the search to this element
  * @returns {Array<HTMLElement>}
  */
-function findAllByAriaLabel(ariaText) {
+function findAllByAriaLabel(ariaText, root = document) {
   if (!ariaText) return [];
   const normalizedSearch = ariaText.replace(/\s+/g, " ").trim().toLowerCase();
   const matches = [];
 
-  const allElements = document.querySelectorAll("*");
+  const allElements = root.querySelectorAll("*");
   for (const el of allElements) {
     let matched = false;
 
@@ -864,12 +1388,7 @@ function locateElementLegacy(step) {
 
         const isVisible = isElementVisible(el);
         const logMsg = `Playback: Strategy ${type}=${value} found ${el.tagName} (ID: ${el.id}, Visible: ${isVisible})`;
-        chrome.storage.local
-          .get("e2e_debug_logs")
-          .then(({ e2e_debug_logs = [] }) => {
-            e2e_debug_logs.push(`[${new Date().toISOString()}] ${logMsg}`);
-            chrome.storage.local.set({ e2e_debug_logs });
-          });
+        appendDebugLog(logMsg);
 
         if (isVisible && el.isConnected) return el;
       }
@@ -897,13 +1416,13 @@ function locateElementLegacy(step) {
   // --- DYNAMIC COMBOBOX/DATE FALLBACK ---
   if (isStepTargetingOption(step) || isStepTargetingDate(step)) {
     const activeContainer = document.querySelector(
-      '[role="listbox"]:not([style*="display: none"]), .slds-dropdown:not([style*="display: none"]), .selectV2-portal:not([style*="display: none"]), .react-datepicker:not([style*="display: none"]), .absolute-positioned:not([style*="display: none"])',
+      '[role="listbox"]:not([style*="display: none"]), .slds-dropdown:not([style*="display: none"]), .selectV2-portal:not([style*="display: none"]), .react-datepicker:not([style*="display: none"]), .absolute-positioned:not([style*="display: none"]), .MuiPopover-root:not([style*="display: none"]), .MuiPopper-root:not([style*="display: none"]), .MuiDialog-root:not([style*="display: none"])',
     );
 
     if (activeContainer) {
       const anyVisibleOption = Array.from(
         activeContainer.querySelectorAll(
-          '[role="option"], li.slds-listbox__item, .react-datepicker__day:not(.react-datepicker__day--disabled):not(.react-datepicker__day--outside-month)',
+          '[role="option"], [role="gridcell"], li.slds-listbox__item, .react-datepicker__day:not(.react-datepicker__day--disabled):not(.react-datepicker__day--outside-month), .MuiPickersDay-root:not(.Mui-disabled), .MuiMenuItem-root',
         ),
       ).find(isElementVisible);
 
@@ -1090,10 +1609,7 @@ function fuzzyFallbackSearch(step) {
 function logSelectorSuccess(selector, element) {
   const isVisible = isElementVisible(element);
   const logMsg = `Playback: Selector "${selector}" found ${element.tagName} (ID: ${element.id}, Visible: ${isVisible})`;
-  chrome.storage.local.get("e2e_debug_logs").then(({ e2e_debug_logs = [] }) => {
-    e2e_debug_logs.push(`[${new Date().toISOString()}] ${logMsg}`);
-    chrome.storage.local.set({ e2e_debug_logs });
-  });
+  appendDebugLog(logMsg);
 }
 
 /**
@@ -1135,10 +1651,7 @@ function logExecution(text, level = "info") {
     .catch(() => {});
 
   // Also log to e2e_debug_logs for runner visibility
-  chrome.storage.local.get("e2e_debug_logs").then(({ e2e_debug_logs = [] }) => {
-    e2e_debug_logs.push(`[${new Date().toISOString()}] Playback: ${text}`);
-    chrome.storage.local.set({ e2e_debug_logs });
-  });
+  appendDebugLog(`Playback: ${text}`);
 }
 
 let currentlyExecutingIndex = -1;
@@ -1195,6 +1708,59 @@ function getClickableAncestor(el, maxDepth = 5) {
     depth++;
   }
   return null;
+}
+
+/**
+ * Robustly sends STEP_COMPLETE to the background with retry.
+ * Heavy DOM re-renders (drawer close, table updates) can cause
+ * chrome.runtime.sendMessage to fail silently. This retries to ensure delivery.
+ */
+function sendStepComplete(stepIndex, maxRetries = 3) {
+  let attempt = 0;
+  function trySend() {
+    attempt++;
+    try {
+      chrome.runtime.sendMessage(
+        { type: "STEP_COMPLETE", stepIndex },
+        (response) => {
+          if (chrome.runtime.lastError) {
+            const errMsg = chrome.runtime.lastError.message;
+            console.warn(
+              `STEP_COMPLETE attempt ${attempt} failed for step ${stepIndex + 1}: ${errMsg}`,
+            );
+            logExecution(
+              `Step ${stepIndex + 1}: STEP_COMPLETE delivery attempt ${attempt} failed: ${errMsg}`,
+              "warning",
+            );
+            if (attempt < maxRetries) {
+              setTimeout(trySend, 500);
+            } else {
+              console.error(
+                `STEP_COMPLETE failed after ${maxRetries} attempts for step ${stepIndex + 1}`,
+              );
+              logExecution(
+                `Step ${stepIndex + 1}: STEP_COMPLETE failed after ${maxRetries} attempts — background may not advance`,
+                "error",
+              );
+            }
+          } else {
+            logExecution(
+              `Step ${stepIndex + 1}: STEP_COMPLETE delivered successfully (attempt ${attempt})`,
+              "debug",
+            );
+          }
+        },
+      );
+    } catch (err) {
+      console.warn(
+        `STEP_COMPLETE exception on attempt ${attempt} for step ${stepIndex + 1}: ${err.message}`,
+      );
+      if (attempt < maxRetries) {
+        setTimeout(trySend, 500);
+      }
+    }
+  }
+  trySend();
 }
 
 /**
@@ -1346,14 +1912,14 @@ async function executeSingleStep(step, index) {
       }
 
       // SETTLE TIME: Give frameworks a moment to update DOM before interacting
-      await new Promise((r) => setTimeout(r, 400));
+      await new Promise((r) => setTimeout(r, 600));
 
       element.scrollIntoView({
         behavior: "auto",
         block: "center",
         inline: "center",
       });
-      await new Promise((r) => setTimeout(r, 100));
+      await new Promise((r) => setTimeout(r, 200));
       highlightElement(element);
 
       const { offsetX, offsetY } = step;
@@ -1364,6 +1930,9 @@ async function executeSingleStep(step, index) {
       const clientY =
         rect.top +
         (clickableParent ? rect.height / 2 : offsetY || rect.height / 2);
+
+      // Capture overlay before clicking in case click destroys the element
+      const overlayContainer = getContainingOverlay(element);
 
       const eventOptions = {
         bubbles: true,
@@ -1391,10 +1960,9 @@ async function executeSingleStep(step, index) {
         );
         element.dispatchEvent(new MouseEvent("mouseup", eventOptions));
 
-        // Use standard click for basic behavior
-        element.click();
-
-        // Some libraries only listen for this specific event
+        // Dispatch click with full coordinates — compatible with React, MUI, SLDS etc.
+        // Do NOT call element.click() before this — it would fire the handler twice,
+        // causing add-row clicks to duplicate entries.
         element.dispatchEvent(new MouseEvent("click", eventOptions));
       } catch (e) {
         console.warn("Event dispatch failed, falling back to basic click", e);
@@ -1409,13 +1977,112 @@ async function executeSingleStep(step, index) {
         "success",
       );
 
-      // Some frameworks need a bit more time to process the click and update state (e.g. dropdowns)
-      setTimeout(() => {
-        chrome.runtime.sendMessage({ type: "STEP_COMPLETE", stepIndex: index });
-      }, 1200);
+      // Give frameworks time to process the click and update state.
+      await new Promise((r) => setTimeout(r, 1000));
+
+      // Only wait for overlay close if the click was on an overlay-dismissing element
+      // (e.g., a dropdown option). Clicking inside a persistent modal dialog
+      // does NOT close the modal, so we skip the wait to avoid the timeout.
+      if (
+        typeof overlayContainer !== "undefined" &&
+        overlayContainer &&
+        shouldWaitForOverlayClose(element, overlayContainer)
+      ) {
+        await waitForOverlayClose(overlayContainer);
+      }
+
+      sendStepComplete(index);
+    } else if (step.action === "dblclick") {
+      const clickableParent = isDecorativeElement(element)
+        ? getClickableAncestor(element)
+        : null;
+      if (clickableParent && clickableParent !== element) {
+        element = clickableParent;
+      }
+
+      // SETTLE TIME
+      await new Promise((r) => setTimeout(r, 600));
+
+      element.scrollIntoView({
+        behavior: "auto",
+        block: "center",
+        inline: "center",
+      });
+      await new Promise((r) => setTimeout(r, 200));
+      highlightElement(element);
+
+      const { offsetX, offsetY } = step;
+      const rect = element.getBoundingClientRect();
+      const clientX =
+        rect.left +
+        (clickableParent ? rect.width / 2 : offsetX || rect.width / 2);
+      const clientY =
+        rect.top +
+        (clickableParent ? rect.height / 2 : offsetY || rect.height / 2);
+
+      // Capture overlay before clicking in case click destroys the element
+      const overlayContainer = getContainingOverlay(element);
+
+      const eventOptions = {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+        clientX,
+        clientY,
+        buttons: 1,
+      };
+
+      // Dispatch a single click sequence during playback.
+      // dblclick steps are replayed as a single click — the double-click + dblclick
+      // sequence was firing the click handler 2–3× and duplicating added items.
+      try {
+        element.dispatchEvent(
+          new PointerEvent("pointerdown", {
+            ...eventOptions,
+            pointerType: "mouse",
+          }),
+        );
+        element.dispatchEvent(new MouseEvent("mousedown", eventOptions));
+        element.dispatchEvent(
+          new PointerEvent("pointerup", {
+            ...eventOptions,
+            pointerType: "mouse",
+          }),
+        );
+        element.dispatchEvent(new MouseEvent("mouseup", eventOptions));
+        // Single click only — do NOT also call element.click() as that fires a second time
+        element.dispatchEvent(new MouseEvent("click", eventOptions));
+      } catch (e) {
+        console.warn(
+          "DblClick (as click) event dispatch failed, falling back to basic click",
+          e,
+        );
+        element.click();
+      }
+
+      console.log(
+        `Executed step ${index + 1}: DblClick at (${clientX}, ${clientY}) on ${getElementDescriptor(element)}`,
+      );
+      logExecution(
+        `Step ${index + 1}: DblClick executed on ${getElementDescriptor(element)} at (${clientX}, ${clientY})`,
+        "success",
+      );
+
+      await new Promise((r) => setTimeout(r, 1000));
+
+      // Only wait for overlay close if the click was on an overlay-dismissing element
+      if (
+        typeof overlayContainer !== "undefined" &&
+        overlayContainer &&
+        shouldWaitForOverlayClose(element, overlayContainer)
+      ) {
+        await waitForOverlayClose(overlayContainer);
+      }
+
+      sendStepComplete(index);
     } else if (step.action === "input") {
       // SETTLE TIME
-      await new Promise((r) => setTimeout(r, 300));
+      await new Promise((r) => setTimeout(r, 500));
 
       element.scrollIntoView({
         behavior: "auto",
@@ -1434,7 +2101,7 @@ async function executeSingleStep(step, index) {
 
       element.focus();
       highlightElement(element);
-      await new Promise((r) => setTimeout(r, 100));
+      await new Promise((r) => setTimeout(r, 200));
 
       try {
         if (
@@ -1474,19 +2141,13 @@ async function executeSingleStep(step, index) {
           }
         }
 
-        const { e2e_debug_logs = [] } =
-          await chrome.storage.local.get("e2e_debug_logs");
-        e2e_debug_logs.push(
-          `[${new Date().toISOString()}] Playback: Input "${step.value}" into ${element.tagName} (ID: ${element.id}) successful`,
+        appendDebugLog(
+          `Playback: Input "${step.value}" into ${element.tagName} (ID: ${element.id}) successful`,
         );
-        await chrome.storage.local.set({ e2e_debug_logs });
       } catch (e) {
-        const { e2e_debug_logs = [] } =
-          await chrome.storage.local.get("e2e_debug_logs");
-        e2e_debug_logs.push(
-          `[${new Date().toISOString()}] Playback: Input error on ${element.tagName}: ${e.message}`,
+        appendDebugLog(
+          `Playback: Input error on ${element.tagName}: ${e.message}`,
         );
-        await chrome.storage.local.set({ e2e_debug_logs });
         throw e;
       }
 
@@ -1496,13 +2157,11 @@ async function executeSingleStep(step, index) {
       element.blur();
 
       console.log(`Executed step ${index + 1}: Input "${step.value}"`);
-      // Add settle time for input to allow frameworks to process changes
-      setTimeout(() => {
-        chrome.runtime.sendMessage({ type: "STEP_COMPLETE", stepIndex: index });
-      }, 500);
+      // Send STEP_COMPLETE directly — avoid setTimeout which can be killed by DOM teardowns
+      sendStepComplete(index);
     } else if (step.action === "upload") {
       // FILE UPLOAD: Create a synthetic file and attach it to the input
-      await new Promise((r) => setTimeout(r, 300));
+      await new Promise((r) => setTimeout(r, 500));
 
       element.scrollIntoView({
         behavior: "auto",
@@ -1546,9 +2205,8 @@ async function executeSingleStep(step, index) {
         throw e;
       }
 
-      setTimeout(() => {
-        chrome.runtime.sendMessage({ type: "STEP_COMPLETE", stepIndex: index });
-      }, 800);
+      // Send STEP_COMPLETE directly — avoid setTimeout which can be killed by DOM teardowns
+      sendStepComplete(index);
     } else if (step.action === "scroll") {
       try {
         const pos = JSON.parse(step.value || '{"x":0,"y":0}');

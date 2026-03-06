@@ -1,0 +1,16 @@
+step_order	command	target	description
+1	click	aria/Overview This Month expand_more	Overview This Month expand_more
+2	click	div.sideBarWrapper:nth-of-type(1) > div.sidebarHeader:nth-of-type(1) > div.logoWrapper > button.removeDefaults.btnSidebarToggle > i.material-icons-outlined	chevron_right
+3	click	aria/Purchase	Purchase
+4	click	aria/Purchase Orders	Purchase Orders
+5	click	aria/Create	Create
+6	click	aria/button[Material PO]	Material PO
+7	click	[placeholder="Search by company name or GSTIN"]	Company GST*
+8	click	aria/State - Andhra Pradesh	State - Andhra Pradesh
+9	click	[placeholder="Select plant"]	Plant
+10	click	aria/Opas Buildcon	Opas Buildcon
+11	click	[placeholder="Search by contact name or GSTIN/PAN"]	Contact*
+12	click	aria/Supplier	Supplier
+13	click	aria/gridcell[27]	27
+14	click	div.form-group.form-group-depth-1 > div.input-group > span.input-group-addon.addon-after > button.btn > i.material-icons-outlined.number-edit-trigger	edit
+15	click	input[name="temporaryNumber"]	Company GST*

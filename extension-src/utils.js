@@ -147,6 +147,47 @@ function getElementDescriptor(element) {
 
   if (element.getAttribute("name")) return element.getAttribute("name");
 
+  // 6. Child Icon Discovery (for icon-only buttons)
+  const icon = element.querySelector(
+    "svg, i, .material-icons, .MuiSvgIcon-root, .fa, .fas, .far",
+  );
+  if (icon) {
+    if (icon) {
+      let iconName =
+        icon.getAttribute("data-testid") || icon.getAttribute("name");
+      if (!iconName) {
+        const cls = icon.className;
+        iconName = typeof cls === "string" ? cls : cls.baseVal || "";
+      }
+      if (typeof iconName === "string" && iconName.length > 3) {
+        const lower = iconName.toLowerCase();
+        if (lower.includes("calendar")) return "Calendar";
+        if (lower.includes("date")) return "Date Picker";
+        if (lower.includes("edit")) return "Edit";
+        if (lower.includes("delete")) return "Delete";
+      }
+    }
+  }
+
+  // 7. Proximity Label for Generic Elements (Buttons/Spans)
+  // If we have no name yet, look for a sibling label or text
+  // ONLY apply if the element itself has no significant visible text
+  if (element.tagName === "BUTTON" || element.tagName === "SPAN") {
+    const ownText = getVisibleText(element);
+    if (!ownText || ownText.length < 2) {
+      let prev = element.previousElementSibling;
+      if (!prev && element.parentElement) {
+        prev = element.parentElement.previousElementSibling;
+      }
+      if (prev) {
+        const prevText = getVisibleText(prev);
+        if (prevText && prevText.length > 2 && prevText.length < 40) {
+          return prevText;
+        }
+      }
+    }
+  }
+
   return "";
 }
 

@@ -249,10 +249,29 @@ function buildAriaSelector(element) {
   }
 
   const finalName = accessibleName.replace(/\s+/g, " ").trim();
-  if (isGenericIconText(finalName)) return null;
+  // We no longer block generic icon text here because if it's the ONLY thing we found via getElementDescriptor,
+  // it's better than an absolute XPath. The priority is handled by the caller.
 
   // 2. Try to determine the ARIA role for a richer selector
   const role = getAriaRole(element);
+
+  // 3. Nested selector for MUI overlays
+  const overlay = getNearestOverlay(element);
+  if (overlay && overlay !== element) {
+    const overlayName = getElementDescriptor(overlay);
+    const overlayRole = getAriaRole(overlay);
+    if (overlayName && overlayName.length < 50) {
+      const overlaySelector = overlayRole
+        ? `aria/${overlayRole}[${overlayName.replace(/\s+/g, " ").trim()}]`
+        : `aria/${overlayName.replace(/\s+/g, " ").trim()}`;
+
+      const elementSelector = role
+        ? `aria/${role}[${finalName}]`
+        : `aria/${finalName}`;
+
+      return `${overlaySelector} >> ${elementSelector}`;
+    }
+  }
 
   // If we have a meaningful role, include it: aria/button[Submit]
   if (role) {
@@ -261,6 +280,51 @@ function buildAriaSelector(element) {
 
   // Otherwise just use the name: aria/Submit
   return `aria/${finalName}`;
+}
+
+/**
+ * Finds the nearest MUI overlay (Modal, Dialog, Drawer, Popover).
+ * @param {HTMLElement} el
+ * @returns {HTMLElement|null}
+ */
+function getNearestOverlay(el) {
+  let current = el ? el.parentElement : null;
+  let depth = 0;
+  while (current && current !== document.body && depth < 30) {
+    const role = (current.getAttribute("role") || "").toLowerCase();
+    if (["dialog", "alertdialog", "menu", "listbox"].includes(role))
+      return current;
+    if (current.tagName === "DIALOG") return current;
+
+    const cls = current.className || "";
+    if (
+      typeof cls === "string" &&
+      (/\b(modal|popover|dropdown-menu|drawer|popup|overlay)\b/i.test(cls) ||
+        /\b(MuiModal|MuiPopover|MuiDrawer|MuiDialog|MuiMenu-paper|MuiAutocomplete-popper)\b/i.test(
+          cls,
+        ) ||
+        /\b(ant-modal|ant-popover|ant-dropdown|ant-drawer|ant-select-dropdown)\b/i.test(
+          cls,
+        ) ||
+        /\b(modal-dialog|modal-content)\b/i.test(cls) ||
+        /\b(portal|react-select__menu|slds-modal|slds-dropdown|chakra-modal|chakra-popover)\b/i.test(
+          cls,
+        ))
+    )
+      return current;
+
+    if (
+      current.hasAttribute("data-popper-placement") ||
+      current.hasAttribute("data-radix-popper-content-wrapper") ||
+      current.hasAttribute("data-radix-dialog-content") ||
+      current.hasAttribute("data-floating-ui-portal")
+    )
+      return current;
+
+    current = current.parentElement;
+    depth++;
+  }
+  return null;
 }
 
 /**

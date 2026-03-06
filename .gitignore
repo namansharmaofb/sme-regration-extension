@@ -1,5 +1,17 @@
 # Dependencies
 node_modules/
+<<<<<<< HEAD
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Browser profiles and caches
+.chrome-test-profile/
+aria-snapshots/
+screenshots/
+=======
 backend/node_modules/
 
 # Environment files
@@ -18,11 +30,24 @@ scripts/e2e/*.txt
 scripts/e2e/*.json
 !scripts/e2e/package.json
 !scripts/e2e/package-lock.json
+>>>>>>> origin/main
 
 # OS files
 .DS_Store
 Thumbs.db
 
+<<<<<<< HEAD
+# Logs
+*.log
+backend/*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE settings
+.vscode/
+.idea/
+=======
 # IDE
 .vscode/
 .idea/
@@ -30,3 +55,4 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+>>>>>>> origin/main
