@@ -42,7 +42,7 @@ echo "==========================================================================
 
 # 3. Run the main Puppeteer runner
 # The runner handles phases 2 and 3 internally
-node "$E2E_DIR/runner.js"
+node "$E2E_DIR/runner.js" | tee "$E2E_DIR/runner.log"
 
 echo "=============================================================================="
 echo "E2E TEST COMPLETED SUCCESSFULLY"

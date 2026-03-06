@@ -778,5 +778,138 @@
     "description": "Element not found for step 157: Element not found or not visible for step:157 (click)",
     "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_274_1772692737178.json",
     "timestamp": "2026-03-05T06:38:57.267Z"
+  },
+  {
+    "id": "BUG-1772693781656",
+    "title": "Failure in dgfhhd",
+    "description": "Element not found for step 135: Element not found or not visible for step:135 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_277_1772693781547.json",
+    "timestamp": "2026-03-05T06:56:21.656Z"
+  },
+  {
+    "id": "BUG-1772694725796",
+    "title": "Failure in dgfhhd",
+    "description": "Execution of dgfhhd Timed Out after 180s",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-05T07:12:05.796Z"
+  },
+  {
+    "id": "BUG-1772704311442",
+    "title": "Failure in sadfsdaf",
+    "description": "Element not found for step 57: Element not found or not visible for step:57 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_280_1772704311342.json",
+    "timestamp": "2026-03-05T09:51:51.442Z"
+  },
+  {
+    "id": "BUG-1772705109442",
+    "title": "Failure in sadfsdaf",
+    "description": "Element not found for step 57: Element not found or not visible for step:57 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_280_1772705109363.json",
+    "timestamp": "2026-03-05T10:05:09.442Z"
+  },
+  {
+    "id": "BUG-1772705840198",
+    "title": "Failure in sadfsdaf",
+    "description": "Element not found for step 57: Element not found or not visible for step:57 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_280_1772705840078.json",
+    "timestamp": "2026-03-05T10:17:20.198Z"
+  },
+  {
+    "id": "BUG-1772708205481",
+    "title": "Failure in sadfsdaf",
+    "description": "Step 47 stalled for 30s: Click executed on Per Item at (651.828125, 477.75)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-05T10:56:45.481Z"
+  },
+  {
+    "id": "BUG-1772711360183",
+    "title": "Failure in sadfsdaf",
+    "description": "Element not found for step 57: Element not found or not visible for step:57 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_280_1772711360065.json",
+    "timestamp": "2026-03-05T11:49:20.183Z"
+  },
+  {
+    "id": "BUG-1772712659634",
+    "title": "Failure in sadfsdaf",
+    "description": "No tab with id: 556896298.",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_280_1772712659559.json",
+    "timestamp": "2026-03-05T12:10:59.634Z"
+  },
+  {
+    "id": "BUG-1772712877014",
+    "title": "Failure in sadfsdaf",
+    "description": "Element not found for step 47: Element not found or not visible for step:47 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_280_1772712876936.json",
+    "timestamp": "2026-03-05T12:14:37.014Z"
+  },
+  {
+    "id": "BUG-1772771692923",
+    "title": "Failure in sadfsdaf",
+    "description": "Element not found for step 53: Element not found or not visible for step:53 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_280_1772771692799.json",
+    "timestamp": "2026-03-06T04:34:52.923Z"
+  },
+  {
+    "id": "BUG-1772772659890",
+    "title": "Failure in sadfsdaf",
+    "description": "Element not found for step 57: Element not found or not visible for step:57 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_280_1772772659763.json",
+    "timestamp": "2026-03-06T04:50:59.890Z"
+  },
+  {
+    "id": "BUG-1772773903014",
+    "title": "Failure in sdafsf",
+    "description": "Element not found for step 56: Element not found or not visible for step:56 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_294_1772773902926.json",
+    "timestamp": "2026-03-06T05:11:43.014Z"
+  },
+  {
+    "id": "BUG-1772775904814",
+    "title": "Failure in dfsgds",
+    "description": "Execution of dfsgds Timed Out after 180s",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-06T05:45:04.814Z"
+  },
+  {
+    "id": "BUG-1772776435700",
+    "title": "Failure in dfsgds",
+    "description": "Execution of dfsgds Timed Out after 180s",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_timeout_295_1772776435559.json",
+    "timestamp": "2026-03-06T05:53:55.700Z"
+  },
+  {
+    "id": "BUG-1772776945287",
+    "title": "Failure in dfsgds",
+    "description": "Execution of dfsgds Timed Out after 180s",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_timeout_295_1772776945108.json",
+    "timestamp": "2026-03-06T06:02:25.287Z"
+  },
+  {
+    "id": "BUG-1772777304634",
+    "title": "Failure in Test 297",
+    "description": "Step 67 stalled for 30s: Scrolling to 0, 360...",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-06T06:08:24.634Z"
+  },
+  {
+    "id": "BUG-1772777552527",
+    "title": "Failure in hgdhgd",
+    "description": "Element not found for step 43: Element not found or not visible for step:43 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_298_1772777552440.json",
+    "timestamp": "2026-03-06T06:12:32.527Z"
+  },
+  {
+    "id": "BUG-1772778775796",
+    "title": "Failure in gshdfhg",
+    "description": "Step 49 stalled for 30s: STEP_COMPLETE delivered successfully (attempt 1)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-06T06:32:55.796Z"
+  },
+  {
+    "id": "BUG-1772780061465",
+    "title": "Failure in gshdfhg",
+    "description": "Element not found for step 80: Element not found or not visible for step:80 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_302_1772780061369.json",
+    "timestamp": "2026-03-06T06:54:21.465Z"
   }
 ]
