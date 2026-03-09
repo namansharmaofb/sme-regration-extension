@@ -347,7 +347,7 @@ function isStepTargetingDate(step) {
   );
 }
 
-function locateElement(step) {
+function locateElement(step, attempt = 0) {
   let element = null;
   // 1. Try new selector array format (or nested selectors object)
   const selectorArray = Array.isArray(step.selectors)
@@ -360,7 +360,7 @@ function locateElement(step) {
       selectorArray === step.selectors
         ? step
         : { ...step, selectors: selectorArray };
-    element = locateElementWithSelectorArray(stepWithArray);
+    element = locateElementWithSelectorArray(stepWithArray, attempt);
   }
 
   // 2. Try legacy single selector if array fails or is missing
@@ -397,8 +397,17 @@ function locateElement(step) {
  * @param {Object} step
  * @returns {HTMLElement|null}
  */
-function locateElementWithSelectorArray(step) {
+function locateElementWithSelectorArray(step, attempt = 0) {
   const { selectors } = step;
+
+  // WEIGHTED STRATEGY: During the first 2 seconds (8 attempts), prefer "specific" selectors
+  // like IDs or unique ARIA names.
+  // ONLY apply this if the step actually HAS specific selectors. If it only has
+  // weak positional ones, we shouldn't wait.
+  const hasSpecificSelectors = selectors.some((s) =>
+    isSpecificSelector(Array.isArray(s) ? s[0] : s),
+  );
+  const isTransitionPhase = attempt < 8 && hasSpecificSelectors;
 
   for (const selectorGroup of selectors) {
     const selector = Array.isArray(selectorGroup)
@@ -406,6 +415,11 @@ function locateElementWithSelectorArray(step) {
       : selectorGroup;
 
     if (!selector || typeof selector !== "string") continue;
+
+    // During transition phase, skip weak/positional selectors ONLY IF we have better options
+    if (isTransitionPhase && !isSpecificSelector(selector)) {
+      continue;
+    }
 
     try {
       let el = null;
@@ -1507,7 +1521,7 @@ async function executeSingleStep(step, index) {
 
     if (step.action !== "scroll") {
       for (let i = 0; i < maxAttempts; i++) {
-        element = locateElement(step);
+        element = locateElement(step, i);
         if (element && isElementVisible(element)) break;
         element = null;
 
@@ -1539,7 +1553,7 @@ async function executeSingleStep(step, index) {
             cb.dispatchEvent(new MouseEvent("click", { bubbles: true }));
             await new Promise((r) => setTimeout(r, 1500));
 
-            element = locateElement(step);
+            element = locateElement(step, i);
             if (element && isElementVisible(element)) break;
             element = null;
           }
@@ -1559,7 +1573,7 @@ async function executeSingleStep(step, index) {
             section.click();
             await new Promise((r) => setTimeout(r, 1500)); // Wait for expansion
 
-            element = locateElement(step);
+            element = locateElement(step, i);
             if (element && isElementVisible(element)) break;
             element = null;
           }
@@ -1604,7 +1618,7 @@ async function executeSingleStep(step, index) {
               searchInput.dispatchEvent(new Event("change", { bubbles: true }));
               await new Promise((r) => setTimeout(r, 2000));
 
-              element = locateElement(step);
+              element = locateElement(step, i);
               if (element && isElementVisible(element)) break;
               element = null;
             }
@@ -1701,7 +1715,29 @@ async function executeSingleStep(step, index) {
         "success",
       );
 
-      // Send STEP_COMPLETE immediately. The settle time for the NEXT step's element
+      // POST-CLICK SETTLE TIME: If this button likely triggers a transition (e.g. "Send OTP", "Login"),
+      // wait a bit longer to allow the UI to actually change before sendStepComplete fires.
+      const desc = (step.description || "").toLowerCase();
+      const targetText = (step.target || "").toLowerCase();
+      if (
+        desc.includes("otp") ||
+        desc.includes("login") ||
+        desc.includes("submit") ||
+        targetText.includes("otp") ||
+        targetText.includes("login") ||
+        desc.includes("add") ||
+        desc.includes("save") ||
+        desc.includes("update") ||
+        desc.includes("next")
+      ) {
+        logExecution(
+          `Step ${index + 1}: Waiting 1.5s for transition after transition-triggering click...`,
+          "info",
+        );
+        await new Promise((r) => setTimeout(r, 1500));
+      }
+
+      // Send STEP_COMPLETE immediately.
       // finding (400ms + 10s retry loop) handles framework processing time.
       // DO NOT use setTimeout here — heavy DOM teardowns (MUI Drawer unmount,
       // React portal cleanup) can kill pending setTimeout callbacks.
@@ -1786,7 +1822,6 @@ async function executeSingleStep(step, index) {
       // Simulate key events (some frameworks listen for these)
       element.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true }));
       element.dispatchEvent(new KeyboardEvent("keyup", { bubbles: true }));
-      element.blur();
 
       console.log(`Executed step ${index + 1}: Input "${step.value}"`);
       // Send STEP_COMPLETE directly — avoid setTimeout which can be killed by DOM teardowns

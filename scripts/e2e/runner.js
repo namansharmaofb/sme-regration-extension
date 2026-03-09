@@ -860,13 +860,20 @@ async function executeTestCase(browser, page, testCaseId) {
   const worker = await getWorker(browser);
 
   // Clear previous debug logs
-  await worker.evaluate(async () => {
-    await chrome.storage.local.set({ e2e_debug_logs: [] });
-  });
+  console.log(`[Flow ${testCaseId}] Clearing debug logs...`);
+  await worker
+    .evaluate(async () => {
+      await chrome.storage.local.set({ e2e_debug_logs: [] });
+    })
+    .catch((err) => {
+      console.warn(`[Flow ${testCaseId}] Failed to clear logs: ${err.message}`);
+      // If it's a detachment error, we might need to re-fetch worker
+    });
 
   // Start execution
   // Inject the runner's TARGET_URL so the in-browser worker can find staging tabs
   testCase._targetUrl = TARGET_URL;
+  console.log(`[Flow ${testCaseId}] Triggering START_EXECUTION in worker...`);
   await worker.evaluate(async (tc) => {
     const log = async (msg) => {
       const { e2e_debug_logs = [] } =

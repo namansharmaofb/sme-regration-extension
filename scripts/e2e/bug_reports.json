@@ -813,5 +813,33 @@
     "description": "Step ? stalled for 30s: No step details",
     "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_321_1772887704269.json",
     "timestamp": "2026-03-07T12:48:24.328Z"
+  },
+  {
+    "id": "BUG-1773029134383",
+    "title": "Failure in Test 322",
+    "description": "Step ? stalled for 30s: No step details",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_322_1773029134351.json",
+    "timestamp": "2026-03-09T04:05:34.383Z"
+  },
+  {
+    "id": "BUG-1773029470976",
+    "title": "Failure in Test 323",
+    "description": "Step 12 stalled for 30s: STEP_COMPLETE delivered successfully (attempt 1)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_323_1773029470881.json",
+    "timestamp": "2026-03-09T04:11:10.976Z"
+  },
+  {
+    "id": "BUG-1773030287742",
+    "title": "Failure in Test 322",
+    "description": "Step 29 stalled for 30s: STEP_COMPLETE delivered successfully (attempt 1)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-09T04:24:47.742Z"
+  },
+  {
+    "id": "BUG-1773031458490",
+    "title": "Failure in Test 322",
+    "description": "Step 37 stalled for 30s: STEP_COMPLETE delivered successfully (attempt 1)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-09T04:44:18.490Z"
   }
 ]
