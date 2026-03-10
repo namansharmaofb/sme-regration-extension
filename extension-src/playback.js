@@ -88,6 +88,8 @@ function isInsideOverlay(el) {
 /**
  * When multiple visible elements match a selector, prefer the one inside
  * the topmost overlay (modal, popover, dropdown, drawer).
+ * Uses z-index first, then document.activeElement as tiebreaker (MUI traps
+ * focus in the frontmost modal, so activeElement identifies the correct overlay).
  * @param {Array<HTMLElement>} visibleElements
  * @returns {HTMLElement|null}
  */
@@ -96,21 +98,57 @@ function preferOverlayElement(visibleElements) {
   const inOverlay = visibleElements.filter(isInsideOverlay);
   if (inOverlay.length === 1) return inOverlay[0];
   if (inOverlay.length > 1) {
-    let best = null;
-    let bestZ = -1;
-    for (const el of inOverlay) {
+    // Step 1: Find the max z-index for each candidate
+    const withZ = inOverlay.map((el) => {
+      let maxZ = -1;
       let current = el.parentElement;
       while (current && current !== document.body) {
-        const style = window.getComputedStyle(current);
-        const z = parseInt(style.zIndex, 10);
-        if (!isNaN(z) && z > bestZ) {
-          bestZ = z;
-          best = el;
-        }
+        const z = parseInt(window.getComputedStyle(current).zIndex, 10);
+        if (!isNaN(z) && z > maxZ) maxZ = z;
         current = current.parentElement;
       }
+      return { el, maxZ };
+    });
+
+    // Step 2: Find overall highest z-index
+    const highestZ = Math.max(...withZ.map((x) => x.maxZ));
+    const topCandidates = withZ.filter((x) => x.maxZ === highestZ);
+
+    // Step 3: If only one candidate has the highest z-index, return it
+    if (topCandidates.length === 1) return topCandidates[0].el;
+
+    // Step 4: Tiebreaker — use document.activeElement.
+    // MUI traps focus inside the frontmost modal. The candidate whose
+    // overlay ancestor CONTAINS document.activeElement is in the active modal.
+    const active = document.activeElement;
+    if (active && active !== document.body) {
+      const inActiveModal = topCandidates.find(({ el }) => {
+        // Walk up from el to find its overlay container, then check if it contains activeElement
+        let current = el.parentElement;
+        while (current && current !== document.body) {
+          const role = (current.getAttribute("role") || "").toLowerCase();
+          const cls = current.className || "";
+          const isOverlay =
+            ["dialog", "alertdialog", "presentation"].includes(role) ||
+            current.tagName === "DIALOG" ||
+            (typeof cls === "string" &&
+              /\b(MuiModal|MuiDrawer|MuiDialog|MuiPopover)\b/i.test(cls));
+          if (isOverlay && current.contains(active)) return true;
+          current = current.parentElement;
+        }
+        return false;
+      });
+      if (inActiveModal) return inActiveModal.el;
     }
-    if (best) return best;
+
+    // Step 5: Final fallback — prefer element later in DOM (most recently appended)
+    topCandidates.sort((a, b) => {
+      const pos = a.el.compareDocumentPosition(b.el);
+      if (pos & Node.DOCUMENT_POSITION_FOLLOWING) return 1; // b is after → b wins
+      if (pos & Node.DOCUMENT_POSITION_PRECEDING) return -1; // a is after → a wins
+      return 0;
+    });
+    return topCandidates[topCandidates.length - 1].el;
   }
   return null;
 }

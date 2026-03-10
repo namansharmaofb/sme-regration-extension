@@ -925,5 +925,152 @@
     "description": "Element not found for step 131: Element not found or not visible for step:131 (click)",
     "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_327_1773058151496.json",
     "timestamp": "2026-03-09T12:09:11.606Z"
+  },
+  {
+    "id": "BUG-1773059784340",
+    "title": "Failure in dgfds",
+    "description": "Element not found for step 131: Element not found or not visible for step:131 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_327_1773059784223.json",
+    "timestamp": "2026-03-09T12:36:24.340Z"
+  },
+  {
+    "id": "BUG-1773060327798",
+    "title": "Failure in dgfds",
+    "description": "Element not found for step 49: Element not found or not visible for step:49 (click)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-09T12:45:27.798Z"
+  },
+  {
+    "id": "BUG-1773060559525",
+    "title": "Failure in dgfds",
+    "description": "Element not found for step 49: Element not found or not visible for step:49 (click)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-09T12:49:19.525Z"
+  },
+  {
+    "id": "BUG-1773061389439",
+    "title": "Failure in dgfds",
+    "description": "Element not found for step 58: Element not found or not visible for step:58 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_327_1773061389341.json",
+    "timestamp": "2026-03-09T13:03:09.439Z"
+  },
+  {
+    "id": "BUG-1773115099383",
+    "title": "Failure in Test 327",
+    "description": "Step 128 stalled for 30s: STEP_COMPLETE delivered successfully (attempt 1)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-10T03:58:19.383Z"
+  },
+  {
+    "id": "BUG-1773115607427",
+    "title": "Failure in dgfds",
+    "description": "Element not found for step 89: Element not found or not visible for step:89 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_327_1773115607214.json",
+    "timestamp": "2026-03-10T04:06:47.427Z"
+  },
+  {
+    "id": "BUG-1773116536139",
+    "title": "Failure in Test 327",
+    "description": "Execution of dgfds Timed Out after 180s",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_timeout_327_1773116536004.json",
+    "timestamp": "2026-03-10T04:22:16.139Z"
+  },
+  {
+    "id": "BUG-1773116682476",
+    "title": "Failure in new",
+    "description": "isButton is not defined",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_324_1773116682435.json",
+    "timestamp": "2026-03-10T04:24:42.476Z"
+  },
+  {
+    "id": "BUG-1773116857955",
+    "title": "Failure in dgfds",
+    "description": "Timeout waiting for step 7",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_327_1773116857904.json",
+    "timestamp": "2026-03-10T04:27:37.955Z"
+  },
+  {
+    "id": "BUG-1773117036588",
+    "title": "Failure in dgfds",
+    "description": "Timeout waiting for step 7",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_327_1773117036536.json",
+    "timestamp": "2026-03-10T04:30:36.588Z"
+  },
+  {
+    "id": "BUG-1773117434959",
+    "title": "Failure in dgfds",
+    "description": "Timeout waiting for step 7",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_327_1773117434908.json",
+    "timestamp": "2026-03-10T04:37:14.959Z"
+  },
+  {
+    "id": "BUG-1773119263019",
+    "title": "Failure in dgfds",
+    "description": "Element not found for step 58: Element not found or not visible for step:58 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_327_1773119262953.json",
+    "timestamp": "2026-03-10T05:07:43.019Z"
+  },
+  {
+    "id": "BUG-1773120312813",
+    "title": "Failure in dgfds",
+    "description": "Element not found for step 58: Element not found or not visible for step:58 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_327_1773120312757.json",
+    "timestamp": "2026-03-10T05:25:12.813Z"
+  },
+  {
+    "id": "BUG-1773120885977",
+    "title": "Failure in dgfds",
+    "description": "Element not found for step 58: Element not found or not visible for step:58 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_327_1773120885885.json",
+    "timestamp": "2026-03-10T05:34:45.977Z"
+  },
+  {
+    "id": "BUG-1773121725314",
+    "title": "Failure in dgfds",
+    "description": "Element not found for step 58: Element not found or not visible for step:58 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_327_1773121725218.json",
+    "timestamp": "2026-03-10T05:48:45.314Z"
+  },
+  {
+    "id": "BUG-1773124770421",
+    "title": "Failure in dgfds",
+    "description": "Step 15 stalled for 30s: Re-clicking combobox \"Please Select Expenditures\" to reopen dropdown",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-10T06:39:30.421Z"
+  },
+  {
+    "id": "BUG-1773125880129",
+    "title": "Failure in dgfds",
+    "description": "Element not found for step 58: Element not found or not visible for step:58 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_327_1773125880026.json",
+    "timestamp": "2026-03-10T06:58:00.129Z"
+  },
+  {
+    "id": "BUG-1773126644778",
+    "title": "Failure in dgfds",
+    "description": "Element not found for step 58: Element not found or not visible for step:58 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_327_1773126644676.json",
+    "timestamp": "2026-03-10T07:10:44.778Z"
+  },
+  {
+    "id": "BUG-1773127084091",
+    "title": "Failure in dgfds",
+    "description": "Element not found for step 58: Element not found or not visible for step:58 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_327_1773127083943.json",
+    "timestamp": "2026-03-10T07:18:04.091Z"
+  },
+  {
+    "id": "BUG-1773127462210",
+    "title": "Failure in dgfds",
+    "description": "Element not found for step 131: Element not found or not visible for step:131 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_327_1773127462098.json",
+    "timestamp": "2026-03-10T07:24:22.210Z"
+  },
+  {
+    "id": "BUG-1773127950374",
+    "title": "Failure in Test 327",
+    "description": "Step 55 stalled for 30s: Click executed on Handling Charge at (1044.96875, 540.5)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-10T07:32:30.374Z"
   }
 ]

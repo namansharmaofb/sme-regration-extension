@@ -71,6 +71,9 @@ function getInteractiveParent(element) {
   return element;
 }
 
+// Track last recorded click to deduplicate MUI checkbox double-fires
+let _lastRecordedClick = { target: null, promotedTarget: null, time: 0 };
+
 /**
  * Handles clicks and records them as steps.
  * @param {MouseEvent} event
@@ -82,10 +85,58 @@ function handleClick(event) {
 
     // Use composedPath to get the actual target inside Shadow DOM
     const composedPath = event.composedPath();
-    let target = composedPath.length > 0 ? composedPath[0] : event.target;
+    const rawTarget = composedPath.length > 0 ? composedPath[0] : event.target;
+
+    // DEDUP: MUI fires click twice for one checkbox click (bubbling).
+    // Skip if within 200ms and the raw targets are in an ancestor/descendant
+    // relationship AND both are checkbox/radio related.
+    const now = Date.now();
+    if (_lastRecordedClick.target && now - _lastRecordedClick.time < 200) {
+      const lastRaw = _lastRecordedClick.target;
+      const isRelated =
+        lastRaw === rawTarget ||
+        lastRaw.contains(rawTarget) ||
+        rawTarget.contains(lastRaw);
+
+      if (isRelated) {
+        // Only suppress if both involve a checkbox/radio
+        const touchesCheckbox = (el) => {
+          // Walk up a few levels to see if there's a checkbox nearby
+          let cur = el;
+          let d = 0;
+          while (cur && cur !== document.body && d < 5) {
+            if (
+              cur.tagName === "INPUT" &&
+              (cur.type === "checkbox" || cur.type === "radio")
+            )
+              return true;
+            if (
+              cur.getAttribute &&
+              (cur.getAttribute("role") === "checkbox" ||
+                cur.getAttribute("role") === "radio")
+            )
+              return true;
+            cur = cur.parentElement;
+            d++;
+          }
+          // Also check children
+          if (el.querySelector)
+            return !!el.querySelector(
+              'input[type="checkbox"], input[type="radio"]',
+            );
+          return false;
+        };
+
+        if (touchesCheckbox(rawTarget) || touchesCheckbox(lastRaw)) {
+          // Suppress the duplicate — mark as complete via the existing mechanism
+          // (playback won't record this, so nothing to do here)
+          return;
+        }
+      }
+    }
 
     // Promote to interactive parent if clicking on child element
-    target = getInteractiveParent(target);
+    let target = getInteractiveParent(rawTarget);
 
     const selectors = generateSelectors(target);
     const descriptor = getElementDescriptor(target);
@@ -107,6 +158,13 @@ function handleClick(event) {
       nuanceMetadata: nuanceMetadata,
       offsetX: offsetX,
       offsetY: offsetY,
+    };
+
+    // Update last recorded click tracking
+    _lastRecordedClick = {
+      target: rawTarget,
+      promotedTarget: target,
+      time: now,
     };
 
     chrome.runtime.sendMessage({ type: "RECORD_STEP", step });
