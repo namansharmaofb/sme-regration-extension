@@ -1212,5 +1212,75 @@
     "description": "Element not found for step 55: Element not found or not visible for step:55 (click)",
     "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_356_1773313077623.json",
     "timestamp": "2026-03-12T10:57:57.747Z"
+  },
+  {
+    "id": "BUG-1773746003773",
+    "title": "Failure in Test 379",
+    "description": "Step 24 stalled for 30s: STEP_COMPLETE delivered successfully (attempt 1)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-17T11:13:23.773Z"
+  },
+  {
+    "id": "BUG-1773746397147",
+    "title": "Failure in po_order",
+    "description": "Element not found for step 10: Element not found or not visible for step:10 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_379_1773746397043.json",
+    "timestamp": "2026-03-17T11:19:57.147Z"
+  },
+  {
+    "id": "BUG-1773746625557",
+    "title": "Failure in po_order",
+    "description": "Element not found for step 10: Element not found or not visible for step:10 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_379_1773746625452.json",
+    "timestamp": "2026-03-17T11:23:45.557Z"
+  },
+  {
+    "id": "BUG-1773747021369",
+    "title": "Failure in po_order",
+    "description": "Element not found for step 10: Element not found or not visible for step:10 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_379_1773747021260.json",
+    "timestamp": "2026-03-17T11:30:21.369Z"
+  },
+  {
+    "id": "BUG-1773747180410",
+    "title": "Failure in po_order",
+    "description": "Element not found for step 8: Element not found or not visible for step:8 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_380_1773747180307.json",
+    "timestamp": "2026-03-17T11:33:00.410Z"
+  },
+  {
+    "id": "BUG-1773751322980",
+    "title": "Failure in new_login",
+    "description": "Element not found for step 1: Element not found or not visible for step:1 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_361_1773751322951.json",
+    "timestamp": "2026-03-17T12:42:02.980Z"
+  },
+  {
+    "id": "BUG-1773896712114",
+    "title": "Failure in fdsgdsfg",
+    "description": "Element not found for step 23: Element not found or not visible for step:23 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_383_1773896712031.json",
+    "timestamp": "2026-03-19T05:05:12.114Z"
+  },
+  {
+    "id": "BUG-1773897042889",
+    "title": "Failure in safd",
+    "description": "Timeout waiting for step 8",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-19T05:10:42.891Z"
+  },
+  {
+    "id": "BUG-1773897271654",
+    "title": "Failure in safd",
+    "description": "Timeout waiting for step 8",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-19T05:14:31.654Z"
+  },
+  {
+    "id": "BUG-1773897752053",
+    "title": "Failure in safd",
+    "description": "Element not found for step 55: Element not found or not visible for step:55 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_384_1773897751920.json",
+    "timestamp": "2026-03-19T05:22:32.054Z"
   }
 ]
