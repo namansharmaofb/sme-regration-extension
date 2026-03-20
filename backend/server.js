@@ -368,8 +368,12 @@ app.get("/api/tests/:id", async (req, res) => {
     );
     const formattedSteps = commands.map((c) => ({
       ...c,
-      targets: c.targets ? JSON.parse(c.targets) : [],
-      selectors: c.selectors ? JSON.parse(c.selectors) : [],
+      targets:
+        typeof c.targets === "string" ? JSON.parse(c.targets) : c.targets || [],
+      selectors:
+        typeof c.selectors === "string"
+          ? JSON.parse(c.selectors)
+          : c.selectors || [],
     }));
     res.json({ ...test, steps: formattedSteps });
   } catch (err) {
@@ -566,8 +570,12 @@ app.get("/api/test-cases/:id", async (req, res) => {
       ...c,
       action: c.command,
       selector: c.target,
-      targets: c.targets ? JSON.parse(c.targets) : [],
-      selectors: c.selectors ? JSON.parse(c.selectors) : [],
+      targets:
+        typeof c.targets === "string" ? JSON.parse(c.targets) : c.targets || [],
+      selectors:
+        typeof c.selectors === "string"
+          ? JSON.parse(c.selectors)
+          : c.selectors || [],
     }));
     res.json({ ...test, steps: mappedSteps });
   } catch (err) {

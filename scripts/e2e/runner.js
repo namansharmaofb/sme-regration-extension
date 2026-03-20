@@ -1,6 +1,7 @@
 const puppeteer = require("puppeteer");
 const path = require("path");
-const mysql = require("mysql2/promise");
+const fs = require("fs");
+const { execSync } = require("child_process");
 const cleanupUser = require("./cleanup-user");
 require("dotenv").config({ path: path.resolve(__dirname, ".env") });
 
@@ -16,6 +17,62 @@ const YELLOW = "\x1b[33m";
 const CYAN = "\x1b[36m";
 const BOLD = "\x1b[1m";
 const RESET = "\x1b[0m";
+
+// Module-level browser reference so signal handlers can always close it
+let activeBrowser = null;
+
+async function closeBrowserWithTimeout(browser, timeoutMs = 10000) {
+  if (!browser) return;
+  console.log(
+    `[Shutdown] Attempting to close browser with ${timeoutMs}ms timeout...`,
+  );
+
+  const closePromise = browser.close();
+  const timeoutPromise = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error("Timeout")), timeoutMs),
+  );
+
+  try {
+    await Promise.race([closePromise, timeoutPromise]);
+    console.log("[Shutdown] Browser closed gracefully.");
+  } catch (err) {
+    console.warn(
+      `[Shutdown] Browser close ${err.message === "Timeout" ? "timed out" : "failed"}. Force killing...`,
+    );
+    try {
+      if (browser.process()) {
+        browser.process().kill("SIGKILL");
+        console.log("[Shutdown] Browser process killed with SIGKILL.");
+      }
+    } catch (killErr) {
+      console.error(
+        "[Shutdown] Failed to kill browser process:",
+        killErr.message,
+      );
+    }
+  }
+}
+
+async function shutdownGracefully(signal) {
+  console.log(
+    `\n${YELLOW}[${signal}]${RESET} Shutting down — closing browser...`,
+  );
+  if (activeBrowser) {
+    await closeBrowserWithTimeout(activeBrowser);
+  }
+  process.exit(signal === "SIGINT" || signal === "SIGTERM" ? 130 : 1);
+}
+
+process.on("SIGINT", () => shutdownGracefully("SIGINT"));
+process.on("SIGTERM", () => shutdownGracefully("SIGTERM"));
+process.on("uncaughtException", (err) => {
+  console.error(`${RED}[uncaughtException]${RESET}`, err.message);
+  shutdownGracefully("uncaughtException");
+});
+process.on("unhandledRejection", (reason) => {
+  console.error(`${RED}[unhandledRejection]${RESET}`, reason);
+  shutdownGracefully("unhandledRejection");
+});
 
 async function fetchTestIdByName(namePattern) {
   let connection;
@@ -99,8 +156,6 @@ function get_answer_for_question(question) {
   console.warn(`No pattern match for "${question}". Defaulting to "yes".`);
   return "yes";
 }
-
-const fs = require("fs");
 
 async function file_bug(testName, errorMsg, ariaSnapshotPath) {
   console.log(`[Bug Tracker] Filing bug for "${testName}"...`);
@@ -805,11 +860,20 @@ async function executeTestCase(browser, page, testCaseId) {
   const worker = await getWorker(browser);
 
   // Clear previous debug logs
-  await worker.evaluate(async () => {
-    await chrome.storage.local.set({ e2e_debug_logs: [] });
-  });
+  console.log(`[Flow ${testCaseId}] Clearing debug logs...`);
+  await worker
+    .evaluate(async () => {
+      await chrome.storage.local.set({ e2e_debug_logs: [] });
+    })
+    .catch((err) => {
+      console.warn(`[Flow ${testCaseId}] Failed to clear logs: ${err.message}`);
+      // If it's a detachment error, we might need to re-fetch worker
+    });
 
   // Start execution
+  // Inject the runner's TARGET_URL so the in-browser worker can find staging tabs
+  testCase._targetUrl = TARGET_URL;
+  console.log(`[Flow ${testCaseId}] Triggering START_EXECUTION in worker...`);
   await worker.evaluate(async (tc) => {
     const log = async (msg) => {
       const { e2e_debug_logs = [] } =
@@ -820,11 +884,25 @@ async function executeTestCase(browser, page, testCaseId) {
 
     await log("Worker: START_EXECUTION triggered");
     const tabs = await chrome.tabs.query({});
-    const targetTab = tabs.find(
-      (t) =>
-        t.url &&
-        (t.url.includes("localhost:3007") || t.url.includes("localhost:3000")),
-    );
+
+    // Match any tab whose URL starts with the same origin as TARGET_URL
+    // (strips path/query so partial staging URLs still match)
+    let targetUrl;
+    try {
+      targetUrl = new URL(tc._targetUrl || "").origin;
+    } catch (e) {
+      targetUrl = null;
+    }
+
+    const targetTab = tabs.find((t) => {
+      if (!t.url) return false;
+      // Always also accept localhost for backward compat
+      if (t.url.includes("localhost:3007") || t.url.includes("localhost:3000"))
+        return true;
+      // Match against the passed-in TARGET_URL origin
+      if (targetUrl && t.url.startsWith(targetUrl)) return true;
+      return false;
+    });
 
     if (!targetTab) {
       await log("Worker: Target tab not found!");
@@ -1156,6 +1234,7 @@ async function runE2E() {
   // Use existing Chrome profile to preserve login session
   // Set USE_CHROME_PROFILE=0 to use a fresh browser
   const useExistingProfile = process.env.USE_CHROME_PROFILE !== "0";
+  const testProfileDir = path.join(__dirname, ".chrome-test-profile");
 
   let launchArgs = [
     `--disable-extensions-except=${EXTENSION_PATH}`,
@@ -1163,61 +1242,74 @@ async function runE2E() {
     "--no-sandbox",
     "--disable-setuid-sandbox",
     "--start-maximized",
+    "--disable-dev-shm-usage",
+    "--no-first-run",
   ];
 
   if (useExistingProfile) {
-    // Use a separate test profile directory to avoid Chrome lock conflicts
-    const testProfileDir = path.join(__dirname, ".chrome-test-profile");
     const sourceProfile = path.join(
       process.env.HOME,
       ".config/google-chrome/Default",
     );
 
-    // Copy cookies and login data from main Chrome profile
-    if (!fs.existsSync(testProfileDir)) {
+    console.log(`${CYAN}[Setup]${RESET} Preparing fresh test profile...`);
+    try {
+      if (fs.existsSync(testProfileDir)) {
+        console.log(`${CYAN}[Setup]${RESET} Clearing existing test profile...`);
+        fs.rmSync(testProfileDir, { recursive: true, force: true });
+      }
       fs.mkdirSync(testProfileDir, { recursive: true });
-    }
 
-    // Copy essential files for login persistence
-    const filesToCopy = [
-      "Cookies",
-      "Login Data",
-      "Web Data",
-      "Preferences",
-      "Local Storage",
-      "Extension State",
-      "Service Worker",
-      "Network Persistent State",
-      "Extension Cookies",
-    ];
-    for (const file of filesToCopy) {
-      const src = path.join(sourceProfile, file);
-      const dest = path.join(testProfileDir, file);
-      if (fs.existsSync(src)) {
-        try {
-          const stats = fs.statSync(src);
-          if (stats.isDirectory()) {
-            fs.cpSync(src, dest, { recursive: true });
-          } else {
-            fs.copyFileSync(src, dest);
+      // Copy essential files for login persistence
+      const filesToCopy = [
+        "Cookies",
+        "Login Data",
+        "Web Data",
+        "Preferences",
+        "Local Storage",
+        "Extension State",
+        "Service Worker",
+        "Network Persistent State",
+        "Extension Cookies",
+      ];
 
-            // Also copy companion files for SQLite
-            for (const suffix of ["-journal", "-wal"]) {
-              const journalSrc = src + suffix;
-              const journalDest = dest + suffix;
-              if (fs.existsSync(journalSrc)) {
-                fs.copyFileSync(journalSrc, journalDest);
+      console.log(
+        `${CYAN}[Setup]${RESET} Copying session data from ${sourceProfile}...`,
+      );
+      for (const file of filesToCopy) {
+        const src = path.join(sourceProfile, file);
+        const dest = path.join(testProfileDir, file);
+        if (fs.existsSync(src)) {
+          try {
+            const stats = fs.statSync(src);
+            if (stats.isDirectory()) {
+              fs.cpSync(src, dest, { recursive: true });
+            } else {
+              fs.copyFileSync(src, dest);
+
+              // Also copy companion files for SQLite
+              for (const suffix of ["-journal", "-wal"]) {
+                const journalSrc = src + suffix;
+                const journalDest = dest + suffix;
+                if (fs.existsSync(journalSrc)) {
+                  fs.copyFileSync(journalSrc, journalDest);
+                }
               }
             }
+          } catch (e) {
+            console.warn(
+              `${YELLOW}[Setup]${RESET} Could not copy ${file}: ${e.message}`,
+            );
           }
-          console.log(`Copied ${file} (and journals) to test profile`);
-        } catch (e) {
-          console.warn(`Could not copy ${file}: ${e.message}`);
         }
       }
+      console.log(`${GREEN}[Setup]${RESET} Profile data prepared.`);
+    } catch (err) {
+      console.error(
+        `${RED}[Setup]${RESET} Failed to prepare test profile: ${err.message}`,
+      );
     }
 
-    console.log(`Using copied Chrome profile from: ${sourceProfile}`);
     launchArgs.push(`--user-data-dir=${testProfileDir}`);
   } else {
     console.log(
@@ -1225,11 +1317,13 @@ async function runE2E() {
     );
   }
 
-  const browser = await puppeteer.launch({
+  let exitCode = 0;
+  activeBrowser = await puppeteer.launch({
     headless: false,
     defaultViewport: null,
     args: launchArgs,
   });
+  const browser = activeBrowser; // alias for local use — activeBrowser keeps the signal handler in sync
 
   try {
     const pages = await browser.pages();
@@ -1433,14 +1527,16 @@ async function runE2E() {
     console.log("=".repeat(30));
 
     if (results.some((r) => r.status === "FAILED")) {
-      process.exit(1);
+      exitCode = 1;
     }
   } catch (err) {
     console.error(`${RED}${BOLD}CRITICAL E2E ERROR: ${err.message}${RESET}`);
-    process.exit(1);
+    exitCode = 1;
   } finally {
-    await new Promise((r) => setTimeout(r, 5000));
-    await browser.close();
+    if (browser) {
+      await closeBrowserWithTimeout(browser);
+    }
+    process.exit(exitCode);
   }
 }
 

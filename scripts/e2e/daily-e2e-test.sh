@@ -19,19 +19,27 @@ SKIP_CLEANUP=${SKIP_CLEANUP:-1}
 if [ "$SKIP_CLEANUP" = "0" ]; then
     echo "=============================================================================="
     echo "PHASE 1: SETUP (CLEANUP REQUESTED)"
-    echo "Killing lingering Chrome instances and cleaning up test user..."
+    echo "Killing Chrome instances and cleaning up test profile/user..."
     echo "=============================================================================="
 
-    # 1. Kill Chrome (Linux/Mac)
-    pkill -f "chrome" || echo "No Chrome processes found."
+    # 1. Targeted Kill (processes using the test profile dir)
+    pkill -9 -f ".chrome-test-profile" || true
+    
+    # 2. General Kill (optional fallback)
+    pkill -f "chrome" || echo "No general Chrome processes found."
 
-    # 2. Run Cleanup Script
+    # 3. Remove Test Profile Dir explicitly if it exists
+    rm -rf "$E2E_DIR/.chrome-test-profile"
+
+    # 4. Run Cleanup Script
     echo "Running cleanup for test user..."
     node "$E2E_DIR/delete-test-user.js"
 else
     echo "=============================================================================="
     echo "PHASE 1: SETUP (PRESERVE SESSION)"
-    echo "SKIP_CLEANUP=1 is set (default). Preserving Chrome session and cookies."
+    echo "SKIP_CLEANUP=1 is set (default)."
+    echo "Using existing session in .chrome-test-profile for faster runs."
+    echo "Run with SKIP_CLEANUP=0 if you encounter 'Profile in use' or 'OTP' issues."
     echo "=============================================================================="
 fi
 

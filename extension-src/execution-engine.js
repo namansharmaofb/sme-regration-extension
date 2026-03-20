@@ -180,7 +180,7 @@ async function executeCurrentStep() {
         chrome.runtime
           .sendMessage({ type: "STEP_COMPLETE", stepIndex: index })
           .catch(() => {});
-        setTimeout(() => executeCurrentStep(), 800);
+        setTimeout(() => executeCurrentStep(), 1500);
         return;
       }
       executionState.waitingForNavigation = true;
@@ -339,7 +339,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         })
         .catch(() => {});
 
-      setTimeout(() => executeCurrentStep(), 1500); // 1.5s settle time
+      setTimeout(() => executeCurrentStep(), 3000); // 3.0s settle time
       return;
     }
   }

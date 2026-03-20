@@ -36,10 +36,7 @@ async function loadExecutionState() {
         `[Background] Restored Index=${executionState.currentIndex}, Running=${executionState.isRunning}`,
       );
 
-      if (executionState.isRunning && !executionState.waitingForNavigation) {
-        console.log("[Background] Resuming execution...");
-        setTimeout(() => executeCurrentStep(), 2000);
-      }
+      setTimeout(() => executeCurrentStep(), 2500);
     }
   } catch (e) {
     console.error("[Background] Load state error:", e);
@@ -176,21 +173,18 @@ async function executeCurrentStep() {
           executionState.stepTimeout = null;
         }
         await recordStepResult(executionState.currentIndex, "success");
-        executionState.currentIndex++;
-        await saveExecutionState();
-        setTimeout(() => executeCurrentStep(), 500);
-        return;
+        setTimeout(() => executeCurrentStep(), 3500);
+      } else {
+        await recordStepResult(
+          executionState.currentIndex,
+          "failed",
+          `Timeout waiting for step ${executionState.currentIndex + 1}`,
+        );
+        await finishExecution(
+          false,
+          `Timeout waiting for step ${executionState.currentIndex + 1}`,
+        );
       }
-
-      await recordStepResult(
-        executionState.currentIndex,
-        "failed",
-        `Timeout waiting for step ${executionState.currentIndex + 1}`,
-      );
-      await finishExecution(
-        false,
-        `Timeout waiting for step ${executionState.currentIndex + 1}`,
-      );
     }, stepTimeoutMs);
 
     let tab;
@@ -421,7 +415,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (executionState.waitingForNavigation) {
       executionState.waitingForNavigation = false;
       // Give page a moment to settle?
-      setTimeout(() => executeCurrentStep(), 500);
+      setTimeout(() => executeCurrentStep(), 2500);
     } else {
       // If we weren't explicitly waiting, but a load happened,
       // it might be due to the previous step (Click).
@@ -445,7 +439,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         }
         recordStepResult(executionState.currentIndex, "success");
         executionState.currentIndex++;
-        setTimeout(() => executeCurrentStep(), 2500); // Increased from 2000ms to allow Salesforce/complex pages to fully settle
+        setTimeout(() => executeCurrentStep(), 4500); // Increased to 4500ms for stability
       }
     }
   }

@@ -1,4 +1,5 @@
 // Engine for finding elements and executing commands during flow playback
+let lastInteractedElement = null;
 
 /**
  * Extracts the accessible name and optional role from an ARIA selector string.
@@ -257,6 +258,8 @@ async function waitForOverlayClose(overlayEl, maxWait = 3000) {
 /**
  * When multiple visible elements match a selector, prefer the one inside
  * the topmost overlay (modal, popover, dropdown, drawer).
+ * Uses z-index first, then document.activeElement as tiebreaker (MUI traps
+ * focus in the frontmost modal, so activeElement identifies the correct overlay).
  * @param {Array<HTMLElement>} visibleElements
  * @returns {HTMLElement|null}
  */
@@ -265,8 +268,8 @@ function preferOverlayElement(visibleElements) {
   const inOverlay = visibleElements.filter(isInsideOverlay);
   if (inOverlay.length === 1) return inOverlay[0];
   if (inOverlay.length > 1) {
-    // For each element, find its highest z-index ancestor up to body.
-    const getMaxZIndex = (el) => {
+    // Step 1: Find the max z-index for each candidate
+    const withZ = inOverlay.map((el) => {
       let maxZ = -1;
       let current = el.parentElement;
       while (current && current !== document.body) {
@@ -274,31 +277,48 @@ function preferOverlayElement(visibleElements) {
         if (!isNaN(z) && z > maxZ) maxZ = z;
         current = current.parentElement;
       }
-      return maxZ;
-    };
+      return { el, maxZ };
+    });
 
-    let best = inOverlay[0];
-    let bestZ = getMaxZIndex(best);
+    // Step 2: Find overall highest z-index
+    const highestZ = Math.max(...withZ.map((x) => x.maxZ));
+    const topCandidates = withZ.filter((x) => x.maxZ === highestZ);
 
-    for (let i = 1; i < inOverlay.length; i++) {
-      const el = inOverlay[i];
-      const z = getMaxZIndex(el);
-      if (z > bestZ) {
-        bestZ = z;
-        best = el;
-      } else if (z === bestZ) {
-        // Tie-breaker: element appearing LATER in the DOM is rendered on top
-        // (MUI appends modal portals to body in order; last = topmost layer).
-        const rel = best.compareDocumentPosition(el);
-        if (
-          rel & Node.DOCUMENT_POSITION_FOLLOWING ||
-          rel & Node.DOCUMENT_POSITION_CONTAINED_BY
-        ) {
-          best = el;
+    // Step 3: If only one candidate has the highest z-index, return it
+    if (topCandidates.length === 1) return topCandidates[0].el;
+
+    // Step 4: Tiebreaker — use document.activeElement.
+    // MUI traps focus inside the frontmost modal. The candidate whose
+    // overlay ancestor CONTAINS document.activeElement is in the active modal.
+    const active = document.activeElement;
+    if (active && active !== document.body) {
+      const inActiveModal = topCandidates.find(({ el }) => {
+        // Walk up from el to find its overlay container, then check if it contains activeElement
+        let current = el.parentElement;
+        while (current && current !== document.body) {
+          const role = (current.getAttribute("role") || "").toLowerCase();
+          const cls = current.className || "";
+          const isOverlay =
+            ["dialog", "alertdialog", "presentation"].includes(role) ||
+            current.tagName === "DIALOG" ||
+            (typeof cls === "string" &&
+              /\b(MuiModal|MuiDrawer|MuiDialog|MuiPopover)\b/i.test(cls));
+          if (isOverlay && current.contains(active)) return true;
+          current = current.parentElement;
         }
-      }
+        return false;
+      });
+      if (inActiveModal) return inActiveModal.el;
     }
-    return best;
+
+    // Step 5: Final fallback — prefer element later in DOM (most recently appended)
+    topCandidates.sort((a, b) => {
+      const pos = a.el.compareDocumentPosition(b.el);
+      if (pos & Node.DOCUMENT_POSITION_FOLLOWING) return 1; // b is after → b wins
+      if (pos & Node.DOCUMENT_POSITION_PRECEDING) return -1; // a is after → a wins
+      return 0;
+    });
+    return topCandidates[topCandidates.length - 1].el;
   }
   return null;
 }
@@ -536,7 +556,7 @@ function isStepTargetingDate(step) {
   );
 }
 
-function locateElement(step) {
+function locateElement(step, attempt = 0) {
   let element = null;
 
   // 0. If the step recorded a modal_context, try to find the element INSIDE that
@@ -640,7 +660,7 @@ function locateElement(step) {
       selectorArray === step.selectors
         ? step
         : { ...step, selectors: selectorArray };
-    element = locateElementWithSelectorArray(stepWithArray);
+    element = locateElementWithSelectorArray(stepWithArray, attempt);
   }
 
   // 2. Try legacy single selector if array fails or is missing
@@ -677,14 +697,29 @@ function locateElement(step) {
  * @param {Object} step
  * @returns {HTMLElement|null}
  */
-function locateElementWithSelectorArray(step) {
+function locateElementWithSelectorArray(step, attempt = 0) {
   const { selectors } = step;
+
+  // WEIGHTED STRATEGY: During the first 2 seconds (8 attempts), prefer "specific" selectors
+  // like IDs or unique ARIA names.
+  // ONLY apply this if the step actually HAS specific selectors. If it only has
+  // weak positional ones, we shouldn't wait.
+  const hasSpecificSelectors = selectors.some((s) =>
+    isSpecificSelector(Array.isArray(s) ? s[0] : s),
+  );
+  const isTransitionPhase = attempt < 8 && hasSpecificSelectors;
+
   for (const selectorGroup of selectors) {
     const selector = Array.isArray(selectorGroup)
       ? selectorGroup[0]
       : selectorGroup;
 
     if (!selector || typeof selector !== "string") continue;
+
+    // During transition phase, skip weak/positional selectors ONLY IF we have better options
+    if (isTransitionPhase && !isSpecificSelector(selector)) {
+      continue;
+    }
 
     try {
       let el = null;
@@ -1777,11 +1812,11 @@ async function executeSingleStep(step, index) {
   try {
     let element = null;
     const maxAttempts = 40; // Increased to 10 seconds total (40 * 250ms)
-    const waitTime = 250;
+    const waitTime = 300;
 
     if (step.action !== "scroll") {
       for (let i = 0; i < maxAttempts; i++) {
-        element = locateElement(step);
+        element = locateElement(step, i);
         if (element && isElementVisible(element)) break;
         element = null;
 
@@ -1794,13 +1829,25 @@ async function executeSingleStep(step, index) {
         ) {
           const comboboxInputs = Array.from(
             document.querySelectorAll(
-              'input[role="combobox"], input.react-datepicker-ignore-onclickoutside, .react-datepicker__input-container input',
+              'input[role="combobox"], input[placeholder*="plant" i], input[placeholder*="Select" i], input.react-datepicker-ignore-onclickoutside, .react-datepicker__input-container input',
             ),
           ).filter((el) => isElementVisible(el));
 
-          // If we have many, only re-click the one that might be relevant (e.g. contains part of the label)
-          // or if only one is visible.
-          for (const cb of comboboxInputs) {
+          // Phase 1 (RE-CLICK): Prioritize the last interacted element if it's a combobox or any input
+          let sortedCombos = [...comboboxInputs];
+          if (
+            lastInteractedElement &&
+            (lastInteractedElement.tagName === "INPUT" ||
+              lastInteractedElement.tagName === "BUTTON") &&
+            isElementVisible(lastInteractedElement)
+          ) {
+            sortedCombos = [
+              lastInteractedElement,
+              ...sortedCombos.filter((el) => el !== lastInteractedElement),
+            ];
+          }
+
+          for (const cb of sortedCombos) {
             logExecution(
               `Step ${index + 1}: Re-clicking combobox "${cb.placeholder || cb.getAttribute("aria-label")}" to reopen dropdown`,
               "info",
@@ -1810,10 +1857,9 @@ async function executeSingleStep(step, index) {
             cb.dispatchEvent(new Event("focus", { bubbles: true }));
             cb.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
             cb.dispatchEvent(new MouseEvent("mouseup", { bubbles: true }));
-            cb.dispatchEvent(new MouseEvent("click", { bubbles: true }));
             await new Promise((r) => setTimeout(r, 1500));
 
-            element = locateElement(step);
+            element = locateElement(step, i);
             if (element && isElementVisible(element)) break;
             element = null;
           }
@@ -1833,7 +1879,7 @@ async function executeSingleStep(step, index) {
             section.click();
             await new Promise((r) => setTimeout(r, 1500)); // Wait for expansion
 
-            element = locateElement(step);
+            element = locateElement(step, i);
             if (element && isElementVisible(element)) break;
             element = null;
           }
@@ -1856,11 +1902,24 @@ async function executeSingleStep(step, index) {
 
             const searchInputs = Array.from(
               document.querySelectorAll(
-                'input[role="combobox"], input[placeholder*="Search" i], input[placeholder*="GSTIN" i], input[placeholder*="contact" i], input[placeholder*="company" i]',
+                'input[role="combobox"], input[placeholder*="Search" i], input[placeholder*="item" i], input[placeholder*="plant" i], input[placeholder*="GSTIN" i], input[placeholder*="contact" i], input[placeholder*="company" i]',
               ),
             ).filter((el) => isElementVisible(el));
 
-            for (const searchInput of searchInputs) {
+            // Phase 2 (SEARCH TYPE): Prioritize the last interacted element if it's an input
+            let sortedSearch = [...searchInputs];
+            if (
+              lastInteractedElement &&
+              lastInteractedElement.tagName === "INPUT" &&
+              isElementVisible(lastInteractedElement)
+            ) {
+              sortedSearch = [
+                lastInteractedElement,
+                ...sortedSearch.filter((el) => el !== lastInteractedElement),
+              ];
+            }
+
+            for (const searchInput of sortedSearch) {
               searchInput.click();
               searchInput.focus();
               await new Promise((r) => setTimeout(r, 200));
@@ -1878,7 +1937,7 @@ async function executeSingleStep(step, index) {
               searchInput.dispatchEvent(new Event("change", { bubbles: true }));
               await new Promise((r) => setTimeout(r, 2000));
 
-              element = locateElement(step);
+              element = locateElement(step, i);
               if (element && isElementVisible(element)) break;
               element = null;
             }
@@ -1911,8 +1970,32 @@ async function executeSingleStep(step, index) {
         element = clickableParent;
       }
 
-      // SETTLE TIME: Give frameworks a moment to update DOM before interacting
+      // SETTLE TIME
       await new Promise((r) => setTimeout(r, 600));
+
+      const isCheckboxOrRadio =
+        element.tagName === "INPUT" &&
+        (element.type === "radio" || element.type === "checkbox");
+
+      // REDUNDANCY CHECK: Skip if we just interacted with this checkbox/radio or its label/control
+      if (isCheckboxOrRadio && lastInteractedElement) {
+        const isSelf = element === lastInteractedElement;
+        const isMyLabel =
+          lastInteractedElement.tagName === "LABEL" &&
+          lastInteractedElement.control === element;
+        const isMyControl =
+          element.tagName === "INPUT" &&
+          lastInteractedElement === element.control; // unlikely but possible
+
+        if (isSelf || isMyLabel || isMyControl) {
+          logExecution(
+            `Step ${index + 1}: Skipping redundant click on checkbox/radio (already handled via label or previous click)`,
+            "info",
+          );
+          sendStepComplete(index);
+          return;
+        }
+      }
 
       element.scrollIntoView({
         behavior: "auto",
@@ -1960,13 +2043,13 @@ async function executeSingleStep(step, index) {
         );
         element.dispatchEvent(new MouseEvent("mouseup", eventOptions));
 
-        // Dispatch click with full coordinates — compatible with React, MUI, SLDS etc.
-        // Do NOT call element.click() before this — it would fire the handler twice,
-        // causing add-row clicks to duplicate entries.
-        element.dispatchEvent(new MouseEvent("click", eventOptions));
+        // Use standard click for basic behavior
+        element.click();
+        lastInteractedElement = element;
       } catch (e) {
         console.warn("Event dispatch failed, falling back to basic click", e);
         element.click();
+        lastInteractedElement = element;
       }
 
       console.log(
@@ -1977,111 +2060,36 @@ async function executeSingleStep(step, index) {
         "success",
       );
 
-      // Give frameworks time to process the click and update state.
-      await new Promise((r) => setTimeout(r, 1000));
-
-      // Only wait for overlay close if the click was on an overlay-dismissing element
-      // (e.g., a dropdown option). Clicking inside a persistent modal dialog
-      // does NOT close the modal, so we skip the wait to avoid the timeout.
+      // POST-CLICK SETTLE TIME: If this button likely triggers a transition (e.g. "Send OTP", "Login"),
+      // wait a bit longer to allow the UI to actually change before sendStepComplete fires.
+      const desc = (step.description || "").toLowerCase();
+      const targetText = (step.target || "").toLowerCase();
       if (
-        typeof overlayContainer !== "undefined" &&
-        overlayContainer &&
-        shouldWaitForOverlayClose(element, overlayContainer)
+        desc.includes("otp") ||
+        desc.includes("login") ||
+        desc.includes("submit") ||
+        targetText.includes("otp") ||
+        targetText.includes("login") ||
+        desc.includes("add") ||
+        desc.includes("save") ||
+        desc.includes("update") ||
+        desc.includes("next")
       ) {
-        await waitForOverlayClose(overlayContainer);
-      }
-
-      sendStepComplete(index);
-    } else if (step.action === "dblclick") {
-      const clickableParent = isDecorativeElement(element)
-        ? getClickableAncestor(element)
-        : null;
-      if (clickableParent && clickableParent !== element) {
-        element = clickableParent;
-      }
-
-      // SETTLE TIME
-      await new Promise((r) => setTimeout(r, 600));
-
-      element.scrollIntoView({
-        behavior: "auto",
-        block: "center",
-        inline: "center",
-      });
-      await new Promise((r) => setTimeout(r, 200));
-      highlightElement(element);
-
-      const { offsetX, offsetY } = step;
-      const rect = element.getBoundingClientRect();
-      const clientX =
-        rect.left +
-        (clickableParent ? rect.width / 2 : offsetX || rect.width / 2);
-      const clientY =
-        rect.top +
-        (clickableParent ? rect.height / 2 : offsetY || rect.height / 2);
-
-      // Capture overlay before clicking in case click destroys the element
-      const overlayContainer = getContainingOverlay(element);
-
-      const eventOptions = {
-        bubbles: true,
-        cancelable: true,
-        view: window,
-        clientX,
-        clientY,
-        buttons: 1,
-      };
-
-      // Dispatch a single click sequence during playback.
-      // dblclick steps are replayed as a single click — the double-click + dblclick
-      // sequence was firing the click handler 2–3× and duplicating added items.
-      try {
-        element.dispatchEvent(
-          new PointerEvent("pointerdown", {
-            ...eventOptions,
-            pointerType: "mouse",
-          }),
+        logExecution(
+          `Step ${index + 1}: Waiting 2s for transition after transition-triggering click...`,
+          "info",
         );
-        element.dispatchEvent(new MouseEvent("mousedown", eventOptions));
-        element.dispatchEvent(
-          new PointerEvent("pointerup", {
-            ...eventOptions,
-            pointerType: "mouse",
-          }),
-        );
-        element.dispatchEvent(new MouseEvent("mouseup", eventOptions));
-        // Single click only — do NOT also call element.click() as that fires a second time
-        element.dispatchEvent(new MouseEvent("click", eventOptions));
-      } catch (e) {
-        console.warn(
-          "DblClick (as click) event dispatch failed, falling back to basic click",
-          e,
-        );
-        element.click();
+        await new Promise((r) => setTimeout(r, 2000));
       }
 
-      console.log(
-        `Executed step ${index + 1}: DblClick at (${clientX}, ${clientY}) on ${getElementDescriptor(element)}`,
-      );
-      logExecution(
-        `Step ${index + 1}: DblClick executed on ${getElementDescriptor(element)} at (${clientX}, ${clientY})`,
-        "success",
-      );
-
-      await new Promise((r) => setTimeout(r, 1000));
-
-      // Only wait for overlay close if the click was on an overlay-dismissing element
-      if (
-        typeof overlayContainer !== "undefined" &&
-        overlayContainer &&
-        shouldWaitForOverlayClose(element, overlayContainer)
-      ) {
-        await waitForOverlayClose(overlayContainer);
-      }
-
+      // Send STEP_COMPLETE immediately.
+      // finding (400ms + 10s retry loop) handles framework processing time.
+      // DO NOT use setTimeout here — heavy DOM teardowns (MUI Drawer unmount,
+      // React portal cleanup) can kill pending setTimeout callbacks.
       sendStepComplete(index);
     } else if (step.action === "input") {
       // SETTLE TIME
+      await new Promise((r) => setTimeout(r, 500));
       await new Promise((r) => setTimeout(r, 500));
 
       element.scrollIntoView({
@@ -2108,10 +2116,17 @@ async function executeSingleStep(step, index) {
           element.tagName === "INPUT" &&
           (element.type === "radio" || element.type === "checkbox")
         ) {
-          element.checked = true;
-          element.dispatchEvent(new Event("click", { bubbles: true }));
-          element.dispatchEvent(new Event("input", { bubbles: true }));
-          element.dispatchEvent(new Event("change", { bubbles: true }));
+          if (!element.checked) {
+            element.checked = true;
+            lastInteractedElement = element;
+            element.dispatchEvent(new Event("input", { bubbles: true }));
+            element.dispatchEvent(new Event("change", { bubbles: true }));
+          } else {
+            logExecution(
+              `Step ${index + 1}: Checkbox already checked, skipping redundant state enforcement`,
+              "info",
+            );
+          }
         } else {
           // React/Angular Support: Directly set value property to bypass tracking wrapper
           const prototype =
@@ -2129,6 +2144,7 @@ async function executeSingleStep(step, index) {
               "value",
             ).set;
             nativeInputValueSetter.call(element, step.value || "");
+            lastInteractedElement = element;
 
             // Dispatch full event sequence for frameworks
             element.dispatchEvent(new Event("input", { bubbles: true }));
@@ -2136,6 +2152,7 @@ async function executeSingleStep(step, index) {
           } else {
             // Fallback for custom components or labels that don't have a control
             element.value = step.value || "";
+            lastInteractedElement = element;
             element.dispatchEvent(new Event("input", { bubbles: true }));
             element.dispatchEvent(new Event("change", { bubbles: true }));
           }
@@ -2154,14 +2171,13 @@ async function executeSingleStep(step, index) {
       // Simulate key events (some frameworks listen for these)
       element.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true }));
       element.dispatchEvent(new KeyboardEvent("keyup", { bubbles: true }));
-      element.blur();
 
       console.log(`Executed step ${index + 1}: Input "${step.value}"`);
       // Send STEP_COMPLETE directly — avoid setTimeout which can be killed by DOM teardowns
       sendStepComplete(index);
     } else if (step.action === "upload") {
-      // FILE UPLOAD: Create a synthetic file and attach it to the input
-      await new Promise((r) => setTimeout(r, 500));
+      // FILE UPLOAD
+      await new Promise((r) => setTimeout(r, 600));
 
       element.scrollIntoView({
         behavior: "auto",
