@@ -1079,5 +1079,26 @@
     "description": "Step 58 stalled for 30s: STEP_COMPLETE delivered successfully (attempt 1)",
     "ariaSnapshot": null,
     "timestamp": "2026-03-20T04:51:23.734Z"
+  },
+  {
+    "id": "BUG-1773997931525",
+    "title": "Failure in sjakfddsaf",
+    "description": "Element not found for step 140: Element not found or not visible for step:140 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_396_1773997931365.json",
+    "timestamp": "2026-03-20T09:12:11.525Z"
+  },
+  {
+    "id": "BUG-1774004485196",
+    "title": "Failure in new_login",
+    "description": "Timeout waiting for step 11",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-20T11:01:25.196Z"
+  },
+  {
+    "id": "BUG-1774004741484",
+    "title": "Failure in sjakfddsaf",
+    "description": "Element not found for step 140: Element not found or not visible for step:140 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_396_1774004741356.json",
+    "timestamp": "2026-03-20T11:05:41.484Z"
   }
 ]

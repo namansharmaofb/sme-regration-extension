@@ -35,14 +35,34 @@ function isDynamicClass(cls) {
 }
 
 /**
- * Extracts visible text from an element, handles images and inputs.
+ * Extracts visible text from an element, stripping icon-only child nodes
+ * (Material Icons, Font Awesome, SVG) so we get clean button labels.
  * @param {HTMLElement} element
  */
 function getVisibleText(element) {
   if (!element) return "";
+
+  // For elements that may contain icon children, clone and strip icons first
+  const hasIconChild = element.querySelector &&
+    element.querySelector(
+      'i.material-icons, i.material-icons-outlined, i.material-icons-round, .fa, .fas, .far, svg',
+    );
+
+  if (hasIconChild) {
+    const clone = element.cloneNode(true);
+    clone
+      .querySelectorAll(
+        'i.material-icons, i.material-icons-outlined, i.material-icons-round, .fa, .fas, .far, svg',
+      )
+      .forEach((icon) => icon.remove());
+    const cleaned = (clone.innerText || clone.textContent || "")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (cleaned.length > 0 && cleaned.length < 100) return cleaned;
+  }
+
   const text = element.innerText || element.textContent;
   if (text) {
-    // Normalize whitespace: replace multiple spaces/newlines with a single space
     const normalized = text.replace(/\s+/g, " ").trim();
     if (normalized.length > 0 && normalized.length < 100) return normalized;
   }

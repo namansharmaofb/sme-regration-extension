@@ -89,6 +89,19 @@ function generateSelectors(element) {
     selectors.push([`#${CSS.escape(element.id)}`]);
   }
 
+  // ── 2b. Radio / checkbox type+value (very stable for option groups) ─
+  if (
+    element.tagName === "INPUT" &&
+    (element.type === "radio" || element.type === "checkbox")
+  ) {
+    const val = element.getAttribute("value");
+    if (val && !isDynamic(val) && val.length < 60) {
+      selectors.push([
+        `input[type="${element.type}"][value="${val.replace(/"/g, '\\"')}"]`,
+      ]);
+    }
+  }
+
   // ── 3. Name attribute (critical for forms) ─────────────────────────
   if (element.hasAttribute("name")) {
     const name = element.getAttribute("name");
@@ -138,6 +151,21 @@ function generateSelectors(element) {
     }
   }
 
+  // ── 6b. Any data-* / aria-* attribute scan ─────────────────────────
+  // Katalon-style: scan ALL attributes for stable custom data- attributes
+  // that the developer may have set (data-field, data-key, data-column, etc.)
+  const anyAttrSelector = buildAnyAttributeSelector(element);
+  if (anyAttrSelector) {
+    selectors.push([anyAttrSelector]);
+  }
+
+  // ── 6c. Label-to-input XPath ────────────────────────────────────────
+  // For inputs: "//label[text()='Email']/following::input[1]" — very stable
+  const labelXPath = buildLabelXPath(element);
+  if (labelXPath) {
+    selectors.push([labelXPath]);
+  }
+
   // ── 7. Alt / Title attributes ──────────────────────────────────────
   if (element.hasAttribute("alt")) {
     const alt = element.getAttribute("alt");
@@ -185,6 +213,14 @@ function generateSelectors(element) {
   const nthSelector = buildNthSelector(element);
   if (nthSelector) {
     selectors.push([nthSelector]);
+  }
+
+  // ── 10b. Relative XPath from stable ancestor ─────────────────────
+  // Katlon-style: anchors to nearest ancestor with stable ID/testid,
+  // then relative path down. Far more durable than absolute XPath.
+  const relXPath = buildRelativeXPathFromAncestor(element);
+  if (relXPath) {
+    selectors.push([relXPath]);
   }
 
   // ── 11. Full CSS path fallback ─────────────────────────────────────
@@ -462,6 +498,189 @@ function getSelectorType(selector) {
   return "css";
 }
 
+/**
+ * Scans all attributes on an element for any stable data-* or aria-* attribute
+ * that isn't in the standard list. Katalon-style catch-all.
+ * @param {HTMLElement} element
+ * @returns {string|null} CSS attribute selector or null
+ */
+function buildAnyAttributeSelector(element) {
+  const ALREADY_COVERED = new Set([
+    "data-testid", "data-cy", "data-test", "data-qa",
+    "aria-label", "aria-labelledby", "aria-describedby", "aria-controls",
+    "aria-expanded", "aria-selected", "aria-checked", "aria-hidden",
+    "role", "name", "id", "class", "style", "type", "value",
+    "href", "src", "alt", "title", "placeholder", "tabindex",
+    "disabled", "readonly", "required", "checked", "selected",
+    "for", "action", "method", "target", "rel", "media",
+  ]);
+
+  for (const attr of element.attributes) {
+    const name = attr.name.toLowerCase();
+    // Only look at data-* and aria-* we haven't already covered
+    if (!name.startsWith("data-") && !name.startsWith("aria-")) continue;
+    if (ALREADY_COVERED.has(name)) continue;
+
+    const val = attr.value;
+    if (!val || val.trim().length === 0) continue;
+    if (isDynamic(val)) continue;
+    if (val.length > 100) continue;
+
+    const tag = element.tagName.toLowerCase();
+    return `${tag}[${name}="${val.replace(/"/g, '\\"')}"]`;
+  }
+  return null;
+}
+
+/**
+ * Builds a label-to-input XPath — far more stable than positional XPath.
+ * e.g. //label[normalize-space(.)='Email']/following::input[@type='email'][1]
+ * @param {HTMLElement} element
+ * @returns {string|null}
+ */
+function buildLabelXPath(element) {
+  if (!["INPUT", "TEXTAREA", "SELECT"].includes(element.tagName)) return null;
+
+  const tag = element.tagName.toLowerCase();
+  const typeAttr =
+    element.getAttribute("type") && element.getAttribute("type") !== "text"
+      ? `[@type='${element.getAttribute("type")}']`
+      : "";
+
+  // 1. label[for=id]
+  if (element.id && !isDynamic(element.id)) {
+    const label = document.querySelector(
+      `label[for="${CSS.escape(element.id)}"]`,
+    );
+    if (label) {
+      const labelText = (label.innerText || "").replace(/\s+/g, " ").trim();
+      if (labelText && labelText.length > 1 && labelText.length < 60) {
+        const escaped = labelText.replace(/'/g, "\\'");
+        return `xpath///label[normalize-space(.)='${escaped}']/following::${tag}${typeAttr}[1]`;
+      }
+    }
+  }
+
+  // 2. Wrapping label — clone and strip inputs to get clean label text
+  const wrapLabel = element.closest("label");
+  if (wrapLabel) {
+    const clone = wrapLabel.cloneNode(true);
+    clone
+      .querySelectorAll("input, textarea, select")
+      .forEach((i) => i.remove());
+    const labelText = (clone.innerText || "").replace(/\s+/g, " ").trim();
+    if (labelText && labelText.length > 1 && labelText.length < 60) {
+      const escaped = labelText.replace(/'/g, "\\'");
+      return `xpath///label[normalize-space(.)='${escaped}']/${tag}`;
+    }
+  }
+
+  // 3. Nearest form-group/row label sibling (common in Bootstrap / Material forms)
+  const container = element.closest(
+    ".form-group, .form-row, .slds-form-element, .MuiFormControl-root, .field",
+  );
+  if (container) {
+    const label = container.querySelector(
+      "label, .control-label, .slds-form-element__label, .MuiFormLabel-root",
+    );
+    if (label && label !== element) {
+      const labelText = (label.innerText || "").replace(/\s+/g, " ").trim();
+      if (labelText && labelText.length > 1 && labelText.length < 60) {
+        const escaped = labelText.replace(/'/g, "\\'");
+        return `xpath///label[normalize-space(.)='${escaped}']/following::${tag}${typeAttr}[1]`;
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Builds a relative XPath anchored to the nearest stable ancestor.
+ * e.g. //*[@id="loginForm"]//input[@name="email"]
+ * This is the Katalon "relative xpath" strategy — much more durable than absolute.
+ * @param {HTMLElement} element
+ * @returns {string|null}
+ */
+function buildRelativeXPathFromAncestor(element) {
+  const STABLE_ATTRS = ["data-testid", "data-cy", "data-test", "data-qa"];
+
+  let anchor = element.parentElement;
+  let depth = 0;
+
+  while (anchor && anchor !== document.body && depth < 12) {
+    let anchorSelector = null;
+
+    // Stable ID anchor
+    if (anchor.id && !isDynamic(anchor.id)) {
+      anchorSelector = `//*[@id="${anchor.id}"]`;
+    }
+
+    // Stable testid anchor
+    if (!anchorSelector) {
+      for (const attr of STABLE_ATTRS) {
+        if (anchor.hasAttribute(attr)) {
+          const val = anchor.getAttribute(attr);
+          if (val && !isDynamic(val)) {
+            anchorSelector = `//*[@${attr}="${val.replace(/"/g, '\\"')}"]`;
+            break;
+          }
+        }
+      }
+    }
+
+    if (anchorSelector) {
+      // Build relative path from anchor to element
+      const relPath = getXPathFromTo(element, anchor);
+      if (relPath) {
+        return `xpath//${anchorSelector}${relPath}`;
+      }
+    }
+
+    anchor = anchor.parentElement;
+    depth++;
+  }
+
+  return null;
+}
+
+/**
+ * Computes the XPath segment from a descendant element up to (not including) ancestor.
+ * Returns something like //input[@name="email"] or /div[2]/input[1]
+ * @param {HTMLElement} element
+ * @param {HTMLElement} ancestor
+ * @returns {string}
+ */
+function getXPathFromTo(element, ancestor) {
+  // If element has a unique stable attribute, use a direct descendant selector
+  if (element.getAttribute("name") && !isDynamic(element.getAttribute("name"))) {
+    const name = element.getAttribute("name").replace(/"/g, '\\"');
+    return `//${element.tagName.toLowerCase()}[@name="${name}"]`;
+  }
+  if (element.id && !isDynamic(element.id)) {
+    return `//${element.tagName.toLowerCase()}[@id="${element.id}"]`;
+  }
+  const type = element.getAttribute("type");
+  const val = element.getAttribute("value");
+  if (type && val && !isDynamic(val)) {
+    return `//${element.tagName.toLowerCase()}[@type="${type}"][@value="${val.replace(/"/g, '\\"')}"]`;
+  }
+
+  // Fall back to positional path from ancestor
+  let path = "";
+  let current = element;
+  while (current && current !== ancestor) {
+    const tag = current.tagName.toLowerCase();
+    const siblings = Array.from(current.parentElement?.children || []).filter(
+      (c) => c.tagName === current.tagName,
+    );
+    const idx = siblings.length > 1 ? `[${siblings.indexOf(current) + 1}]` : "";
+    path = `/${tag}${idx}` + path;
+    current = current.parentElement;
+  }
+  return path;
+}
+
 /* ---------------- helpers ---------------- */
 
 function isDynamic(value) {
@@ -481,9 +700,9 @@ function isDynamic(value) {
     if (/[0-9]/.test(suffix) && /[a-zA-Z]/.test(suffix)) return true;
   }
 
-  // Allow common stable prefixes
-  if (/^(mui|btn|nav|list|item|cell)-/i.test(value)) return false;
-  return /\d{5,}|uuid|random|test-?id|tfid-/i.test(value);
+  // Allow common stable prefixes (form field IDs, component IDs, etc.)
+  if (/^(mui|btn|nav|list|item|cell|otp|tfid)-/i.test(value)) return false;
+  return /\d{5,}|uuid|random/i.test(value);
 }
 
 function isGenericIconText(text) {
