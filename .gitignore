@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+<<<<<<< HEAD
 
 # Environment variables
 .env
@@ -10,11 +11,32 @@ node_modules/
 .chrome-test-profile/
 aria-snapshots/
 screenshots/
+=======
+backend/node_modules/
+
+# Environment files
+.env
+scripts/e2e/.env
+
+# Chrome test profile (login cookies, caches, etc.)
+scripts/e2e/.chrome-test-profile/
+
+# E2E test artifacts
+scripts/e2e/screenshots/
+scripts/e2e/aria-snapshots/
+scripts/e2e/bug_reports.json
+scripts/e2e/output.json
+scripts/e2e/*.txt
+scripts/e2e/*.json
+!scripts/e2e/package.json
+!scripts/e2e/package-lock.json
+>>>>>>> origin/main
 
 # OS files
 .DS_Store
 Thumbs.db
 
+<<<<<<< HEAD
 # Logs
 *.log
 backend/*.log
@@ -25,3 +47,12 @@ yarn-error.log*
 # IDE settings
 .vscode/
 .idea/
+=======
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+>>>>>>> origin/main
