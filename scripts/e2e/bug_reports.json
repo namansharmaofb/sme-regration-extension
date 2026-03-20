@@ -1072,5 +1072,12 @@
     "description": "Step 55 stalled for 30s: Click executed on Handling Charge at (1044.96875, 540.5)",
     "ariaSnapshot": null,
     "timestamp": "2026-03-10T07:32:30.374Z"
+  },
+  {
+    "id": "BUG-1773982283734",
+    "title": "Failure in Test 394",
+    "description": "Step 58 stalled for 30s: STEP_COMPLETE delivered successfully (attempt 1)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-20T04:51:23.734Z"
   }
 ]
