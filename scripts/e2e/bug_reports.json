@@ -1079,5 +1079,12 @@
     "description": "Step 58 stalled for 30s: STEP_COMPLETE delivered successfully (attempt 1)",
     "ariaSnapshot": null,
     "timestamp": "2026-03-20T04:51:23.734Z"
+  },
+  {
+    "id": "BUG-1773991013087",
+    "title": "Failure in Test 396",
+    "description": "Execution of sjakfddsaf Timed Out after 180s",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_timeout_396_1773991013017.json",
+    "timestamp": "2026-03-20T07:16:53.087Z"
   }
 ]
