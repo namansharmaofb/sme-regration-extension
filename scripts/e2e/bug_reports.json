@@ -1100,5 +1100,68 @@
     "description": "Element not found for step 140: Element not found or not visible for step:140 (click)",
     "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_396_1774004741356.json",
     "timestamp": "2026-03-20T11:05:41.484Z"
+  },
+  {
+    "id": "BUG-1774260435804",
+    "title": "Failure in cds",
+    "description": "Timeout waiting for step 15",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_415_1774260435726.json",
+    "timestamp": "2026-03-23T10:07:15.804Z"
+  },
+  {
+    "id": "BUG-1774260579726",
+    "title": "Failure in cds",
+    "description": "Timeout waiting for step 15",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_415_1774260579662.json",
+    "timestamp": "2026-03-23T10:09:39.726Z"
+  },
+  {
+    "id": "BUG-1774262308586",
+    "title": "Failure in cds",
+    "description": "Element not found for step 114: Element not found or not visible for step:114 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_415_1774262308521.json",
+    "timestamp": "2026-03-23T10:38:28.586Z"
+  },
+  {
+    "id": "BUG-1774265409958",
+    "title": "Failure in cds",
+    "description": "Element not found for step 22: Element not found or not visible for step:22 (click)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-23T11:30:09.958Z"
+  },
+  {
+    "id": "BUG-1774265918838",
+    "title": "Failure in cds",
+    "description": "Element not found for step 114: Element not found or not visible for step:114 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_415_1774265918755.json",
+    "timestamp": "2026-03-23T11:38:38.838Z"
+  },
+  {
+    "id": "BUG-1774269126125",
+    "title": "Failure in cds",
+    "description": "Element not found for step 114: Element not found or not visible for step:114 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_415_1774269126058.json",
+    "timestamp": "2026-03-23T12:32:06.125Z"
+  },
+  {
+    "id": "BUG-1774269624156",
+    "title": "Failure in cds",
+    "description": "Element not found for step 114: Element not found or not visible for step:114 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_415_1774269624063.json",
+    "timestamp": "2026-03-23T12:40:24.156Z"
+  },
+  {
+    "id": "BUG-1774270801918",
+    "title": "Failure in new_login",
+    "description": "Timeout waiting for step 14",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_361_1774270801837.json",
+    "timestamp": "2026-03-23T13:00:01.918Z"
+  },
+  {
+    "id": "BUG-1774322938112",
+    "title": "Failure in cds",
+    "description": "Element not found for step 114: Element not found or not visible for step:114 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_415_1774322938047.json",
+    "timestamp": "2026-03-24T03:28:58.112Z"
   }
 ]

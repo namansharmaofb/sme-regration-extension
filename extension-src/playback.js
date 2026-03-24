@@ -1,5 +1,13 @@
 // Engine for finding elements and executing commands during flow playback
-let lastInteractedElement = null;
+
+// Persist key state across script re-injections.
+// execution-engine.js re-injects playback.js every second while searching for an element.
+// Module-level `let` variables reset on each injection — window-attached ones survive.
+// On re-injection, restore from window so the double-execution guard still works.
+let lastInteractedElement =
+  typeof window.__playback_last_interacted !== "undefined"
+    ? window.__playback_last_interacted
+    : null;
 
 /**
  * Extracts the accessible name and optional role from an ARIA selector string.
@@ -507,6 +515,10 @@ function safeQuerySelectorAll(selector, root = document) {
 function isStepTargetingOption(step) {
   if (step.action !== "click") return false;
 
+  // If the step was recorded with a combobox_field_label, it's definitively
+  // targeting a dropdown option — no heuristics needed.
+  if (step.combobox_field_label) return true;
+
   const isOptionSelector = step.selectors?.some((grp) => {
     const s = Array.isArray(grp) ? grp[0] : grp;
     return (
@@ -531,8 +543,7 @@ function isStepTargetingOption(step) {
       label.includes("GSTIN:") ||
       label.includes("SKU:") ||
       label.includes("Plant:") ||
-      label.includes(" - ") ||
-      (label.length > 0 && label.length < 40 && !label.includes("/"))
+      label.includes(" - ")
     )
       return true;
   }
@@ -1689,7 +1700,10 @@ function logExecution(text, level = "info") {
   appendDebugLog(`Playback: ${text}`);
 }
 
-let currentlyExecutingIndex = -1;
+let currentlyExecutingIndex =
+  typeof window.__playback_executing_index !== "undefined"
+    ? window.__playback_executing_index
+    : -1;
 
 /**
  * Detects and logs nuances (differences in element state) between recording and playback.
@@ -1751,6 +1765,10 @@ function getClickableAncestor(el, maxDepth = 5) {
  * chrome.runtime.sendMessage to fail silently. This retries to ensure delivery.
  */
 function sendStepComplete(stepIndex, maxRetries = 3) {
+  // Clear the executing index so the next step isn't blocked by the guard
+  if (window.__playback_executing_index === stepIndex) {
+    window.__playback_executing_index = -1;
+  }
   let attempt = 0;
   function trySend() {
     attempt++;
@@ -1806,6 +1824,7 @@ function sendStepComplete(stepIndex, maxRetries = 3) {
 async function executeSingleStep(step, index) {
   if (currentlyExecutingIndex === index) return;
   currentlyExecutingIndex = index;
+  window.__playback_executing_index = index; // survive re-injection
 
   logExecution(`Step ${index + 1} starting: ${JSON.stringify(step)}`, "info");
 
@@ -1827,29 +1846,88 @@ async function executeSingleStep(step, index) {
           step.action === "click" &&
           (isStepTargetingOption(step) || isStepTargetingDate(step))
         ) {
+          // If the target option is already visible, skip re-clicking entirely
+          const alreadyVisible = locateElement(step, i);
+          if (alreadyVisible && isElementVisible(alreadyVisible)) {
+            element = alreadyVisible;
+            break;
+          }
+
           const comboboxInputs = Array.from(
             document.querySelectorAll(
               'input[role="combobox"], input[placeholder*="plant" i], input[placeholder*="Select" i], input.react-datepicker-ignore-onclickoutside, .react-datepicker__input-container input',
             ),
           ).filter((el) => isElementVisible(el));
 
-          // Phase 1 (RE-CLICK): Prioritize the last interacted element if it's a combobox or any input
-          let sortedCombos = [...comboboxInputs];
-          if (
-            lastInteractedElement &&
-            (lastInteractedElement.tagName === "INPUT" ||
-              lastInteractedElement.tagName === "BUTTON") &&
-            isElementVisible(lastInteractedElement)
-          ) {
-            sortedCombos = [
-              lastInteractedElement,
-              ...sortedCombos.filter((el) => el !== lastInteractedElement),
-            ];
+          // Phase 1 (RE-CLICK): Use the recorded combobox_field_label to find the EXACT
+          // combobox that owns this dropdown. This prevents clicking the wrong dropdown
+          // (e.g. "Ship to Plant" instead of "Account Manager").
+          let sortedCombos = [];
+
+          // Priority 1: Already-expanded combobox — always wins
+          const expandedCombo = comboboxInputs.find(
+            (el) => el.getAttribute("aria-expanded") === "true"
+          );
+          if (expandedCombo) {
+            sortedCombos = [expandedCombo];
+          }
+          // Priority 2: Match by recorded combobox_field_label
+          else if (step.combobox_field_label) {
+            const targetLabel = step.combobox_field_label.toLowerCase().trim();
+            const labelMatched = comboboxInputs.find((cb) => {
+              const cbLabel = getElementDescriptor(cb).toLowerCase().trim();
+              return (
+                cbLabel === targetLabel ||
+                cbLabel.includes(targetLabel) ||
+                targetLabel.includes(cbLabel)
+              );
+            });
+            if (labelMatched) {
+              logExecution(
+                `Step ${index + 1}: Found combobox matching recorded label "${step.combobox_field_label}"`,
+                "info",
+              );
+              sortedCombos = [labelMatched];
+            } else {
+              // Label didn't match any visible combobox — try all but log the mismatch
+              logExecution(
+                `Step ${index + 1}: No combobox matched recorded label "${step.combobox_field_label}", trying all ${comboboxInputs.length} comboboxes`,
+                "warning",
+              );
+              sortedCombos = [...comboboxInputs];
+            }
+          }
+          // Priority 3: No recorded label — use contextual matching (legacy)
+          else {
+            sortedCombos = [...comboboxInputs];
+            if (lastInteractedElement) {
+              const stepDesc = (step.description || step.selector || "").toLowerCase();
+              const lastLabel = (
+                lastInteractedElement.placeholder ||
+                lastInteractedElement.getAttribute("aria-label") || ""
+              ).toLowerCase();
+              // Use full label comparison instead of just 8-char prefix
+              const isContextuallyRelated =
+                lastLabel.length > 2 &&
+                (stepDesc.includes(lastLabel) ||
+                  lastLabel.includes(stepDesc.split(/\s+/).slice(0, 3).join(" ")));
+              if (
+                isContextuallyRelated &&
+                (lastInteractedElement.tagName === "INPUT" ||
+                  lastInteractedElement.tagName === "BUTTON") &&
+                isElementVisible(lastInteractedElement)
+              ) {
+                sortedCombos = [
+                  lastInteractedElement,
+                  ...sortedCombos.filter((el) => el !== lastInteractedElement),
+                ];
+              }
+            }
           }
 
           for (const cb of sortedCombos) {
             logExecution(
-              `Step ${index + 1}: Re-clicking combobox "${cb.placeholder || cb.getAttribute("aria-label")}" to reopen dropdown`,
+              `Step ${index + 1}: Re-clicking combobox "${cb.placeholder || cb.getAttribute("aria-label") || getElementDescriptor(cb)}" to reopen dropdown`,
               "info",
             );
             cb.click();
@@ -1906,17 +1984,43 @@ async function executeSingleStep(step, index) {
               ),
             ).filter((el) => isElementVisible(el));
 
-            // Phase 2 (SEARCH TYPE): Prioritize the last interacted element if it's an input
-            let sortedSearch = [...searchInputs];
-            if (
-              lastInteractedElement &&
-              lastInteractedElement.tagName === "INPUT" &&
-              isElementVisible(lastInteractedElement)
-            ) {
-              sortedSearch = [
-                lastInteractedElement,
-                ...sortedSearch.filter((el) => el !== lastInteractedElement),
-              ];
+            // Phase 2 (SEARCH TYPE): Use recorded combobox_field_label to find the
+            // correct combobox to type into (prevents typing into wrong field).
+            let sortedSearch = [];
+            const expandedSearch = searchInputs.find(
+              (el) => el.getAttribute("aria-expanded") === "true"
+            );
+            if (expandedSearch) {
+              sortedSearch = [expandedSearch];
+            } else if (step.combobox_field_label) {
+              const targetLabel2 = step.combobox_field_label.toLowerCase().trim();
+              const labelMatched2 = searchInputs.find((cb) => {
+                const cbLabel = getElementDescriptor(cb).toLowerCase().trim();
+                return (
+                  cbLabel === targetLabel2 ||
+                  cbLabel.includes(targetLabel2) ||
+                  targetLabel2.includes(cbLabel)
+                );
+              });
+              if (labelMatched2) {
+                logExecution(
+                  `Step ${index + 1}: Phase 2 found combobox matching recorded label "${step.combobox_field_label}"`,
+                  "info",
+                );
+                sortedSearch = [labelMatched2];
+              } else {
+                sortedSearch = [...searchInputs];
+              }
+            } else {
+              sortedSearch = [...searchInputs];
+              if (lastInteractedElement && lastInteractedElement.tagName === "INPUT" && isElementVisible(lastInteractedElement)) {
+                const stepDesc2 = (step.description || step.selector || "").toLowerCase();
+                const lastLabel2 = (lastInteractedElement.placeholder || lastInteractedElement.getAttribute("aria-label") || "").toLowerCase();
+                const related2 = lastLabel2.length > 2 && (stepDesc2.includes(lastLabel2) || lastLabel2.includes(stepDesc2.split(/\s+/).slice(0, 3).join(" ")));
+                if (related2) {
+                  sortedSearch = [lastInteractedElement, ...sortedSearch.filter((el) => el !== lastInteractedElement)];
+                }
+              }
             }
 
             for (const searchInput of sortedSearch) {
@@ -2045,11 +2149,11 @@ async function executeSingleStep(step, index) {
 
         // Use standard click for basic behavior
         element.click();
-        lastInteractedElement = element;
+        lastInteractedElement = element; window.__playback_last_interacted = element;
       } catch (e) {
         console.warn("Event dispatch failed, falling back to basic click", e);
         element.click();
-        lastInteractedElement = element;
+        lastInteractedElement = element; window.__playback_last_interacted = element;
       }
 
       console.log(
@@ -2087,6 +2191,33 @@ async function executeSingleStep(step, index) {
       // DO NOT use setTimeout here — heavy DOM teardowns (MUI Drawer unmount,
       // React portal cleanup) can kill pending setTimeout callbacks.
       sendStepComplete(index);
+    } else if (step.action === "dblclick") {
+      element.scrollIntoView({ behavior: "auto", block: "center", inline: "center" });
+      await new Promise((r) => setTimeout(r, 200));
+      highlightElement(element);
+
+      const { offsetX, offsetY } = step;
+      const rect = element.getBoundingClientRect();
+      const clientX = rect.left + (offsetX || rect.width / 2);
+      const clientY = rect.top + (offsetY || rect.height / 2);
+      const eventOptions = { bubbles: true, cancelable: true, view: window, clientX, clientY, buttons: 1 };
+
+      try {
+        element.dispatchEvent(new MouseEvent("mousedown", eventOptions));
+        element.dispatchEvent(new MouseEvent("mouseup", eventOptions));
+        element.dispatchEvent(new MouseEvent("click", eventOptions));
+        element.dispatchEvent(new MouseEvent("mousedown", eventOptions));
+        element.dispatchEvent(new MouseEvent("mouseup", eventOptions));
+        element.dispatchEvent(new MouseEvent("click", eventOptions));
+        element.dispatchEvent(new MouseEvent("dblclick", eventOptions));
+        lastInteractedElement = element; window.__playback_last_interacted = element;
+      } catch (e) {
+        element.dispatchEvent(new MouseEvent("dblclick", { bubbles: true, cancelable: true }));
+        lastInteractedElement = element; window.__playback_last_interacted = element;
+      }
+
+      logExecution(`Step ${index + 1}: Dblclick executed on ${getElementDescriptor(element)}`, "success");
+      sendStepComplete(index);
     } else if (step.action === "input") {
       // SETTLE TIME
       await new Promise((r) => setTimeout(r, 500));
@@ -2118,7 +2249,7 @@ async function executeSingleStep(step, index) {
         ) {
           if (!element.checked) {
             element.checked = true;
-            lastInteractedElement = element;
+            lastInteractedElement = element; window.__playback_last_interacted = element;
             element.dispatchEvent(new Event("input", { bubbles: true }));
             element.dispatchEvent(new Event("change", { bubbles: true }));
           } else {
@@ -2144,7 +2275,7 @@ async function executeSingleStep(step, index) {
               "value",
             ).set;
             nativeInputValueSetter.call(element, step.value || "");
-            lastInteractedElement = element;
+            lastInteractedElement = element; window.__playback_last_interacted = element;
 
             // Dispatch full event sequence for frameworks
             element.dispatchEvent(new Event("input", { bubbles: true }));
@@ -2152,7 +2283,7 @@ async function executeSingleStep(step, index) {
           } else {
             // Fallback for custom components or labels that don't have a control
             element.value = step.value || "";
-            lastInteractedElement = element;
+            lastInteractedElement = element; window.__playback_last_interacted = element;
             element.dispatchEvent(new Event("input", { bubbles: true }));
             element.dispatchEvent(new Event("change", { bubbles: true }));
           }

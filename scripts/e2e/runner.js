@@ -3,6 +3,8 @@ const path = require("path");
 const fs = require("fs");
 const { execSync } = require("child_process");
 const cleanupUser = require("./cleanup-user");
+const { checkDataContext } = require("./data-assertions");
+const { setupPageMonitors, checkPageState, checkNavigation } = require("./bug-detectors");
 require("dotenv").config({ path: path.resolve(__dirname, ".env") });
 
 const EXTENSION_PATH = path.resolve(__dirname, "../../extension-src");
@@ -840,6 +842,9 @@ async function executeTestCase(browser, page, testCaseId) {
 
   page.on("console", (msg) => console.log(`PAGE CONSOLE: ${msg.text()}`));
 
+  // Category C: attach console-error + network monitors for this test case
+  const pageMonitor = setupPageMonitors(page);
+
   // Auto-handle file upload dialogs with a dummy test PDF
   const testUploadFile = path.resolve(__dirname, "test-upload.pdf");
   page.on("filechooser", async (fileChooser) => {
@@ -946,6 +951,8 @@ async function executeTestCase(browser, page, testCaseId) {
   let lastStepIndex = null;
   let lastStepLine = null;
   let lastStepAt = Date.now();
+  let prevUrl = page.url();          // for Category E navigation checks
+  const uiBugs = [];                 // collects all UI issues found during this run
 
   while (attempts < maxAttempts) {
     // Re-check worker for polling too
@@ -986,7 +993,48 @@ async function executeTestCase(browser, page, testCaseId) {
         console.log(`WORKER DEBUG: ${logs[i]}`);
         const stepMatch = logs[i].match(/Step\s+(\d+):\s*(.+)$/);
         if (stepMatch) {
-          lastStepIndex = parseInt(stepMatch[1], 10) - 1;
+          const detectedStepIndex = parseInt(stepMatch[1], 10) - 1;
+
+          // ── UI checks after each completed step (B, D, E) ───────────────────
+          if (detectedStepIndex !== lastStepIndex && lastStepIndex !== null) {
+            const completedStep = testCase.steps?.[lastStepIndex];
+
+            // B: data context
+            if (completedStep?.contextText) {
+              try {
+                const r = await checkDataContext(page, completedStep);
+                if (r.status === "warn") {
+                  console.warn(`${YELLOW}[B/Data] Step ${lastStepIndex + 1}: ${r.message}${RESET}`);
+                  uiBugs.push({ category: "B", step: lastStepIndex + 1, ...r });
+                } else if (r.status === "pass") {
+                  console.log(`${GREEN}[B/Data]${RESET} Step ${lastStepIndex + 1} OK — ${r.message}`);
+                }
+              } catch (_) {}
+            }
+
+            // D: stuck loading / disabled state
+            try {
+              const dIssues = await checkPageState(page, lastStepIndex);
+              for (const issue of dIssues) {
+                console.warn(`${YELLOW}[D/State] Step ${lastStepIndex + 1}: ${issue.message}${RESET}`);
+                uiBugs.push(issue);
+              }
+            } catch (_) {}
+
+            // E: navigation check
+            try {
+              const eIssues = await checkNavigation(page, completedStep, prevUrl, lastStepIndex);
+              for (const issue of eIssues) {
+                console.warn(`${YELLOW}[E/Nav] Step ${lastStepIndex + 1}: ${issue.message}${RESET}`);
+                uiBugs.push(issue);
+              }
+            } catch (_) {}
+
+            prevUrl = page.url();
+          }
+          // ─────────────────────────────────────────────────────────────────
+
+          lastStepIndex = detectedStepIndex;
           lastStepLine = stepMatch[2];
           lastStepAt = Date.now();
         }
@@ -1051,6 +1099,18 @@ async function executeTestCase(browser, page, testCaseId) {
             "Failed to capture success ARIA snapshot:",
             snapshotErr.message,
           );
+        }
+
+        // ── Report all collected UI bugs (B, C, D, E) ───────────────────────
+        const cIssues = pageMonitor.getIssues();
+        const allBugs = [...uiBugs, ...cIssues];
+        if (allBugs.length > 0) {
+          console.warn(`\n${YELLOW}${BOLD}⚠  UI Issues Detected (${allBugs.length}) — functional test PASSED but:${RESET}`);
+          for (const bug of allBugs) {
+            const tag = { A: "[Visual]", B: "[Data]", C: "[Console/Net]", D: "[State]", E: "[Nav]" }[bug.category] || "[Bug]";
+            console.warn(`  ${YELLOW}${tag} Step ${bug.step || "?"}: ${bug.message}${RESET}`);
+          }
+          console.warn("");
         }
 
         return true;
@@ -1148,6 +1208,17 @@ async function executeTestCase(browser, page, testCaseId) {
           "Failed to capture success ARIA snapshot:",
           snapshotErr.message,
         );
+      }
+
+      // ── Report collected UI bugs ───────────────────────────────────────────
+      if (uiBugs.length > 0) {
+        console.warn(`\n${YELLOW}${BOLD}⚠  UI Issues Detected (${uiBugs.length}) — functional test PASSED but:${RESET}`);
+        for (const bug of uiBugs) {
+          const tag = "[Data]";
+          console.warn(`  ${YELLOW}Step ${bug.step} ${tag}: ${bug.message || bug.status}${RESET}`);
+          if (bug.diffImagePath) console.warn(`    Diff image: ${bug.diffImagePath}`);
+        }
+        console.warn("");
       }
 
       return true;

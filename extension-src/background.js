@@ -127,7 +127,17 @@ async function postExecutionReport(
 async function executeCurrentStep() {
   if (!executionState.isRunning) return;
 
-  if (executionState.currentIndex >= executionState.steps.length) {
+  // Capture index NOW — executionState.currentIndex can change under us during awaits.
+  const stepIndex = executionState.currentIndex;
+
+  // Prevent double-execution of the same step.
+  // This guard is essential: the tab-update handler and STEP_COMPLETE handler both call
+  // executeCurrentStep(). Without this, two concurrent calls execute the same step twice,
+  // sending duplicate EXECUTE_SINGLE_STEP messages that click buttons/open modals twice.
+  if (executionState.executingStepIndex === stepIndex) return;
+  executionState.executingStepIndex = stepIndex;
+
+  if (stepIndex >= executionState.steps.length) {
     // Check if any steps had failures before declaring success
     const failedSteps = (executionState.stepResults || []).filter(
       (r) => r.status === "failed",
@@ -143,10 +153,10 @@ async function executeCurrentStep() {
     return;
   }
 
-  const step = executionState.steps[executionState.currentIndex];
+  const step = executionState.steps[stepIndex];
 
   console.log(
-    `Executing step ${executionState.currentIndex + 1}/${executionState.steps.length}: ${step.action} on ${step.description || step.selector}`,
+    `Executing step ${stepIndex + 1}/${executionState.steps.length}: ${step.action} on ${step.description || step.selector}`,
   );
 
   try {
@@ -221,12 +231,15 @@ async function executeCurrentStep() {
     const stepUrl = normalizeUrl(step.url);
     const isArchiveOrg = currentUrl.includes("web.archive.org");
 
-    // For interaction steps (click, input, scroll), we use path-only matching
-    // to avoid unwanted reloads when query parameters change in an SPA.
-    const isInteractionStep = ["click", "input", "scroll", "upload"].includes(
-      step.action,
-    );
-    const urlsMatch = isInteractionStep
+    // Assertions and interaction steps never need to navigate — they run in-page.
+    // Use path-only matching so query-param / hash changes in an SPA (e.g. a modal
+    // route like /purchase-orders/new#add-items) don't trigger an unwanted reload
+    // that destroys the modal the assertion was meant to check.
+    const isInPageStep = [
+      "click", "input", "scroll", "upload",
+      "assertExists", "assertText", "dblclick",
+    ].includes(step.action);
+    const urlsMatch = isInPageStep
       ? urlsHaveSamePath(currentUrl, stepUrl)
       : currentUrl === stepUrl;
 
@@ -263,13 +276,20 @@ async function executeCurrentStep() {
       console.log("Injection check:", e.message);
     }
 
+    // After the await, currentIndex may have advanced (tab-update fired during executeScript).
+    // If so, abort — the new executeCurrentStep() call will handle the new step.
+    if (executionState.currentIndex !== stepIndex) {
+      console.log(`Step ${stepIndex + 1}: currentIndex moved to ${executionState.currentIndex + 1} during inject, aborting send.`);
+      return;
+    }
+
     // Send command to content script
     chrome.tabs.sendMessage(
       executionState.tabId,
       {
         type: "EXECUTE_SINGLE_STEP",
         step: step,
-        stepIndex: executionState.currentIndex,
+        stepIndex: stepIndex,
       },
       (response) => {
         if (chrome.runtime.lastError) {
@@ -414,32 +434,24 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     // If we were waiting for navigation, resume now.
     if (executionState.waitingForNavigation) {
       executionState.waitingForNavigation = false;
-      // Give page a moment to settle?
+      executionState.executingStepIndex = -1; // allow next step to run
       setTimeout(() => executeCurrentStep(), 2500);
     } else {
-      // If we weren't explicitly waiting, but a load happened,
-      // it might be due to the previous step (Click).
-      // So we should re-inject logic if needed or just let the step completion handler fire?
-
-      // PROBLEM: If the page reloads, the content script that was processing the click is dead.
-      // It never sent "STEP_COMPLETE".
-      // So if we see a load complete, and we are stuck on a step that was a 'click',
-      // we should assume it succeeded and move to next?
-
-      // Let's implement that heuristic.
+      // If the page reloaded during a click step and the content script never sent
+      // STEP_COMPLETE (destroyed by navigation), advance to the next step.
       const currentStep = executionState.steps[executionState.currentIndex];
       if (currentStep && currentStep.action === "click") {
         console.log(
           "Detected page load during click step. Assuming success and moving next.",
         );
-        // CRITICAL: Clear the timeout before advancing to prevent race condition
         if (executionState.stepTimeout) {
           clearTimeout(executionState.stepTimeout);
           executionState.stepTimeout = null;
         }
         recordStepResult(executionState.currentIndex, "success");
         executionState.currentIndex++;
-        setTimeout(() => executeCurrentStep(), 4500); // Increased to 4500ms for stability
+        executionState.executingStepIndex = -1; // allow next step to run
+        setTimeout(() => executeCurrentStep(), 4500);
       }
     }
   }
@@ -585,6 +597,7 @@ async function handleMessageAsync(message, sender, sendResponse) {
 
       await recordStepResult(executionState.currentIndex, "success");
       executionState.currentIndex++;
+      executionState.executingStepIndex = -1; // allow next step to run
       await saveExecutionState();
 
       console.log(

@@ -309,7 +309,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   ) {
     const hasActiveNavigationStep =
       executionState.activeStepAction === "navigate" ||
-      executionState.activeStepAction === "click";
+      executionState.activeStepAction === "click" ||
+      executionState.activeStepAction === "dblclick";
 
     if (
       (executionState.waitingForNavigation || hasActiveNavigationStep) &&

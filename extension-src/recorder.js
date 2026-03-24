@@ -229,6 +229,97 @@ function handleClick(event) {
     // Playback uses this to scope element lookups when modals are nested.
     const modal_context = getModalContextSelector(target);
 
+    // ── Category B: capture data context for wrong-data detection ───────────
+    // Grab the text of the nearest table row / list item / card that surrounds
+    // this element. During replay, the runner checks that key words from this
+    // text still appear on the page after the click — catching cases where the
+    // wrong record is opened (e.g. editing row 1 instead of row 2).
+    const contextText = (function captureContextText() {
+      try {
+        let node = target.parentElement;
+        const DEPTH_LIMIT = 12;
+        let depth = 0;
+        while (node && node !== document.body && depth < DEPTH_LIMIT) {
+          const tag = node.tagName;
+          const role = (node.getAttribute("role") || "").toLowerCase();
+          if (
+            tag === "TR" ||
+            tag === "LI" ||
+            tag === "ARTICLE" ||
+            role === "row" ||
+            role === "listitem" ||
+            node.classList.contains("card") ||
+            node.classList.contains("item") ||
+            node.classList.contains("row-item")
+          ) {
+            // Strip the element itself (e.g. action buttons) from the text so we
+            // get only the data cells, not "Edit Delete" noise.
+            const clone = node.cloneNode(true);
+            clone.querySelectorAll("button, [role='button'], a.action, .action-cell").forEach((el) => el.remove());
+            const text = (clone.innerText || clone.textContent || "")
+              .replace(/\s+/g, " ")
+              .trim()
+              .slice(0, 300);
+            if (text.length > 4) return text;
+          }
+          node = node.parentElement;
+          depth++;
+        }
+      } catch (_) {}
+      return null;
+    })();
+    // ────────────────────────────────────────────────────────────────────────
+
+    // ── Category C: capture combobox field label for dropdown options ─────
+    // When the user clicks an option inside a dropdown/listbox/popover, record
+    // the label of the combobox input that owns the dropdown. During playback,
+    // this ensures the engine re-opens the CORRECT combobox (e.g. "Account
+    // Manager" vs "Ship to Plant") instead of guessing.
+    const comboboxFieldLabel = (function captureComboboxFieldLabel() {
+      try {
+        // Only capture when clicking inside a dropdown overlay
+        const overlay = getNearestOverlay(target);
+        if (!overlay) return null;
+        const overlayRole = (overlay.getAttribute("role") || "").toLowerCase();
+        const overlayCls = overlay.className || "";
+        const isDropdownOverlay =
+          overlayRole === "listbox" ||
+          overlayRole === "menu" ||
+          /\b(dropdown|MuiMenu|MuiPopover|MuiAutocomplete|MuiPopper|react-select|selectV2-portal)\b/i.test(overlayCls) ||
+          overlay.hasAttribute("data-popper-placement");
+        if (!isDropdownOverlay) return null;
+
+        // Strategy 1: Find a combobox input that has aria-expanded="true"
+        const expandedCombos = Array.from(
+          document.querySelectorAll('input[role="combobox"][aria-expanded="true"], input[aria-expanded="true"]')
+        ).filter(isElementVisible);
+        for (const cb of expandedCombos) {
+          const label = getElementDescriptor(cb);
+          if (label && label.length > 1 && label.length < 80) return label;
+        }
+
+        // Strategy 2: Find the combobox via aria-controls / aria-owns
+        if (overlay.id) {
+          const controller = document.querySelector(
+            `[aria-controls="${CSS.escape(overlay.id)}"], [aria-owns="${CSS.escape(overlay.id)}"]`
+          );
+          if (controller) {
+            const label = getElementDescriptor(controller);
+            if (label && label.length > 1 && label.length < 80) return label;
+          }
+        }
+
+        // Strategy 3: Find the most recently focused input (likely the trigger)
+        const active = document.activeElement;
+        if (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA")) {
+          const label = getElementDescriptor(active);
+          if (label && label.length > 1 && label.length < 80) return label;
+        }
+      } catch (_) {}
+      return null;
+    })();
+    // ────────────────────────────────────────────────────────────────────────
+
     const step = {
       action: "click",
       selectors: selectors.selectors, // NEW: Array of selector arrays
@@ -241,6 +332,8 @@ function handleClick(event) {
       offsetX: offsetX,
       offsetY: offsetY,
       modal_context,
+      contextText: contextText || undefined,
+      combobox_field_label: comboboxFieldLabel || undefined,
     };
 
     // Update last recorded click tracking
