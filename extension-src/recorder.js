@@ -30,20 +30,19 @@ function getModalContextSelector(element) {
       OVERLAY_ROLE_SET.has(role) ||
       current.tagName === "DIALOG" ||
       (typeof cls === "string" &&
-        /(\bmodal\b|\bdrawer\b|\bpopover\b|\bdropdown-menu\b|MuiModal|MuiDrawer|MuiDialog|MuiPopover|ant-modal|ant-drawer|ant-dropdown|slds-modal)/i.test(
+        /(\bmodal\b|\bdrawer\b|\bpopover\b|\bdropdown-menu\b|MuiModal|MuiDrawer|MuiDialog|MuiPopover|ant-modal|ant-drawer|ant-dropdown|ant-select-dropdown|slds-modal|react-select__menu|portal|chakra-modal|chakra-popover)/i.test(
           cls,
         )) ||
       current.hasAttribute("data-radix-dialog-content") ||
       current.hasAttribute("data-radix-popper-content-wrapper") ||
       current.hasAttribute("data-floating-ui-portal") ||
+      current.hasAttribute("data-radix-portal") ||
+      current.hasAttribute("data-overlay-container") ||
       current.hasAttribute("data-popper-placement");
 
     if (isOverlay) {
       // 1. Stable ID
-      if (
-        current.id &&
-        !/^\d|[a-f0-9]{16,}|mui-[0-9]+|:(r[0-9a-z]+):/i.test(current.id)
-      ) {
+      if (current.id && !isDynamicId(current.id)) {
         return `#${CSS.escape(current.id)}`;
       }
       // 2. data-testid / data-cy
@@ -68,7 +67,26 @@ function getModalContextSelector(element) {
               ) && !/css-[a-z0-9]+/.test(c),
           );
       if (muiClass) return `.${muiClass}`;
-      // 5. Generic role
+
+      // 5. High z-index fixed/absolute container (Universal Modal Detection)
+      const style = window.getComputedStyle(current);
+      const isFixed = style.position === "fixed" || style.position === "absolute";
+      const zIndex = parseInt(style.zIndex, 10);
+      if (isFixed && zIndex >= 100) {
+        const rect = current.getBoundingClientRect();
+        if (rect.width > 50 && rect.height > 50) {
+          // If it has a stable-ish class, use it
+          if (cls && typeof cls === "string") {
+            const firstClass = cls.split(" ").find(c => !isDynamicClass(c));
+            if (firstClass) return `.${firstClass}`;
+          }
+          if (role) return `[role="${role}"]`;
+          // If all else fails, use a z-index selector if possible, or just identifying it exists
+          return null; 
+        }
+      }
+
+      // 6. Generic role
       if (role) return `[role="${role}"]`;
       return null;
     }

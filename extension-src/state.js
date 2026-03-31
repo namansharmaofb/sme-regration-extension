@@ -24,17 +24,37 @@ let executionState = {
  */
 async function saveState() {
   try {
+    // Do NOT persist the full steps array — it can be hundreds of KB for long flows.
+    // Steps are already in the DB; only ephemeral state needs persistence.
+    const { steps: _steps, ...lightExecutionState } = executionState;
     await chrome.storage.local.set({
       recorder_isRecording: isRecording,
       recorder_currentTestCase: currentTestCase,
       recorder_executionState: {
-        ...executionState,
-        stepTimeout: null, // Don't persist timeout handles
+        ...lightExecutionState,
+        stepTimeout: null,               // Don't persist timeout handles
+        detectedBugs: (lightExecutionState.detectedBugs || []).slice(-20), // Cap at 20 entries
       },
       lastExecutionStatus: lastExecutionStatus,
     });
   } catch (e) {
-    console.warn("Failed to save state:", e);
+    if (e && e.message && e.message.includes("quota")) {
+      // Quota exceeded — purge cheap caches and retry once
+      console.warn("Storage quota exceeded in saveState. Purging debug logs...");
+      try {
+        await chrome.storage.local.remove(["e2e_debug_logs", "recorder_currentTestCase"]);
+        const { steps: _steps2, ...slim } = executionState;
+        await chrome.storage.local.set({
+          recorder_isRecording: isRecording,
+          recorder_executionState: { ...slim, stepTimeout: null, detectedBugs: [] },
+          lastExecutionStatus: lastExecutionStatus,
+        });
+      } catch (retryErr) {
+        console.error("State save failed even after quota purge:", retryErr);
+      }
+    } else {
+      console.warn("Failed to save state:", e);
+    }
   }
 }
 

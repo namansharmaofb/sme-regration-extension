@@ -163,13 +163,7 @@ async function executeCurrentStep() {
     const stepUrl = normalizeUrl(step.url);
     console.log(`Current URL: ${currentUrl}, Step URL: ${stepUrl}`);
 
-    // Add persistent logs for E2E debugging
-    const { e2e_debug_logs = [] } =
-      await chrome.storage.local.get("e2e_debug_logs");
-    e2e_debug_logs.push(
-      `[${new Date().toISOString()}] Step ${index + 1}: ${step.action} on ${stepUrl}`,
-    );
-    await chrome.storage.local.set({ e2e_debug_logs });
+    console.log(`Step ${index + 1}: ${step.action} on ${stepUrl}`);
 
     if (step.action === "navigate") {
       // If already on the page, just advance
@@ -319,14 +313,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       console.log(
         `Navigation complete detected for step ${executionState.currentIndex + 1}`,
       );
-      chrome.storage.local
-        .get("e2e_debug_logs")
-        .then(async ({ e2e_debug_logs = [] }) => {
-          e2e_debug_logs.push(
-            `[${new Date().toISOString()}] Engine: Navigation COMPLETE for step ${executionState.currentIndex + 1}`,
-          );
-          await chrome.storage.local.set({ e2e_debug_logs });
-        });
+      console.log(`[${new Date().toISOString()}] Engine: Navigation COMPLETE for step ${executionState.currentIndex + 1}`);
 
       executionState.waitingForNavigation = false;
       executionState.activeStepAction = null;

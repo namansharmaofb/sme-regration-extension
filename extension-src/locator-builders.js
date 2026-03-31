@@ -310,6 +310,34 @@ function buildAriaSelector(element) {
   }
 
   // If we have a meaningful role, include it: aria/button[Submit]
+  // Guard 1: Pure icon glyphs (chevron_right, expand_more) are always useless as ARIA labels
+  if (isIconGlyphText(finalName)) {
+    return null;
+  }
+
+  // Guard 2: Ambiguous action labels (edit, delete, close) are only safe as ARIA selectors
+  // when they uniquely identify a single element on the page.
+  if (isAmbiguousActionLabel(finalName)) {
+    // Try to count how many elements share this accessible name
+    try {
+      const candidateRole = role || null;
+      const allMatches = Array.from(document.querySelectorAll(
+        candidateRole ? `[role="${candidateRole}"]` : "button, [role='button'], a, [role='link']"
+      )).filter((el) => {
+        const elName = (el.getAttribute("aria-label") || el.innerText || "").replace(/\s+/g, " ").trim().toLowerCase();
+        return elName === finalName.toLowerCase();
+      });
+      // If more than 1 element matches this name, it's truly ambiguous — skip ARIA
+      if (allMatches.length !== 1) {
+        return null;
+      }
+    } catch (_) {
+      // If the DOM query fails (e.g., worker context), err on the side of caution
+      return null;
+    }
+  }
+
+
   if (role) {
     return `aria/${role}[${finalName}]`;
   }
@@ -597,8 +625,7 @@ function buildLabelXPath(element) {
 
 /**
  * Builds a relative XPath anchored to the nearest stable ancestor.
- * e.g. //*[@id="loginForm"]//input[@name="email"]
- * This is the Katalon "relative xpath" strategy — much more durable than absolute.
+ * Supports 3 strategies: stable ID, data-testid, and text-content context anchor.
  * @param {HTMLElement} element
  * @returns {string|null}
  */
@@ -607,16 +634,17 @@ function buildRelativeXPathFromAncestor(element) {
 
   let anchor = element.parentElement;
   let depth = 0;
+  let textAnchorResult = null;
 
   while (anchor && anchor !== document.body && depth < 12) {
     let anchorSelector = null;
 
-    // Stable ID anchor
+    // Strategy 1: Stable ID anchor
     if (anchor.id && !isDynamic(anchor.id)) {
       anchorSelector = `//*[@id="${anchor.id}"]`;
     }
 
-    // Stable testid anchor
+    // Strategy 2: Stable testid anchor
     if (!anchorSelector) {
       for (const attr of STABLE_ATTRS) {
         if (anchor.hasAttribute(attr)) {
@@ -630,10 +658,46 @@ function buildRelativeXPathFromAncestor(element) {
     }
 
     if (anchorSelector) {
-      // Build relative path from anchor to element
       const relPath = getXPathFromTo(element, anchor);
       if (relPath) {
         return `xpath//${anchorSelector}${relPath}`;
+      }
+    }
+
+    // Strategy 3: Text-content anchor (for icon-only buttons like chevrons in rows)
+    // Only compute once — at the shallowest viable row-like container
+    if (!textAnchorResult) {
+      const tag = anchor.tagName.toLowerCase();
+      const isRowLike = ["tr", "li", "div", "section", "article"].includes(tag);
+      if (isRowLike) {
+        const candidateTextEls = Array.from(anchor.querySelectorAll(
+          "td, th, span, p, h1, h2, h3, h4, h5, label, .title, .name"
+        )).filter((el) => {
+          if (el === element || el.contains(element) || element.contains(el)) return false;
+          const t = (el.innerText || el.textContent || "").replace(/\s+/g, " ").trim();
+          return t.length > 2 && t.length < 60 && !isIconGlyphText(t);
+        });
+
+        if (candidateTextEls.length > 0) {
+          const rowText = (candidateTextEls[0].innerText || candidateTextEls[0].textContent || "")
+            .replace(/\s+/g, " ").trim();
+          const escapedText = rowText.replace(/'/g, "\\'");
+
+          // Only use if text is reasonably unique (appears in ≤3 matching containers)
+          const matchingRows = document.querySelectorAll(tag);
+          let matchCount = 0;
+          for (const row of matchingRows) {
+            if ((row.textContent || "").includes(rowText)) matchCount++;
+            if (matchCount > 3) break;
+          }
+
+          if (matchCount <= 3) {
+            const relPath = getXPathFromTo(element, anchor);
+            if (relPath) {
+              textAnchorResult = `xpath//${tag}[contains(., '${escapedText}')]${relPath}`;
+            }
+          }
+        }
       }
     }
 
@@ -641,7 +705,7 @@ function buildRelativeXPathFromAncestor(element) {
     depth++;
   }
 
-  return null;
+  return textAnchorResult || null;
 }
 
 /**
@@ -688,9 +752,13 @@ function isDynamic(value) {
   // Ignore purely numeric long strings or hex-like strings
   if (/^[0-9a-f]{16,}$/.test(value)) return true;
 
-  // React / MUI dynamic IDs
-  if (/^:(r[0-9a-z]*):$/.test(value)) return true;
+  // React / MUI / Radix / AntD dynamic IDs
+  if (/^:(r[0-9a-z]*):/i.test(value)) return true;
   if (/mui-[0-9]+/.test(value)) return true;
+  if (/^radix-[a-zA-Z0-9]+/.test(value)) return true;
+  if (/^rc(_|-)select(_|-)[a-zA-Z0-9]+/.test(value)) return true;
+  if (/^rc(_|-)tabs(_|-)[a-zA-Z0-9]+/.test(value)) return true;
+  if (/^rc(_|-)menu(_|-)[a-zA-Z0-9]+/.test(value)) return true;
 
   // Dynamic Popper/Portal IDs with random suffix
   if (/(popper|modal|dialog|select|menu)-[a-zA-Z0-9]{8,}/i.test(value)) {
@@ -705,43 +773,47 @@ function isDynamic(value) {
   return /\d{5,}|uuid|random/i.test(value);
 }
 
-function isGenericIconText(text) {
+/**
+ * Returns true for Material icon GLYPH names only (the raw font text content,
+ * e.g. "chevron_right", "expand_more"). These are NEVER useful as locators.
+ */
+function isIconGlyphText(text) {
   if (!text || typeof text !== "string") return false;
   const normalized = text.replace(/\s+/g, " ").trim().toLowerCase();
-  const iconWords = new Set([
-    "chevron_right",
-    "chevron_left",
-    "expand_more",
-    "expand_less",
-    "file_download",
-    "file_upload",
-    "west",
-    "east",
-    "north",
-    "south",
-    "menu",
-    "more_vert",
-    "more_horiz",
-    "close",
-    "add",
-    "remove",
-    "search",
-    "filter_list",
-    "edit",
-    "delete",
-    "download",
-    "upload",
-    "refresh",
+  const glyphs = new Set([
+    "chevron_right", "chevron_left", "expand_more", "expand_less",
+    "file_download", "file_upload", "west", "east", "north", "south",
+    "more_vert", "more_horiz", "filter_list", "keyboard_arrow_down",
+    "keyboard_arrow_up", "keyboard_arrow_left", "keyboard_arrow_right",
+    "arrow_back", "arrow_forward", "arrow_drop_down", "arrow_drop_up",
+    "unfold_more", "unfold_less", "drag_handle", "drag_indicator",
   ]);
-
-  // Single icon word
-  if (iconWords.has(normalized)) return true;
-
-  // If text is made only of icon words, treat as generic
   const parts = normalized.split(" ").filter(Boolean);
-  if (parts.length > 0 && parts.every((p) => iconWords.has(p))) return true;
+  return parts.length > 0 && parts.every((p) => glyphs.has(p));
+}
 
-  return false;
+/**
+ * Returns true for generic action words that are AMBIGUOUS — i.e. multiple
+ * buttons on the same page likely share this label (edit, delete, close, etc.).
+ * These are only unsafe as locators when NOT unique on the page.
+ */
+function isAmbiguousActionLabel(text) {
+  if (!text || typeof text !== "string") return false;
+  const normalized = text.replace(/\s+/g, " ").trim().toLowerCase();
+  const ambiguous = new Set([
+    "edit", "delete", "remove", "close", "add", "save", "cancel",
+    "refresh", "download", "upload", "search", "menu", "more",
+    "open", "view", "select", "clear",
+  ]);
+  return ambiguous.has(normalized);
+}
+
+/**
+ * Legacy alias — kept for XPath text-match guards in generateSelectors.
+ * Only blocks pure icon glyph strings from being used as XPath text matchers.
+ */
+function isGenericIconText(text) {
+  return isIconGlyphText(text) || isAmbiguousActionLabel(text);
 }
 
 function isDynamicId(id) {

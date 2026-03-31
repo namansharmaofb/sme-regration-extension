@@ -19,10 +19,28 @@ let executionState = {
 
 async function saveExecutionState() {
   backgroundLog(
-    `Saving execution state: Index=${executionState.currentIndex}, Running=${executionState.isRunning}, Steps=${executionState.steps.length}`,
+    `Saving execution state: Index=${executionState.currentIndex}, Running=${executionState.isRunning}, Steps=${executionState.steps?.length || 0}`,
     "debug",
   );
-  await chrome.storage.local.set({ execution_state_v2: executionState });
+  try {
+    // We no longer strip the steps array here. While it can be large,
+    // losing it during background worker suspension (common in MV3)
+    // completely breaks the execution loop.
+    await chrome.storage.local.set({
+      execution_state_v2: {
+        ...executionState,
+        stepResults: (executionState.stepResults || []).slice(-30), // Keep last 30 only
+        stepTimeout: null, // Never persist handles
+      },
+    });
+  } catch (e) {
+    if (e && e.message && e.message.includes("quota")) {
+      console.warn("[Background] Quota hit in saveExecutionState — purging debug logs");
+      await chrome.storage.local.remove(["e2e_debug_logs"]).catch(() => {});
+    } else {
+      console.warn("[Background] saveExecutionState failed:", e);
+    }
+  }
 }
 
 let isStateLoaded = false;
@@ -169,9 +187,13 @@ async function executeCurrentStep() {
     const isInputStep = step.action === "input";
     const stepTimeoutMs = isScrollStep ? 4000 : 30000;
 
-    // Set a timeout for this step.
-    // If no frame responds with STEP_COMPLETE, we fail (or auto-advance for scroll).
-    executionState.stepTimeout = setTimeout(async () => {
+    executionState.stepTimeout = () => {
+      origStepTimeoutFunc();
+    };
+    
+    // We will attach the actual timer wrapping this logic down below
+    // where origTimeout is defined. Let's make sure the inner logic is extracted:
+    const origStepTimeoutFunc = async () => {
       console.error(
         `Timeout waiting for step ${executionState.currentIndex + 1}/${executionState.steps.length}`,
       );
@@ -195,7 +217,7 @@ async function executeCurrentStep() {
           `Timeout waiting for step ${executionState.currentIndex + 1}`,
         );
       }
-    }, stepTimeoutMs);
+    };
 
     let tab;
     try {
@@ -283,20 +305,33 @@ async function executeCurrentStep() {
       return;
     }
 
-    // Send command to content script
-    chrome.tabs.sendMessage(
-      executionState.tabId,
-      {
-        type: "EXECUTE_SINGLE_STEP",
-        step: step,
-        stepIndex: stepIndex,
-      },
-      (response) => {
-        if (chrome.runtime.lastError) {
-          console.error("Msg Error:", chrome.runtime.lastError.message);
+    // Broadcast step carefully - if frame navigates or isn't ready, message is lost.
+    // We retry sending periodically until STEP_COMPLETE turns off isRunning/advances index.
+    let broadcastAttempts = 0;
+    const broadcastInterval = setInterval(() => {
+      if (executionState.currentIndex !== stepIndex || !executionState.isRunning) {
+        clearInterval(broadcastInterval);
+        return;
+      }
+      broadcastAttempts++;
+
+      chrome.tabs.sendMessage(
+        executionState.tabId,
+        { type: "EXECUTE_SINGLE_STEP", step: step, stepIndex: stepIndex },
+        (response) => {
+          if (chrome.runtime.lastError && broadcastAttempts % 3 === 0) {
+            console.warn(`[Background] Msg Error sending step ${stepIndex + 1}:`, chrome.runtime.lastError.message);
+          }
         }
-      },
-    );
+      );
+    }, 750); // Retry every 750ms
+
+    // Ensure we clear the interval when the global step timeout hits
+    const origTimeout = executionState.stepTimeout;
+    executionState.stepTimeout = setTimeout(async () => {
+      clearInterval(broadcastInterval);
+      if (origTimeout) await origTimeout();
+    }, stepTimeoutMs);
   } catch (err) {
     if (executionState.stepTimeout) clearTimeout(executionState.stepTimeout);
     finishExecution(false, err.message);
@@ -431,43 +466,22 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     // If we were explicitly waiting for navigation, OR if a navigation happened naturally
     // (like a click causing page load), we should check if we can proceed.
 
-    // If we were waiting for navigation, resume now.
     if (executionState.waitingForNavigation) {
       executionState.waitingForNavigation = false;
       executionState.executingStepIndex = -1; // allow next step to run
       setTimeout(() => executeCurrentStep(), 2500);
     } else {
-      // If the page reloaded during a click step and the content script never sent
-      // STEP_COMPLETE (destroyed by navigation), advance to the next step.
-      const currentStep = executionState.steps[executionState.currentIndex];
-      if (currentStep && currentStep.action === "click") {
-        console.log(
-          "Detected page load during click step. Assuming success and moving next.",
-        );
-        if (executionState.stepTimeout) {
-          clearTimeout(executionState.stepTimeout);
-          executionState.stepTimeout = null;
-        }
-        recordStepResult(executionState.currentIndex, "success");
-        executionState.currentIndex++;
-        executionState.executingStepIndex = -1; // allow next step to run
-        setTimeout(() => executeCurrentStep(), 4500);
-      }
+      // The page reloaded while we were executing a step (e.g. previous click triggered a delayed navigation).
+      // The content script context was just destroyed. We MUST resend the current step!
+      console.log(`Page reloaded unexpectedly. Resending current step ${executionState.currentIndex + 1}...`);
+      executionState.executingStepIndex = -1; // clear lock
+      setTimeout(() => executeCurrentStep(), 2000); // 2s settle time for the new page
     }
   }
 });
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  // Use a naked storage set for immediate diagnostic visibility that survives worker restarts
-  const logKey = `msg_log_${Date.now()}`;
-  chrome.storage.local.set({
-    [logKey]: {
-      type: message.type,
-      from: sender.tab ? sender.tab.id : "ext",
-      at: new Date().toISOString(),
-    },
-  });
 
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   handleMessageAsync(message, sender, sendResponse);
   return true; // Keep channel open
 });

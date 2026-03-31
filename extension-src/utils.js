@@ -22,6 +22,15 @@ function updateVisualIndicator(active) {
  */
 function isDynamicId(str) {
   if (!str) return false;
+
+  // Framework-specific generated IDs (React, MUI, Radix, Ant Design)
+  if (/^:r[a-zA-Z0-9]+:$/.test(str)) return true; // Radix/React: :r1:, :r1a:
+  if (/^mui-[a-zA-Z0-9]+/.test(str)) return true; // MUI: mui-123
+  if (/^radix-[a-zA-Z0-9]+/.test(str)) return true; // Radix: radix-123
+  if (/^rc(_|-)select(_|-)[a-zA-Z0-9]+/.test(str)) return true; // AntD: rc_select_1
+  if (/^rc(_|-)tabs(_|-)[a-zA-Z0-9]+/.test(str)) return true; // AntD Tabs
+  if (/^rc(_|-)menu(_|-)[a-zA-Z0-9]+/.test(str)) return true; // AntD Menu
+
   if (/^\d/.test(str)) return true; // Starts with digit
   if (/\d{4,}/.test(str)) return true; // Has 4+ consecutive digits
   if (/^[a-zA-Z0-9]{5,8}$/.test(str) && /[0-9]/.test(str) === false) {

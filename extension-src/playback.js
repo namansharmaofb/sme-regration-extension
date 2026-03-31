@@ -35,27 +35,29 @@ function extractAriaName(ariaText) {
 
 /**
  * Max number of entries kept in e2e_debug_logs to avoid exceeding chrome.storage.local quota.
- * Oldest entries are dropped when the limit is hit (sliding window).
  */
-const MAX_DEBUG_LOGS = 500;
+const MAX_DEBUG_LOGS = 150;
 
-/**
- * Appends a message to e2e_debug_logs, trimming the oldest entries if the cap is exceeded.
- * All writes to e2e_debug_logs must go through this helper.
- * @param {string} message - Already-formatted log line (timestamp will be prepended).
- */
+// Buffer pending log messages and flush in a batch every 2s to minimise storage writes.
+let _debugLogBuffer = [];
+let _debugFlushTimer = null;
+
 function appendDebugLog(message) {
-  chrome.storage.local
-    .get("e2e_debug_logs")
-    .then(({ e2e_debug_logs = [] }) => {
-      e2e_debug_logs.push(`[${new Date().toISOString()}] ${message}`);
-      // Trim to the most recent MAX_DEBUG_LOGS entries
-      if (e2e_debug_logs.length > MAX_DEBUG_LOGS) {
-        e2e_debug_logs = e2e_debug_logs.slice(-MAX_DEBUG_LOGS);
-      }
-      chrome.storage.local.set({ e2e_debug_logs }).catch(() => {});
-    })
-    .catch(() => {});
+  _debugLogBuffer.push(`[${new Date().toISOString()}] ${message}`);
+  if (_debugFlushTimer) return; // already scheduled
+  _debugFlushTimer = setTimeout(() => {
+    const pending = _debugLogBuffer.splice(0);
+    _debugFlushTimer = null;
+    if (!pending.length) return;
+    chrome.storage.local
+      .get("e2e_debug_logs")
+      .then(({ e2e_debug_logs = [] }) => {
+        const next = [...e2e_debug_logs, ...pending];
+        const trimmed = next.length > MAX_DEBUG_LOGS ? next.slice(-MAX_DEBUG_LOGS) : next;
+        chrome.storage.local.set({ e2e_debug_logs: trimmed }).catch(() => {});
+      })
+      .catch(() => {});
+  }, 2000);
 }
 
 /**
@@ -525,6 +527,8 @@ function isStepTargetingOption(step) {
       typeof s === "string" &&
       (s.includes('[role="option"]') ||
         s.includes("slds-listbox__item") ||
+        s.includes("react-select__option") ||
+        s.includes("ant-select-item") ||
         s.includes("react-datepicker__day"))
     );
   });
@@ -576,8 +580,28 @@ function locateElement(step, attempt = 0) {
   //    so we can reproduce the exact same scope during playback.
   if (step.modal_context && typeof step.modal_context === "string") {
     try {
-      const modalEl = document.querySelector(step.modal_context);
-      if (modalEl && isElementVisible(modalEl)) {
+      const allModals = [...document.querySelectorAll(step.modal_context)].filter(isElementVisible);
+      let modalEl = null;
+      
+      if (allModals.length > 0) {
+        modalEl = allModals.reduce((highest, current) => {
+          const getZ = (el) => parseInt(window.getComputedStyle(el).zIndex, 10) || 0;
+          const zC = getZ(current);
+          const zH = getZ(highest);
+          if (zC !== zH) return zC > zH ? current : highest;
+          
+          // Tie-breaker: if same z-index, pick the one without aria-hidden="true"
+          const curHidden = current.getAttribute("aria-hidden") === "true";
+          const highHidden = highest.getAttribute("aria-hidden") === "true";
+          if (!curHidden && highHidden) return current;
+          if (curHidden && !highHidden) return highest;
+          
+          // Default: latest in document order is likely the newest one on top
+          return current;
+        });
+      }
+
+      if (modalEl) {
         // Build the selector array (same as normal, but resolved within the modal)
         const selectorArray = Array.isArray(step.selectors)
           ? step.selectors
@@ -635,28 +659,34 @@ function locateElement(step, attempt = 0) {
                 );
                 el = found[0] || null;
               }
-              if (el) {
-                appendDebugLog(
-                  `Playback: Strategy ${selector} resolved via modal_context "${step.modal_context}"`,
-                );
-                return el;
+                if (el) {
+                  appendDebugLog(
+                    `Playback: Strategy ${selector} resolved via modal_context "${step.modal_context}"`,
+                  );
+                  return el;
+                }
+              } catch (_) {
+                /* invalid selector for scoped search */
               }
-            } catch (_) {
-              /* invalid selector for scoped search */
             }
           }
-        }
 
-        appendDebugLog(
-          `Playback: modal_context "${step.modal_context}" found but element not within it — falling back to global search`,
-        );
-      } else {
-        appendDebugLog(
-          `Playback: modal_context "${step.modal_context}" not visible or not found — falling back to global search`,
-        );
+          // CRITICAL: We found the modal but the element isn't inside it yet (loading/animating).
+          // We MUST NOT fall back to global search yet, or we'll click something BEHIND the modal.
+          // Instead, return null so the main retry loop (max 40 attempts) keeps searching specifically in this scope.
+          appendDebugLog(
+            `Playback: modal_context "${step.modal_context}" found but target element not yet found within it. Waiting...`,
+          );
+          return null; // Force retry in next loop iteration
+        } else {
+          // If no modal is found at all, fall back to global search (in case the modal never opened)
+          appendDebugLog(
+            `Playback: modal_context "${step.modal_context}" not yet visible/found.`,
+          );
+        }
+      } catch (_) {
+        /* querySelector failed — proceed to global search */
       }
-    } catch (_) {
-      /* querySelector failed — proceed to global search */
     }
   }
 
@@ -1179,20 +1209,33 @@ function findAllByAriaLabel(ariaText, root = document) {
         "option",
         "radio",
         "checkbox",
+        "heading",
+        "gridcell",
+        "cell",
       ];
-      if (
+      const isInteractive =
         interactiveTags.includes(el.tagName) ||
-        (role && interactiveRoles.includes(role))
-      ) {
+        (role && interactiveRoles.includes(role));
+
+      // We always check text for interactive elements.
+      // For NON-interactive elements (DIV, SPAN), we only check if they are "leaf-ish"
+      // or if the search term is specific enough to avoid matching the whole page.
+      const shouldCheckText = isInteractive || (normalizedSearch.length > 5);
+
+      if (shouldCheckText) {
         const text = getVisibleText(el)
           .replace(/\s+/g, " ")
           .trim()
           .toLowerCase();
-        if (text === normalizedSearch) matched = true;
+        
+        if (text === normalizedSearch) {
+          matched = true;
+        }
 
         // Support for checkbox/radio options wrapped in divs
         if (
           !matched &&
+          isInteractive &&
           (el.tagName === "INPUT" || role === "checkbox" || role === "radio")
         ) {
           let currentListboxItem = el.parentElement;
@@ -1839,10 +1882,10 @@ async function executeSingleStep(step, index) {
         if (element && isElementVisible(element)) break;
         element = null;
 
-        // Phase 1 (after 1.5s): Re-click/focus combobox inputs to reopen
-        // dropdowns that may have closed during script re-injection
+        // Phase 1 (after 3.0s): Re-click/focus combobox inputs to reopen
+        // dropdowns that may have closed during script re-injection or loss of focus
         if (
-          i === 6 &&
+          i === 12 &&
           step.action === "click" &&
           (isStepTargetingOption(step) || isStepTargetingDate(step))
         ) {
@@ -1864,12 +1907,17 @@ async function executeSingleStep(step, index) {
           // (e.g. "Ship to Plant" instead of "Account Manager").
           let sortedCombos = [];
 
-          // Priority 1: Already-expanded combobox — always wins
+          // Priority 1: Already-expanded combobox — if already expanded, do NOT click anything,
+          // the dropdown is open but maybe our target is still loading/animating!
           const expandedCombo = comboboxInputs.find(
             (el) => el.getAttribute("aria-expanded") === "true"
           );
           if (expandedCombo) {
-            sortedCombos = [expandedCombo];
+            logExecution(
+              `Step ${index + 1}: Combobox is already expanded. Skipping re-click.`,
+              "debug",
+            );
+            sortedCombos = [];
           }
           // Priority 2: Match by recorded combobox_field_label
           else if (step.combobox_field_label) {
@@ -2177,7 +2225,11 @@ async function executeSingleStep(step, index) {
         desc.includes("add") ||
         desc.includes("save") ||
         desc.includes("update") ||
-        desc.includes("next")
+        desc.includes("next") ||
+        desc.includes("edit") ||
+        desc.includes("delete") ||
+        desc.includes("view") ||
+        desc.includes("remove")
       ) {
         logExecution(
           `Step ${index + 1}: Waiting 2s for transition after transition-triggering click...`,

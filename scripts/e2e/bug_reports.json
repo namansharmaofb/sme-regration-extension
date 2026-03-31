@@ -1163,5 +1163,187 @@
     "description": "Element not found for step 114: Element not found or not visible for step:114 (click)",
     "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_415_1774322938047.json",
     "timestamp": "2026-03-24T03:28:58.112Z"
+  },
+  {
+    "id": "BUG-1774930373684",
+    "title": "Failure in Test 512",
+    "description": "Execution of full po Timed Out after 180s",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_timeout_512_1774930373556.json",
+    "timestamp": "2026-03-31T04:12:53.684Z"
+  },
+  {
+    "id": "BUG-1774932017150",
+    "title": "Failure in Test 512",
+    "description": "Execution of full po Timed Out after 180s",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-31T04:40:17.150Z"
+  },
+  {
+    "id": "BUG-1774939254923",
+    "title": "Failure in Test 516",
+    "description": "Step ? stalled for 30s: No step details",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_516_1774939254877.json",
+    "timestamp": "2026-03-31T06:40:54.923Z"
+  },
+  {
+    "id": "BUG-1774939328647",
+    "title": "Failure in Test 516",
+    "description": "Step ? stalled for 30s: No step details",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_516_1774939328615.json",
+    "timestamp": "2026-03-31T06:42:08.647Z"
+  },
+  {
+    "id": "BUG-1774939400486",
+    "title": "Failure in po",
+    "description": "Element not found for step 1: Element not found or not visible for step:1 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_516_1774939400443.json",
+    "timestamp": "2026-03-31T06:43:20.486Z"
+  },
+  {
+    "id": "BUG-1774939561030",
+    "title": "Failure in po",
+    "description": "Element not found for step 39: Element not found or not visible for step:39 (click)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-31T06:46:01.030Z"
+  },
+  {
+    "id": "BUG-1774940531793",
+    "title": "Failure in po",
+    "description": "Element not found for step 39: Element not found or not visible for step:39 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_516_1774940531734.json",
+    "timestamp": "2026-03-31T07:02:11.793Z"
+  },
+  {
+    "id": "BUG-1774943507957",
+    "title": "Failure in Test 517",
+    "description": "Step ? stalled for 30s: No step details",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_517_1774943507911.json",
+    "timestamp": "2026-03-31T07:51:47.957Z"
+  },
+  {
+    "id": "BUG-1774943560319",
+    "title": "Failure in Test 517",
+    "description": "Step ? stalled for 30s: No step details",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-31T07:52:40.319Z"
+  },
+  {
+    "id": "BUG-1774943642660",
+    "title": "Failure in po_Oa",
+    "description": "Element not found for step 24: Element not found or not visible for step:24 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_517_1774943642603.json",
+    "timestamp": "2026-03-31T07:54:02.660Z"
+  },
+  {
+    "id": "BUG-1774944213484",
+    "title": "Failure in po",
+    "description": "Element not found for step 38: Element not found or not visible for step:38 (click)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-31T08:03:33.484Z"
+  },
+  {
+    "id": "BUG-1774948379519",
+    "title": "Failure in oasys",
+    "description": "Element not found for step 37: Element not found or not visible for step:37 (click)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-31T09:12:59.519Z"
+  },
+  {
+    "id": "BUG-1774948473128",
+    "title": "Failure in oasys",
+    "description": "Element not found for step 37: Element not found or not visible for step:37 (click)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-31T09:14:33.128Z"
+  },
+  {
+    "id": "BUG-1774949030938",
+    "title": "Failure in Test 520",
+    "description": "Step 5 stalled for 30s: STEP_COMPLETE delivered successfully (attempt 1)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_520_1774949030841.json",
+    "timestamp": "2026-03-31T09:23:50.938Z"
+  },
+  {
+    "id": "BUG-1774949093178",
+    "title": "Failure in Test 520",
+    "description": "Step 5 stalled for 30s: STEP_COMPLETE delivered successfully (attempt 1)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_520_1774949093110.json",
+    "timestamp": "2026-03-31T09:24:53.178Z"
+  },
+  {
+    "id": "BUG-1774949385389",
+    "title": "Failure in Test 521",
+    "description": "Step 7 stalled for 30s: STEP_COMPLETE delivered successfully (attempt 1)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-31T09:29:45.389Z"
+  },
+  {
+    "id": "BUG-1774949575400",
+    "title": "Failure in Test 522",
+    "description": "Step 2 stalled for 30s: STEP_COMPLETE delivered successfully (attempt 1)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_522_1774949575338.json",
+    "timestamp": "2026-03-31T09:32:55.400Z"
+  },
+  {
+    "id": "BUG-1774949635781",
+    "title": "Failure in oasyss",
+    "description": "Element not found for step 8: Element not found or not visible for step:8 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_522_1774949635727.json",
+    "timestamp": "2026-03-31T09:33:55.781Z"
+  },
+  {
+    "id": "BUG-1774950166068",
+    "title": "Failure in oasyss",
+    "description": "Element not found for step 6: Element not found or not visible for step:6 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_523_1774950166013.json",
+    "timestamp": "2026-03-31T09:42:46.068Z"
+  },
+  {
+    "id": "BUG-1774950688562",
+    "title": "Failure in oasysss",
+    "description": "Element not found for step 12: Element not found or not visible for step:12 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_524_1774950688508.json",
+    "timestamp": "2026-03-31T09:51:28.562Z"
+  },
+  {
+    "id": "BUG-1774950807974",
+    "title": "Failure in oasysss",
+    "description": "Element not found for step 12: Element not found or not visible for step:12 (click)",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-31T09:53:27.974Z"
+  },
+  {
+    "id": "BUG-1774950903608",
+    "title": "Failure in oasyss",
+    "description": "Element not found for step 8: Element not found or not visible for step:8 (click)",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_522_1774950903519.json",
+    "timestamp": "2026-03-31T09:55:03.608Z"
+  },
+  {
+    "id": "BUG-1774952000867",
+    "title": "Failure in Test 525",
+    "description": "Step 9 stalled for 30s: Scroll complete. Sending STEP_COMPLETE message...",
+    "ariaSnapshot": null,
+    "timestamp": "2026-03-31T10:13:20.867Z"
+  },
+  {
+    "id": "BUG-1774952173142",
+    "title": "Failure in djg",
+    "description": "No tab with id: 463154331 and no localhost tab found",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_525_1774952173111.json",
+    "timestamp": "2026-03-31T10:16:13.142Z"
+  },
+  {
+    "id": "BUG-1774952568863",
+    "title": "Failure in Test 522",
+    "description": "Step ? stalled for 30s: No step details",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_stall_522_1774952568793.json",
+    "timestamp": "2026-03-31T10:22:48.863Z"
+  },
+  {
+    "id": "BUG-1774953724009",
+    "title": "Failure in oasyssa",
+    "description": "Timeout waiting for step 1",
+    "ariaSnapshot": "/home/namansharma/Desktop/PROJECTS/extension/scripts/e2e/aria-snapshots/aria_snapshot_error_526_1774953723955.json",
+    "timestamp": "2026-03-31T10:42:04.009Z"
   }
 ]

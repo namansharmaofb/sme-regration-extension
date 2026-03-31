@@ -678,8 +678,9 @@ async function loadFlowsFromBackend() {
       });
     }
 
-    // Store in Chrome storage for persistence
-    await chrome.storage.local.set({ savedFlows: flows });
+    // Store only lightweight metadata (id+name) for offline dropdown fallback
+    const flowMeta = flows.map(({ id, name }) => ({ id, name }));
+    chrome.storage.local.set({ savedFlows: flowMeta }).catch(() => {});
 
     logLine(`Loaded ${flows.length} flow(s) from backend`, "success");
   } catch (err) {
@@ -858,9 +859,7 @@ async function sendToBackend(testCase) {
       `Saved test case '${testCase.name}' with id=${data.id} (${data.stepCount} steps) to database`,
       "success",
     );
-
-    // Store full test case in Chrome storage for offline access
-    await chrome.storage.local.set({ [`flow_${data.id}`]: testCase });
+    // Data is saved in the DB — skip redundant local storage write to avoid quota issues.
 
     // Reload flows dropdown after saving
     await loadFlowsFromBackend();
@@ -1070,9 +1069,7 @@ async function onFlowSelect() {
       `Loaded flow '${testCase.name}' with ${testCase.steps?.length || 0} steps from database`,
       "success",
     );
-
-    // Store full test case in Chrome storage for offline access
-    await chrome.storage.local.set({ [`flow_${selectedId}`]: testCase });
+    // Data loaded from DB — skip redundant local storage write to avoid quota issues.
 
     // Don't auto-run - user must click "Run Flow" button
   } catch (err) {

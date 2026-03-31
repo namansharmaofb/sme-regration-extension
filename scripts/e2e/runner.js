@@ -1300,11 +1300,17 @@ async function executeTestCase(browser, page, testCaseId) {
 
 async function runE2E() {
   console.log("Starting Daily E2E Run...");
-  await cleanupUser(TEST_EMAIL);
+
+  if (process.env.SKIP_CLEANUP !== "1") {
+    await cleanupUser(TEST_EMAIL);
+  } else {
+    console.log(`${YELLOW}[Skip] Skipping user cleanup as requested.${RESET}`);
+  }
 
   // Use existing Chrome profile to preserve login session
   // Set USE_CHROME_PROFILE=0 to use a fresh browser
   const useExistingProfile = process.env.USE_CHROME_PROFILE !== "0";
+  const skipProfileCleanup = process.env.SKIP_PROFILE_CLEANUP === "1";
   const testProfileDir = path.join(__dirname, ".chrome-test-profile");
 
   let launchArgs = [
@@ -1323,58 +1329,67 @@ async function runE2E() {
       ".config/google-chrome/Default",
     );
 
-    console.log(`${CYAN}[Setup]${RESET} Preparing fresh test profile...`);
+    console.log(`${CYAN}[Setup]${RESET} Preparing test profile...`);
     try {
-      if (fs.existsSync(testProfileDir)) {
+      if (fs.existsSync(testProfileDir) && !skipProfileCleanup) {
         console.log(`${CYAN}[Setup]${RESET} Clearing existing test profile...`);
         fs.rmSync(testProfileDir, { recursive: true, force: true });
       }
-      fs.mkdirSync(testProfileDir, { recursive: true });
 
-      // Copy essential files for login persistence
-      const filesToCopy = [
-        "Cookies",
-        "Login Data",
-        "Web Data",
-        "Preferences",
-        "Local Storage",
-        "Extension State",
-        "Service Worker",
-        "Network Persistent State",
-        "Extension Cookies",
-      ];
+      if (!fs.existsSync(testProfileDir)) {
+        fs.mkdirSync(testProfileDir, { recursive: true });
+      }
 
-      console.log(
-        `${CYAN}[Setup]${RESET} Copying session data from ${sourceProfile}...`,
-      );
-      for (const file of filesToCopy) {
-        const src = path.join(sourceProfile, file);
-        const dest = path.join(testProfileDir, file);
-        if (fs.existsSync(src)) {
-          try {
-            const stats = fs.statSync(src);
-            if (stats.isDirectory()) {
-              fs.cpSync(src, dest, { recursive: true });
-            } else {
-              fs.copyFileSync(src, dest);
+      if (!fs.existsSync(sourceProfile)) {
+        console.warn(
+          `${YELLOW}[Setup]${RESET} Source profile not found at ${sourceProfile}. Skipping copy.`,
+        );
+      } else {
+        console.log(
+          `${CYAN}[Setup]${RESET} Copying session data from ${sourceProfile}...`,
+        );
 
-              // Also copy companion files for SQLite
-              for (const suffix of ["-journal", "-wal"]) {
-                const journalSrc = src + suffix;
-                const journalDest = dest + suffix;
-                if (fs.existsSync(journalSrc)) {
-                  fs.copyFileSync(journalSrc, journalDest);
+        // Copy essential files for login persistence
+        const filesToCopy = [
+          "Cookies",
+          "Login Data",
+          "Web Data",
+          "Preferences",
+          "Local Storage",
+          "Extension State",
+          "Service Worker",
+          "Network Persistent State",
+          "Extension Cookies",
+        ];
+
+        for (const file of filesToCopy) {
+          const src = path.join(sourceProfile, file);
+          const dest = path.join(testProfileDir, file);
+          if (fs.existsSync(src)) {
+            try {
+              const stats = fs.statSync(src);
+              if (stats.isDirectory()) {
+                fs.cpSync(src, dest, { recursive: true });
+              } else {
+                fs.copyFileSync(src, dest);
+                // Also copy companion files for SQLite
+                for (const suffix of ["-journal", "-wal"]) {
+                  const journalSrc = src + suffix;
+                  const journalDest = dest + suffix;
+                  if (fs.existsSync(journalSrc)) {
+                    fs.copyFileSync(journalSrc, journalDest);
+                  }
                 }
               }
+            } catch (e) {
+              console.warn(
+                `${YELLOW}[Setup]${RESET} Could not copy ${file}: ${e.message}`,
+              );
             }
-          } catch (e) {
-            console.warn(
-              `${YELLOW}[Setup]${RESET} Could not copy ${file}: ${e.message}`,
-            );
           }
         }
+        console.log(`${GREEN}[Setup]${RESET} Profile data prepared.`);
       }
-      console.log(`${GREEN}[Setup]${RESET} Profile data prepared.`);
     } catch (err) {
       console.error(
         `${RED}[Setup]${RESET} Failed to prepare test profile: ${err.message}`,
@@ -1394,7 +1409,7 @@ async function runE2E() {
     defaultViewport: null,
     args: launchArgs,
   });
-  const browser = activeBrowser; // alias for local use — activeBrowser keeps the signal handler in sync
+  const browser = activeBrowser;
 
   try {
     const pages = await browser.pages();
@@ -1448,10 +1463,13 @@ async function runE2E() {
     // Dynamic Lookup removed to prevent running old tests by accident
     // We strictly use the .env IDs now.
     const loginTestId = process.env.E2E_LOGIN_TEST_ID;
-    if (loginTestId) {
+    const skipLoginExecution = process.env.SKIP_LOGIN === "1";
+    if (loginTestId && !skipLoginExecution) {
       console.log(`Running Direct Login Flow (ID: ${loginTestId})...`);
       await executeTestCase(browser, page, loginTestId);
       await new Promise((r) => setTimeout(r, 5000));
+    } else if (skipLoginExecution) {
+      console.log(`${YELLOW}[Skip] Skipping login flow execution as requested.${RESET}`);
     }
 
     const onboardingTestId = process.env.E2E_ONBOARDING_TEST_ID;
